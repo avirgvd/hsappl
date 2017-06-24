@@ -120,6 +120,7 @@ class Photos extends Component{
 
     // let elements = this.props.index.result.items.map((item, index) => {
     let elements = items.map((item, index) => {
+      console.log("render: item: ", item);
       return (
         <div className="raised segment">
           <PhotoFrame photoitem={item} view='listview' onSelect={this.onClick}/>

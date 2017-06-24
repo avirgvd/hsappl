@@ -97,7 +97,7 @@ class PhotoFrame extends Component {
   render () {
     const { store } = this.context;
 
-    // console.log("photoframe props: ", this.props);
+    console.log("photoframe props: ", this.props);
 
     if (this.props.view === 'listview') {
 
@@ -121,7 +121,7 @@ class PhotoFrame extends Component {
   }
 
   renderListViewItem () {
-    // console.log("photoframe listview props: ", this.props);
+    console.log("photoframe listview props: ", this.props.photoitem);
 
     // return (
     //   <div className="ui card">
@@ -152,11 +152,11 @@ class PhotoFrame extends Component {
     return (
       <div className="ui card">
         <div className="image">
-          <img src={filesServerBaseURL() + this.props.photoitem.filename + '/?size=small'} onClick={this._onClickImage}/>
+          <img src={filesServerBaseURL() + "file/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
         </div>
         <div className="content">
           <div className="meta">
-            <span className="date">{this.props.photoitem.exif.File['File Modified Date']}</span>
+            <span className="date">{this.props.photoitem.file_date}</span>
           </div>
           <div className="meta">
             <span className="location">{this.props.location}</span>
@@ -223,7 +223,7 @@ class PhotoFrame extends Component {
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
-          <img className="ui fluid image" src={filesServerBaseURL()  + photo.filename + '/?size=full'} onClick={this._onClickImage}/>
+          <img className="ui fluid image" src={filesServerBaseURL()  + "file/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
           <div className="content">
             <div className="meta">
               <span className="date"></span>

@@ -305,6 +305,7 @@ export function showModal(category, json) {
 export function indexNav (path, category, json) {
   console.log("indexactions: indexNav path:", path);
   console.log("indexactions: indexNav json:", json);
+  console.log("indexactions: indexNav category:", category);
 
   history.pushState(null, (path || `/${category}`));
   return {
