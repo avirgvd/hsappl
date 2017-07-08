@@ -5,7 +5,7 @@
 4 verbose stack Error: ENOENT: no such file or directory, open '/home/govind/HomeServer/SOURCES/HSAppl/package.json'
 4 verbose stack     at Error (native)
 5 verbose cwd /home/govind/HomeServer/SOURCES/HSAppl
-6 error Linux 3.10.0-514.10.2.el7.x86_64
+6 error Linux 3.10.0-514.21.1.el7.x86_64
 7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "start"
 8 error node v6.3.0
 9 error npm  v3.10.3

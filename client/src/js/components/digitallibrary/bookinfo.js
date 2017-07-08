@@ -166,25 +166,27 @@ class BookInfo extends Component {
 
   renderListViewItem () {
     console.log("item listview props: ", this.props);
-    console.log("item listview props: ", this.props.data.meta);
-    var thubmailUrl = filesServerBaseURL() + this.props.data.meta.thumbnail;
+    console.log("item listview props: ", this.props.data.pdfmeta);
+    // var thubmailUrl = filesServerBaseURL() + this.props.data.meta.thumbnail;
+
+    var bucket = "docs";
 
    return (
 
         <div className="ui divided items" onClick={this._onClick}>
           <div className="item">
             <div className="ui tiny image">
-              <img src={filesServerBaseURL() + this.props.data.meta.thumbnail}></img>
+              <img src={filesServerBaseURL() + bucket + "/" + this.props.data.id + '/?size=small'} onClick={this._onClickImage}/>
             </div>
             <div className="content">
               <a className="header">{this.props.data.originalname}</a>
               <div className="meta">
-                <p>Author: {this.props.data.meta.Author}</p>
-                <p>Created By: {this.props.data.meta.Creator}</p>
-                <p>Produced By: {this.props.data.meta.Producer}</p>
+                <p>Author: {this.props.data.pdfmeta.Author}</p>
+                <p>Created By: {this.props.data.pdfmeta.Creator}</p>
+                <p>Produced By: {this.props.data.pdfmeta.Producer}</p>
               </div>
               <div className="description">
-                <p>{JSON.stringify(this.props.data.meta)}</p>
+                <p>{JSON.stringify(this.props.data.pdfmeta)}</p>
               </div>
               <div className="extra">
               </div>
@@ -205,11 +207,13 @@ class BookInfo extends Component {
     console.log("bookinfo renderFullView bookinfo: ", book);
     console.log("bookinfo renderFullView state: ", this.state);
 
+    var bucket = "docs";
+
     let pdf = <div className="ui container"><h3>Full mode not supported...</h3></div>;
 
     if (this.state.bookViewMode == "Lite Mode"){
       pdf = (
-        <PDF file={filesServerBaseURL() + book.filename}
+        <PDF file={filesServerBaseURL() + bucket + "/" + book.id}
             page={this.state.currentPage}
             scale={2}
             onDocumentComplete={this._onDocumentCompleted}

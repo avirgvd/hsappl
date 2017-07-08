@@ -28,6 +28,7 @@ exports.createIndex = createIndex;
 exports.initIndices = initIndices;
 exports.stageNewFiles = stageNewFiles;
 exports.addItem = addItem;
+exports.getIndexForCategory = getIndexForCategory;
 
 function createIndex(indexDef) {
   _client.create(indexDef, function(error, response) {
@@ -230,4 +231,18 @@ function deleteItem(index, id, callback1) {
  */
 function getESClient() {
   return _client;
+}
+
+function getIndexForCategory(category) {
+
+  var index = "";
+
+  if(category === "photos") {
+    index = "sm_objectstoreindex_media1";
+  }
+  else if(category === "digitallibrary") {
+    index = "sm_objectstoreindex_docs";
+  }
+
+  return index;
 }

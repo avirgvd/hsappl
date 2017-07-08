@@ -83,10 +83,13 @@ app.get('/rest/photo', function(req, resp){
 app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
 
-  esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
+  var index = esclient.getIndexForCategory(req.body.category);
+
+  // esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
+  esclient.getItems(index, req.body.params, req.body.query, function(err, result) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     if (err) {
-      resp.json({error: err});
+      resp.json({error: err, result: {items: []}});
     } else {
       console.log("server: /rest/photos items[0]: ", result);
       resp.json({result: result});
@@ -97,7 +100,10 @@ app.post('/rest/index/items', function(req, resp){
 app.post('/rest/index/items/filters', function(req, resp){
   console.log("post /rest/index/items/filters: req: ", req.body);
 
-  esclient.getFilterItems("photos", "exif.Exif IFD0.Model", function(result) {
+  var index = esclient.getIndexForCategory(req.body.category);
+
+  // esclient.getFilterItems("photos", "exif.Exif IFD0.Model", function(result) {
+  esclient.getFilterItems(index, "exif.Exif IFD0.Model", function(result) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     console.log("server: /rest/photos items[0]: ", result);
     resp.json({camera: result});

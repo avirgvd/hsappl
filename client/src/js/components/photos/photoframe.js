@@ -123,36 +123,12 @@ class PhotoFrame extends Component {
   renderListViewItem () {
     console.log("photoframe listview props: ", this.props.photoitem);
 
-    // return (
-    //   <div className="ui card">
-    //     <div className="image">
-    //       <img src={'http://192.168.1.130:3000/' + this.props.photoitem.filename} onClick={this._onClickImage}/>
-    //     </div>
-    //     <div className="content">
-    //       <div className="meta">
-    //         <span className="date">{this.props.photoitem.exif.File['File Modified Date']}</span>
-    //       </div>
-    //       <div className="meta">
-    //         <span className="location">{this.props.location}</span>
-    //       </div>
-    //       <div className="description">
-    //         {this.props.photoitem.originalname}
-    //       </div>
-    //     </div>
-    //
-    //     <div className="extra content">
-    //       <a>
-    //         <i className="user icon"></i>
-    //         {this.props.tags}
-    //       </a>
-    //       <Rating icon='heart' rating={1} maxRating={5} />
-    //     </div>
-    //   </div>
-    // );
+    var photosbucket = "media1";
+    
     return (
       <div className="ui card">
         <div className="image">
-          <img src={filesServerBaseURL() + "file/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
+          <img src={filesServerBaseURL() + photosbucket + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
         </div>
         <div className="content">
           <div className="meta">
@@ -186,6 +162,8 @@ class PhotoFrame extends Component {
     // console.log("photoframe renderFullView props: ", this.props);
     var photo = this.props.photoitem1.get('result').get('item');
     console.log("photoframe renderFullView photo: ", photo);
+
+    var photosbucket = "media1";
 
     // return (
     //   <div className="ui cards">
@@ -223,7 +201,7 @@ class PhotoFrame extends Component {
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
-          <img className="ui fluid image" src={filesServerBaseURL()  + "file/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
+          <img className="ui fluid image" src={filesServerBaseURL()  + photosbucket + "/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
           <div className="content">
             <div className="meta">
               <span className="date"></span>
