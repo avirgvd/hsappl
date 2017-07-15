@@ -82,22 +82,27 @@ class FinancialItem extends Component {
   render () {
     const { store } = this.context;
 
-    console.log("item props: ", this.props);
+    console.log("financialitem props: ", this.props);
 
-    if (this.props.view === 'listview') {
+    var account = this.props.financialitem1.get('result').get('item');
+    console.log("financialitem render account: ", account);
 
-      return this.renderListViewItem();
-
-    } else if (this.props.view === 'slideview') {
-
-      return this.renderSlideViewItem();
-
-    } else {
-
-      return this.renderFullView();
-
-    }
-
+    return (
+      <div className="ui grid container">
+        <div className="content">
+          <a className="header">{account.item.bankname}  {account.item.accountnum} </a>
+          <div className="meta">
+            <span>Balance</span>
+          </div>
+          <div className="description">
+            <p>{account.item.currency} {account.item.balance}</p>
+          </div>
+          <div className="extra">
+            Additional Details
+          </div>
+        </div>
+      </div>
+    );
   }
 
   renderListViewItem () {
@@ -180,6 +185,9 @@ FinancialItem.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
+
+  console.log("Financialitems mapStateToProps props: ", props);
+  console.log("Financialitems mapStateToProps state: ", state.index.getIn(['categories', category])); 
   const category = 'financialitem';
 
   return {

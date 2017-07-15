@@ -42,7 +42,9 @@ class PhotoFrame extends Component {
   _onClickImage(e) {
 
     console.log("onClickImage......", e);
+    console.log("onClickImage......this.props.photoitem", this.props.photoitem);
 
+    // pass this photoitem to caller which is photos.js
     this.props.onSelect(this.props.photoitem);
 
   }
@@ -261,7 +263,7 @@ PhotoFrame.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const category = 'photoframe';
-  // console.log("photoframe mapStateToProps state: ", state);
+  // var item = state.index.getIn(['categories', category]);
 
   return {
     category: category,

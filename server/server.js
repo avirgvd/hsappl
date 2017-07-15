@@ -84,8 +84,29 @@ app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
 
   var index = esclient.getIndexForCategory(req.body.category);
+  console.log("post /rest/index/items: index: ", index);
 
-  // esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
+  if(index == "financials") {
+
+    console.log("post /rest/index/items financials");
+
+    // if(req.body.params.hasOwnProperty("from"))
+    //   return;
+
+
+    var result = {"total": 10, "currentEnd": 5, "items": [
+        {"id": "0AF49C3444","bankname": "Citibank N.A.", "type": "saving", "accountnum": "1234567890", "statements": [], "otherdocs": [], "balance": "4343", "currency": "INR", "address": {}},
+        {"id": "0AF49C3445","bankname": "ICICI Bank", "type": "current", "accountnum": "5545547770", "statements": [], "otherdocs": [], "balance": "1500", "currency": "INR", "address": {}},
+        {"id": "0AF49C3446","bankname": "State Bank of India", "type": "saving", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "5000", "currency": "INR", "address": {}},
+        {"id": "0AF49C3448","bankname": "State Bank of India", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "0", "currency": "INR", "address": {}},
+        {"id": "0AF49C3449","bankname": "ICICI Platinum Credit Card", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "50000", "currency": "INR", "address": {}}
+      ]
+    };
+
+    resp.json({"result": result});
+    return;
+  }
+
   esclient.getItems(index, req.body.params, req.body.query, function(err, result) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     if (err) {

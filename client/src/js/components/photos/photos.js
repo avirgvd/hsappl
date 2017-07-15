@@ -48,6 +48,8 @@ class Photos extends Component{
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount() {
+
+    console.log("componentDidMount ", this.props.index);
     window.addEventListener('scroll', this.handleScroll);
     this.props.dispatch(indexLoad("photos", this.props.index));
 
@@ -85,7 +87,7 @@ class Photos extends Component{
   }
 
   onCameraFilterClick(event) {
-    console.log("onCameraFilterClick: event", event.target.innerText);
+    console.log("onCameraFilterClick: event", );
     console.log("onCameraFilterClick: query: ", this.state.query);
 
     let query = {};

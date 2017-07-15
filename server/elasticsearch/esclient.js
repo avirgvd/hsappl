@@ -177,7 +177,7 @@ function getFilterItems(index, field1, callback1) {
 
       callback1(res1);
     } else {
-      log.warn("getAggregate() _client.search() : error = " + err);
+      console.log("_client.search : error = " + err);
       callback1(null);
     }
 
@@ -242,6 +242,9 @@ function getIndexForCategory(category) {
   }
   else if(category === "digitallibrary") {
     index = "sm_objectstoreindex_docs";
+  }
+  else if(category === "financials") {
+    index = "financials";
   }
 
   return index;
