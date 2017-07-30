@@ -149,7 +149,7 @@ class Main extends Component {
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload/>
+              <HSFileUpload caption="Upload Files" tag="generic"/>
             </a>
             <a className="ui icon fluid input">
               <i className="search icon"></i>

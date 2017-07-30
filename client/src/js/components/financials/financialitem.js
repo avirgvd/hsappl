@@ -6,35 +6,15 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
 import {itemLoad, itemUnload} from '../../actions/itemactions';
+var HSFileUpload = require('../hsfileupload/hsfileupload');
+
 
 class FinancialItem extends Component {
 
   constructor() {
     super();
     this._onClick = this._onClick.bind(this);
-    this.renderListViewItem = this.renderListViewItem.bind(this);
-    this.renderFullView = this.renderFullView.bind(this);
   }
-
-  // getDefaultProps () {
-  //
-  //   return {
-  //     id: "000",
-  //     src: "jkjkjk",
-  //     desc: 'Welcome home from props!'
-  //   }
-  // }
-
-  // getInitialState: function () {
-  //   return {
-  //     key: 0,
-  //     img_src: "",
-  //     date: "",
-  //     location: "",
-  //     tags: "",
-  //     desc: 'Welcome home from propsvvvvvvvvvvvvv!'
-  //   }
-  // },
 
   _onClick() {
 
@@ -87,9 +67,14 @@ class FinancialItem extends Component {
     var account = this.props.financialitem1.get('result').get('item');
     console.log("financialitem render account: ", account);
 
+    var statements = undefined;
+    var otherdocuments = undefined;
+
+
     return (
       <div className="ui grid container">
         <div className="content">
+          <h3 class="ui header">Account Details</h3>
           <a className="header">{account.item.bankname}  {account.item.accountnum} </a>
           <div className="meta">
             <span>Balance</span>
@@ -100,65 +85,53 @@ class FinancialItem extends Component {
           <div className="extra">
             Additional Details
           </div>
+
+          <div class="ui hidden divider"></div>
+          <h3 class="ui header">Statements</h3>
+          <a>
+            <HSFileUpload caption="Upload statements" tag="bankstatements"/>
+          </a>
+          <div class="ui list">
+            <div class="item">
+              <i class="map marker icon"></i>
+              <div class="content">
+                <a class="header">January 2017</a>
+                <div class="description">Statement for the month of January 2017.</div>
+              </div>
+            </div>
+            <div class="item">
+              <i class="map marker icon"></i>
+              <div class="content">
+                <a class="header">December 2016</a>
+                <div class="description">Statement for the month of December 2016.</div>
+              </div>
+            </div>
+            <div class="item">
+              <i class="map marker icon"></i>
+              <div class="content">
+                <a class="header">November 2017</a>
+                <div class="description">Statement for the month of November 2016.</div>
+              </div>
+            </div>
+            <div class="item">
+              <i class="map marker icon"></i>
+              <div class="content">
+                <a class="header">October 2016</a>
+                <div class="description">Statement for the month of October 2016.</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="ui header">Other Documents</h3>
+          <a>
+            <HSFileUpload caption="Upload other documents" tag="bankmiscdocs"/>
+          </a>
+          {otherdocuments}
         </div>
       </div>
     );
   }
 
-  renderListViewItem () {
-    console.log("item listview props: ", this.props);
-
-    return (
-      <div className="ui card item" onClick={this._onClick}>
-        <div className="image">
-          <img src="/images/wireframe/image.png"></img>
-        </div>
-        <div className="content">
-          <a className="header">{this.props.data.firstname}  {this.props.data.middlename} {this.props.data.lastname}</a>
-          <div className="meta">
-            <span>Description</span>
-          </div>
-          <div className="description">
-            <p>{this.props.data.email}</p>
-          </div>
-          <div className="extra">
-            Additional Details
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderSlideViewItem () {
-
-
-  }
-
-  renderFullView () {
-    // console.log("photoframe renderFullView props: ", this.props);
-    var asset = this.props.financialitem1.get('result').get('item');
-    console.log("financialitem renderFullView asset: ", asset);
-
-    return (
-      <div className="ui grid container">
-        <div className="image">
-          <img className="ui medium image" src="/images/wireframe/image.png"></img>
-        </div>
-        <div className="content">
-          <a className="header">{asset.firstname}  {asset.middlename} {asset.lastname}</a>
-          <div className="meta">
-            <span>Description</span>
-          </div>
-          <div className="description">
-            <p>{asset.email}</p>
-          </div>
-          <div className="extra">
-            Additional Details
-          </div>
-        </div>
-      </div>
-    );
-  }
 
 
 };

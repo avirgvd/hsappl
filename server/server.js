@@ -80,6 +80,17 @@ app.get('/rest/photo', function(req, resp){
 
 });
 
+// For files like photos that come with the application
+app.get('/rest/system', function(req, resp){
+  console.log("get /rest/system: req: ", req.params);
+  console.log("get /rest/systemjj                    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjmscvvv" +
+    "h: req: ", req.query);
+
+  resp.json({photo: {}});
+
+
+});
+
 app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
 
