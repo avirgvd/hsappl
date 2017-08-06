@@ -16,6 +16,8 @@ import Unknown from '../components/FolderView';
 import Financials from '../components/financials/financials';
 import Browse from '../components/browse';
 import Content from '../components/Content';
+import Audios from '../components/audios/audios';
+import Videos from '../components/videos/videos';
 import Photos from '../components/photos/photos';
 import PhotoFrame from '../components/photos/photoframe';
 import Contacts from '../components/contacts/contacts';
@@ -25,6 +27,8 @@ import DigitalLibrary from '../components/digitallibrary/digitallibrary';
 import BookInfo from '../components/digitallibrary/bookinfo';
 import Messages from "../components/messages/messages";
 import MessageItem from '../components/messages/messageitem';
+import SearchResult from '../components/search/SearchResult';
+import Cards from '../components/cards';
 
 import Items from '../components/items';
 import history from '../RouteHistory';
@@ -48,6 +52,8 @@ var routes = (
       <Route path='browse' component={Browse} />
       <Route path='content' component={Content} />
       <Route path='photos' component={Photos} />
+      <Route path='audios' component={Audios} />
+      <Route path='videos' component={Videos} />
       <Route path='photoframe' component={PhotoFrame} />
       <Route path='contacts' component={Contacts} />
       <Route path='contactinfo' component={ContactInfo} />
@@ -59,6 +65,8 @@ var routes = (
       <Route path='messages' component={Messages} />
       <Route path='messageitem' component={MessageItem} />
       <Route path='travel' component={Travel} />
+      <Route path='searchresult' component={SearchResult} />
+      <Route path='cards' component={Cards} />
       <Route path='unknown' component={Unknown} />
     </Route>
   </Router>

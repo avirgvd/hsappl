@@ -79,7 +79,7 @@ class Financials extends Component{
    * */
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("financials", this.props.index));
+    this.props.dispatch(indexLoad("financials", {}));
     // this.props.dispatch(indexLoad("assettypes", {}));
 
   }

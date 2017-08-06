@@ -43,8 +43,9 @@ export const SHOW_MODAL = 'SHOW_MODAL';
 
 // Action creators
 
-export function indexLoad(category, index) {
+export function indexLoad(category, data) {
   console.log("indexLoad category", category);
+  console.log("indexLoad data", data);
 
   return dispatch => {
 
@@ -57,8 +58,13 @@ export function indexLoad(category, index) {
         from: 0,
         size: 10,
       },
-      query: {}
+      query: data
     };
+
+    if(category === 'cards') {
+      reqBody.resource = data;
+      reqBody.params = {};
+    }
 
     // let restRequest = {
     //   method: "POST",
@@ -69,6 +75,7 @@ export function indexLoad(category, index) {
     // };
 
     console.log("uri: ", uri);
+    console.log("reqBody: ", reqBody);
 
     // fetch(uri, restRequest)
     postRESTApi(uri, reqBody)

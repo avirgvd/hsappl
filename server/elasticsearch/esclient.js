@@ -76,28 +76,26 @@ function stageNewFiles( id, filedata, callback1) {
 
 
 
-function getItems( index, params, query, callback1) {
+function getItems( index, params, body, callback1) {
   console.log("getItems: index: ", index);
   console.log("getItems: params: ", params);
-  console.log("getItems: query: ", query);
+  console.log("getItems: body: ", body);
 
   var indexName = index;
 
   if(index === "digitallibrary")
     indexName = "documents";
 
-  let body = {};
+  // if(query.hasOwnProperty('query') && query.query.hasOwnProperty('camerafilter')) {
+  //   console.log("$%$%$$%$%$%$%$%$%$%$");
+  //   let q = {match: {['exif.Exif IFD0.Model'] : query.query.camerafilter}};
+  //   body.query = q;
+  // }
 
-  if(query.hasOwnProperty('query') && query.query.hasOwnProperty('camerafilter')) {
-    console.log("$%$%$$%$%$%$%$%$%$%$");
-    let q = {match: {['exif.Exif IFD0.Model'] : query.query.camerafilter}};
-    body.query = q;
-  }
-
-  body.sort = [
-                {"import_date" : "desc"},
-                {"file_date" : "desc"}
-              ];
+  // body.sort = [
+  //               {"import_date" : "desc"},
+  //               {"file_date" : "desc"}
+  //             ];
 
   // the search can take fields and their values for filtering the resultset
   // The body section of the query statement 'param' will have filter conditons specified
@@ -245,6 +243,9 @@ function getIndexForCategory(category) {
   }
   else if(category === "financials") {
     index = "financials";
+  }
+  else if(category === "cards") {
+    index = "cards";
   }
 
   return index;

@@ -63,6 +63,7 @@ class Main extends Component {
     this._onChange = this._onChange.bind(this);
     this._onSearch = this._onSearch.bind(this);
     this._onSearchClick = this._onSearchClick.bind(this);
+    this._onSearchEnter = this._onSearchEnter.bind(this);
 
   }
 
@@ -85,6 +86,16 @@ class Main extends Component {
   }
   _onSearchClick (event) {
     console.log("Main: _onSearchClick: event: ", event.target);
+    this.props.dispatch(indexNav("/searchresult", "searchresult", event));
+
+  }
+  _onSearchEnter (event) {
+    console.log("Main: _onSearchEnter: event: ", event.target);
+    console.log("Main: _onSearchEnter: event key: ", event.key);
+    if(event.key === 'Enter') {
+      this.props.dispatch(indexNav("/searchresult", "searchresult", event));
+    }
+
   }
 
   _onClick (event) {
@@ -109,8 +120,6 @@ class Main extends Component {
   render () {
 
     console.log("this.props.children: ", this.props.children);
-
-
 
     var searchBox =
             <div className="menu">
@@ -152,8 +161,8 @@ class Main extends Component {
               <HSFileUpload caption="Upload Files" tag="generic"/>
             </a>
             <a className="ui icon fluid input">
-              <i className="search icon"></i>
-              <input placeholder="Search..." type="text" onSelect={this._onSearchClick} onChange={this._onSearch}></input>
+              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
+              <input placeholder="Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearch}></input>
             </a>
           </div>
         </div>

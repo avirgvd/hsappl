@@ -79,7 +79,7 @@ class Assets extends Component{
   componentWillUnmount() {
     console.log("assets componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("assets", this.props.index));
+    this.props.dispatch(indexUnLoad("assets", {}));
 
   }
 

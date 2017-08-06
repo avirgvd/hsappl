@@ -8,6 +8,8 @@ var homeServer = require('./homeserver/homeserver');
 var esclient = require('./elasticsearch/esclient');
 var bodyParser = require('body-parser');
 var child_process = require("./childprocess/childprocess");
+var cards = require('./categories/cards');
+var photos = require('./categories/photos');
 
 //var upload = multer().array('file');
 
@@ -60,7 +62,13 @@ app.get('/rest/photos', function(req, resp){
   console.log("get /rest/photos: req: ", req.params);
   console.log("get /rest/photos: req: ", req.query);
 
-  esclient.getItems('photos', {}, function(err, items) {
+  var query = {"sort": [
+    {"import_date" : "desc"},
+    {"file_date" : "desc"}
+  ]};
+
+
+  esclient.getItems('photos', query, function(err, items) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     if (err) {
       resp.json({error: err});
@@ -91,8 +99,41 @@ app.get('/rest/system', function(req, resp){
 
 });
 
+// Get collection of items from any specified index
 app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
+  console.log("post /rest/index/items: req.body.query: ", req.body.query);
+
+
+  if(req.body.category === 'cards') {
+
+    cards.getitems(req.body.params, req.body.query, function(err, result) {
+      if (err) {
+        resp.json({error: err, result: {items: []}});
+      } else {
+        console.log("server: /rest/index/items: cards", result);
+        resp.json({result: result});
+      }
+    });
+
+
+    return;
+  }
+  else if (req.body.category === 'photos') {
+
+    photos.getitems(req.body.params, req.body.query, function(err, result) {
+      if (err) {
+        resp.json({error: err, result: {items: []}});
+      } else {
+        console.log("server: /rest/index/items: photos", result);
+        resp.json({result: result});
+      }
+    });
+
+
+    return;
+
+  }
 
   var index = esclient.getIndexForCategory(req.body.category);
   console.log("post /rest/index/items: index: ", index);
@@ -123,13 +164,17 @@ app.post('/rest/index/items', function(req, resp){
     if (err) {
       resp.json({error: err, result: {items: []}});
     } else {
-      console.log("server: /rest/photos items[0]: ", result);
+      console.log("server: /rest/index/items: ", result);
       resp.json({result: result});
     }
   });
 });
 
 app.post('/rest/index/items/filters', function(req, resp){
+
+  // TODO: temporarily commenting this function code
+  return;
+
   console.log("post /rest/index/items/filters: req: ", req.body);
 
   var index = esclient.getIndexForCategory(req.body.category);

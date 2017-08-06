@@ -1,18 +1,18 @@
 /**
- * Created by govind on 7/22/16.
+ * Created by govind on 7/31/17.
  */
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
-import PhotoFrame from './photoframe';
+import PhotoFrame from '../photos/photoframe';
 // var PhotoFrame = require('./photoframe');
 // var index = require("../../actions/indexactions");
 
 import {indexLoad, indexUnLoad, indexNextMore, indexNav, indexFilter} from '../../actions/indexactions';
 import Immutable, {Map, List} from 'immutable';
 
-// var Photos = React.createClass({
-class Photos extends Component{
+// var Audios = React.createClass({
+class Audios extends Component{
 
   constructor(props) {
     super(props);
@@ -51,15 +51,15 @@ class Photos extends Component{
 
     console.log("componentDidMount ", this.props.index);
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("photos", {}));
+    this.props.dispatch(indexLoad("audios", {}));
 
   }
 
   componentWillUnmount() {
-    console.log("photos componentWillUnmount");
+    console.log("audios componentWillUnmount");
 
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("photos", this.props.index));
+    this.props.dispatch(indexUnLoad("audios", {}));
 
   }
 
@@ -70,19 +70,19 @@ class Photos extends Component{
       //if pageY == 0 the page is scrolled up to the TOP.
       // If previous items should be queried to server then this is that place
       console.log("handleScroll UP so get previous items");
-      // this.props.dispatch(indexPrevMore("photos"));
+      // this.props.dispatch(indexPrevMore("audios"));
     } else if (event.pageY === event.view.scrollMaxY) {
       //if pageY == 0 the page is scrolled down to the END.
       // If next items should be queried to server then this is that place
       console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
       console.log("handleScroll DOWN so get more ahead index: ", this.state.query);
-      this.props.dispatch(indexNextMore("photos", this.props.index, {query: this.state.query}));
+      this.props.dispatch(indexNextMore("audios", this.props.index, {query: this.state.query}));
     }
 
   }
 
   onClick(e) {
-    console.log("photos clicked ", e);
+    console.log("audios clicked ", e);
     this.props.dispatch(indexNav("/photoframe", "photoframe", e));
   }
 
@@ -102,7 +102,7 @@ class Photos extends Component{
     this.setState({query: query});
     console.log("onCameraFilterClick: after query: ", query);
 
-    this.props.dispatch(indexFilter("photos", {query: query}));
+    this.props.dispatch(indexFilter("audios", {query: query}));
 
   }
   
@@ -111,14 +111,14 @@ class Photos extends Component{
   render () {
     const { store } = this.context;
 
-    console.log("photos this.props: ", this.props);
-    console.log("photos this.props: ", this.props.index.getIn(['result']));
+    console.log("audios this.props: ", this.props);
+    console.log("audios this.props: ", this.props.index.getIn(['result']));
 
     var items = this.props.index.get('result').get('items');
     var filters = this.props.index.get('result').get('filters');
-    console.log("photos filters: ", filters);
-    console.log("photos filters.camera: ", filters.camera);
-    console.log("photos items count: ", this.props.index.get('result').get('total'));
+    console.log("audios filters: ", filters);
+    console.log("audios filters.camera: ", filters.camera);
+    console.log("audios items count: ", this.props.index.get('result').get('total'));
 
     // let elements = this.props.index.result.items.map((item, index) => {
     let elements = items.map((item, index) => {
@@ -195,11 +195,11 @@ class Photos extends Component{
   }
 }
 
-Photos.contextTypes = {
+Audios.contextTypes = {
   store: PropTypes.object
 };
 
-Photos.propTypes = {
+Audios.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
@@ -226,7 +226,7 @@ Photos.propTypes = {
 
 // for react-redux
 const mapStateToProps = (state) => {
-  const category = 'photos';
+  const category = 'audios';
 
   return {
     category: category,
@@ -236,5 +236,5 @@ const mapStateToProps = (state) => {
 };
 
 
-// module.exports = Photos;
-export default connect(mapStateToProps)(Photos);
+// module.exports = Audios;
+export default connect(mapStateToProps)(Audios);

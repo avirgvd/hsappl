@@ -185,6 +185,33 @@ const initialState = Immutable.fromJS({
         filters: {}
       },
     },
+    searchresult: {
+      label: "Search Result",
+      view: 'tiles',
+      showModal: 'false',
+      result: {
+        begin: 0,
+        currentBegin: 0,
+        currentEnd: 0,
+        total: 0,
+        items: [],
+        filters: {}
+      },
+    },
+    cards: {
+      label: "cards",
+      view: 'tiles',
+      resource: '',
+      showModal: 'false',
+      result: {
+        begin: 0,
+        currentBegin: 0,
+        currentEnd: 0,
+        total: 0,
+        items: [],
+        filters: {}
+      },
+    },
     contactinfo: {
       label: "Contact Information",
       view: 'fullview',
@@ -275,6 +302,17 @@ const handlers = {
     //     }
     //   };
     } else if (action.category === 'assettypes') {
+      newState = {
+        ...state, categories: {
+          contacts: {
+            result: {
+              total: action.result.total,
+              items: action.result.items
+            }
+          }
+        }
+      };
+    } else if (action.category === 'cards') {
       newState = {
         ...state, categories: {
           contacts: {
@@ -406,7 +444,15 @@ const handlers = {
   [INDEX_NAV]: (state, action) => {
     console.log('index nav: action: ', action);
 
-    var newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+    // var newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+
+    var newState;
+    if(action.category === 'cards') {
+      newState = state.setIn(['categories', action.category, 'resource'], action.data);
+    }
+    // else {
+    //   newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+    // }
 
     console.log('index nav: newState: ', newState);
 

@@ -28,6 +28,19 @@ var hsIndices = {
       }
     }
   },
+  'cards': {
+    'index': 'cards',
+    'type': 'cards',
+    'id': 'cards',
+    'body': {
+      'settings': {
+        'number_of_shards': 1,
+        'number_of_replicas': 1
+      },
+      'mappings': {
+      }
+    }
+  },
   'documents': {
     'index': 'documents',
     'type': 'documents',

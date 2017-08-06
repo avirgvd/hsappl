@@ -72,14 +72,14 @@ class Contacts extends Component{
    * */
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("contacts", this.props.index));
+    this.props.dispatch(indexLoad("contacts", {}));
 
   }
 
   componentWillUnmount() {
     console.log("contacts componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("contacts", this.props.index));
+    this.props.dispatch(indexUnLoad("contacts", {}));
 
   }
 
