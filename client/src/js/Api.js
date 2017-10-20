@@ -44,3 +44,4 @@ export function filesServerBaseURL(bucket) {
   else
     return 'http://' + _storagehost + '/rest/';
 }
+

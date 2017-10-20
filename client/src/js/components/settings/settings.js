@@ -1,21 +1,28 @@
 /**
- * Created by govind on 7/22/16.
+ * Created by govind on 8/12/17.
  */
+
 import React, {Component, PropTypes} from 'react';
-// import Box from 'grommet/components/Box';
-// import Meter from 'grommet/components/Meter';
-// import Label from 'grommet/components/Label';
-// import Value from 'grommet/components/Value';
-// import Section from 'grommet/components/Section';
-import FolderView from '../FolderView';
 import { connect } from 'react-redux';
 var Modal = require('react-modal');
-import FinancialItem from './financialitem';
+// import authorize from './google';
+
+// This dependency should soon be deleted
+import hello from 'hellojs';
+
+import GoogleLogin from 'react-google-login';
 
 import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {postRESTApi} from '../../Api';
+
+/**
+ * The social network authentication is handled by hellojs https://adodson.com/hello.js/
+ *
+ */
 
 
-class Financials extends Component{
+
+class Settings extends Component{
 
   constructor(props) {
     super(props);
@@ -31,8 +38,9 @@ class Financials extends Component{
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    this.onMeterActive= this.onMeterActive.bind(this);
+    // this.onClickSocial= this.onClickSocial.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
 
   }
 
@@ -57,7 +65,7 @@ class Financials extends Component{
     //   //if pageY == 0 the page is scrolled down to the END.
     //   // If next items should be queried to server then this is that place
     //   console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-    //   this.props.dispatch(indexNextMore("financials", this.props.index));
+    //   this.props.dispatch(indexNextMore("settings", this.props.index));
     // }
 
   }
@@ -79,15 +87,15 @@ class Financials extends Component{
    * */
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("financials", {}));
+    this.props.dispatch(indexLoad("settings", {}));
     // this.props.dispatch(indexLoad("assettypes", {}));
 
   }
 
   componentWillUnmount() {
-    console.log("financials componentWillUnmount");
+    console.log("settings componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("financials", this.props.index));
+    this.props.dispatch(indexUnLoad("settings", this.props.index));
 
   }
 
@@ -100,9 +108,9 @@ class Financials extends Component{
   }
 
   onSelect(e) {
-    console.log("financials onSelect: ", e);
+    console.log("settings onSelect: ", e);
     // this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
-    this.props.dispatch(indexNav("/assetinfo", "assetinfo", {}));
+    // this.props.dispatch(indexNav("/assetinfo", "assetinfo", {}));
 
   }
 
@@ -120,14 +128,21 @@ class Financials extends Component{
 
     console.log("bank clicked item: ", item);
 
-
-    this.props.dispatch(indexNav("/financialitem", "financialitem", {item}));
+    // this.props.dispatch(indexNav("/financialitem", "financialitem", {item}));
   }
 
+  responseGoogle (response) {
+    console.log("Response Google : ", response);
 
-  onMeterActive(index) {
-    console.log("active meter index: ", index);
+    if(response.hasOwnProperty('error') ) {
+      console.log("Error signing in to Google: ", response.error);
+      return;
+    }
+
+    postRESTApi('/rest/add', {'id': "12334", 'category': "accounts", 'item': response.code});
+
   }
+
 
 
   ////////////start - MODAL DIALOG FUNCTIONS/////////////
@@ -139,32 +154,104 @@ class Financials extends Component{
         isOpen={show}
         onRequestClose={this.closeModal}>
 
-        <div className="ui form" onSubmit={this.onSubmit1}>
-          <div className="fields">
-            <div className="field">
-              <label>First Name</label>
-              <input placeholder="First Name" type="text" onChange={this.onChangeFirstName}></input>
-            </div>
-            <div className="field">
-              <label>Middle Name</label>
-              <input placeholder="Middle Name" type="text" onChange={this.onChangeMiddleName}></input>
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input placeholder="Last Name" type="text" onChange={this.onChangeLastName}></input>
-            </div>
-            <div className="field">
-              <label>eMail</label>
-              <input placeholder="email" type="text" onChange={this.onChangeEmail}></input>
-            </div>
-          </div>
-          <div className="ui submit button" onClick={this.onSubmit1}>Submit</div>
-        </div>
+        <button className="ui facebook button">
+          <i className="facebook icon"></i>
+          Facebook
+        </button>
+        <button className="ui twitter button">
+          <i className="twitter icon"></i>
+          Twitter
+        </button>
+        <button className="ui google plus button" id='google' >
+          <i className="google plus icon"></i>
+          Google Plus
+        </button>
+        <button className="ui vk button">
+          <i className="vk icon"></i>
+          VK
+        </button>
+        <button className="ui linkedin button">
+          <i className="linkedin icon"></i>
+          LinkedIn
+        </button>
+        <button className="ui instagram button">
+          <i className="instagram icon"></i>
+          Instagram
+        </button>
+
       </Modal>    );
   }
 
+
+  /*
+  hellojs- requires oauth2_proxy to authenticate using providers like Google, Facebook etc.
+  This proxy is required when login request includes property "response_code: 'code'"
+  By default hellojs uses https://auth-server.herokuapp.com/proxy
+  To use this proxy service I need to add this application client-ids and client secrets
+
+  */
+
+  //This function is not in use currently
+  onClickSocial (e) {
+    console.log("onClickSocial ", e.target.id);
+    return;
+
+    var account = e.target.id;
+
+    if(account === 'google'){
+
+    }
+
+    if (account === 'google_old') {
+      hello.init({
+        google: "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
+      },{
+        response_type:'code',
+        scope: [
+          'https://www.googleapis.com/auth/plus.me',
+          'https://www.googleapis.com/auth/drive',
+          'https://mail.google.com/',
+          'https://www.googleapis.com/auth/drive.photos.readonly',
+          'https://www.googleapis.com/auth/contacts.readonly'
+        ]
+      });
+    }
+
+    // hello('google').login().then(function() {
+    hello(account).login().then(function() {
+      console.log('You are signed in to Google');
+
+      this.closeModal();
+
+
+
+
+    }, function(e) {
+      console.log('Signin error: ' + e.error.message);
+    });
+
+    hello.on('auth.login', function(auth) {
+      console.log("hello.on auth: ", auth);
+
+      postRESTApi('/rest/add', {'id': auth.network, 'category': "accounts", 'item': auth});
+
+      // Call user information, for the given network
+      hello(auth.network).api('me').then(function(r) {
+        // Inject it into the container
+        var label = document.getElementById('profile_' + auth.network);
+        if (!label) {
+          label = document.createElement('div');
+          label.id = 'profile_' + auth.network;
+          document.getElementById('profile').appendChild(label);
+        }
+        label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
+      });
+    });
+
+  }
+
   onSubmit1 () {
-    this.props.dispatch(indexAdd("financials", this.state));
+    this.props.dispatch(indexAdd("settings", this.state));
   }
 
   onChangeFirstName (e) {
@@ -187,111 +274,59 @@ class Financials extends Component{
 
   openModal () {
 
-    this.props.dispatch(showModal("financials", {showModal: true}));
+    this.props.dispatch(showModal("settings", {showModal: true}));
   }
 
   closeModal () {
-    this.props.dispatch(showModal("financials", {showModal: false}));
+    this.props.dispatch(showModal("settings", {showModal: false}));
   }
   ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   render () {
     const { store } = this.context;
-    console.log("financials this.props: ", this.props);
-    console.log("financials this.props: ", this.props.index.get('result').get('items'));
+    console.log("settings this.props: ", this.props);
+    console.log("settings this.props: ", this.props.index.get('result').get('items'));
 
     var items = this.props.index.get('result').get('items');
 
-    let bankaccounts = items.map((item, index) => {
-      console.log("financials render item: ", item);
-      console.log("financials render index: ", index);
-
-      if(item.type == "saving" || item.type == "current"){
-
-        return (
-
-          <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
-            <div className="bar">
-              <div className="progress" ></div>
-            </div>
-            <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
-          </div>
-
-        );
-
-      }
-
-    });
-
-    let creditaccounts = items.map((item, index) => {
-      console.log("financials render item: ", item);
-      console.log("financials render index: ", index);
-
-      if(item.type == "credit"){
-        return (
-
-          <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
-            <div className="bar">
-              <div className="progress" ></div>
-            </div>
-            <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
-          </div>
-
-        );
-      }
-
-    });
 
     var showModal1 = this.props.index.get('showModal');
     console.log("ShowModal: ", showModal1);
 
     // var modal = this._showModal(this.props.index.get('showModal'));
     var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: true");
+    // if( showModal1 === true) {
+      console.log("ShowModal: ", showModal1);
       modal = this._showModal(showModal1);
-    }
-
-    let totalsavings = 49422.00;
-    let totalcredit = 5000.00;
+    // }
 
     return(
       <div className="ui stacking container">
-        <button className="ui basic button" onClick={this._onAddAccount}>
-          <i className="icon user"></i>
+        <button className="ui button" onClick={this._onAddAccount}>
           Add Account
         </button>
 
-
-        <div>
-          <div className="eight wide wide column">
-            <h2 className="ui header">Saving Bank Account Balances</h2>
-            <div className="ui inverted segment">
-              {bankaccounts}
-              <h4 className="ui header">Total Balance(Rs): {totalsavings.toFixed(2)}</h4>
-            </div>
-          </div>
-          <div className="eight wide column">
-            <h2 className="ui header">Credit Card Accounts Balances</h2>
-            <div className="ui inverted teal segment">
-              {creditaccounts}
-              <h4 className="ui header">Total Balance(Rs): {totalcredit.toFixed(2)}</h4>
-            </div>
-          </div>
-          {modal}
-        </div>
+        <GoogleLogin
+          clientId="971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
+          buttonText="Google"
+          responseType="code"
+          onSuccess={this.responseGoogle}
+          onFailure={this.responseGoogle}
+        />
       </div>
 
     );
 
   }
 }
+// 4/e5Dgj2cKwlsEvk3wJ3wzpExPzLtnQh9V5bOf_03b9Cc
+// 4/yU4cQZTMnnMtetyFcIWNItG32eKxxxgXXX-Z4yyJJJo.4qHskT-UtugceFc0ZRONyF4z7U4UmAI
 
-Financials.contextTypes = {
+Settings.contextTypes = {
   store: PropTypes.object
 };
 
-Financials.propTypes = {
+Settings.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
@@ -318,8 +353,8 @@ Financials.propTypes = {
 
 // for react-redux
 const mapStateToProps = (state) => {
-  const category = 'financials';
-  console.log("financials mapStateToProps: state: ", state);
+  const category = 'settings';
+  console.log("settings mapStateToProps: state: ", state);
 
   return {
     category: category,
@@ -328,4 +363,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Financials);
+export default connect(mapStateToProps)(Settings);

@@ -148,7 +148,6 @@ const initialState = Immutable.fromJS({
     },
 
 
-
     photos: {
       label: "Photos and Videos",
       view: 'tiles',
@@ -218,6 +217,16 @@ const initialState = Immutable.fromJS({
       showModal: false,
       result: {
         item: {}
+      },
+    },
+    settings: {
+      label: "settings",
+      view: 'form',
+      resource: '',
+      showModal: 'false',
+      result: {
+        settings: [],
+        advancedsettings: [],
       },
     },
     activity: {
@@ -450,9 +459,12 @@ const handlers = {
     if(action.category === 'cards') {
       newState = state.setIn(['categories', action.category, 'resource'], action.data);
     }
-    // else {
-    //   newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
-    // }
+    else {
+      //TODO: Need to review the below line of code.
+      //Financials needs this below line of code to navigate to financial item
+      //but this line has old buggy code
+      newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+    }
 
     console.log('index nav: newState: ', newState);
 

@@ -80,6 +80,19 @@ var hsIndices = {
       }
     }
   },
+  'accounts': {
+    'index': 'accounts',
+    'type': 'accounts',
+    'id': 'accounts',
+    'body': {
+      'settings': {
+        'number_of_shards': 1,
+        'number_of_replicas': 1
+      },
+      'mappings': {
+      }
+    }
+  },
   'contacts': {
     'index': 'contacts',
     'type': 'contacts',

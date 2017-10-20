@@ -7,9 +7,7 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var Main = require('../components/Main');
-import Home from '../components/Home';
 import Medical from '../components/FolderView';
-// import Assets from '../components/FolderView';
 import Travel from '../components/FolderView';
 import Assets from '../components/assets/assets';
 import Unknown from '../components/FolderView';
@@ -29,6 +27,7 @@ import Messages from "../components/messages/messages";
 import MessageItem from '../components/messages/messageitem';
 import SearchResult from '../components/search/SearchResult';
 import Cards from '../components/cards';
+import Settings from '../components/settings/settings';
 
 import Items from '../components/items';
 import history from '../RouteHistory';
@@ -63,10 +62,12 @@ var routes = (
       <Route path='digitallibrary' component={DigitalLibrary} />
       <Route path='bookinfo' component={BookInfo} />
       <Route path='messages' component={Messages} />
+      <Route path='activity' component={Messages} />
       <Route path='messageitem' component={MessageItem} />
       <Route path='travel' component={Travel} />
       <Route path='searchresult' component={SearchResult} />
       <Route path='cards' component={Cards} />
+      <Route path='settings' component={Settings} />
       <Route path='unknown' component={Unknown} />
     </Route>
   </Router>

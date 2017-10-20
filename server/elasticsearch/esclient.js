@@ -187,18 +187,19 @@ function addItem(index, data, id, callback1) {
   console.log("addItem");
 
   var indexDocument = {
+    id: id,
     index: index,
     type: index,
     body: data
   };
 
-  if (!id) {
+  // if (!id) {
     _client.index(indexDocument, function (error, response) {
       console.log("addItem: error", error);
       console.log("addItem: response", response);
       callback1(error, response);
     });
-  }
+  // }
 
 }
 
