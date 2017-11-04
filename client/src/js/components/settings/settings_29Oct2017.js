@@ -7,8 +7,20 @@ import { connect } from 'react-redux';
 var Modal = require('react-modal');
 // import authorize from './google';
 
+// This dependency should soon be deleted
+import hello from 'hellojs';
+
+import GoogleLogin from 'react-google-login';
+
 import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
 import {postRESTApi} from '../../Api';
+
+/**
+ * The social network authentication is handled by hellojs https://adodson.com/hello.js/
+ *
+ */
+
+
 
 class Settings extends Component{
 
@@ -26,7 +38,7 @@ class Settings extends Component{
     this.onChangeLastName = this.onChangeLastName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    // this.onClickSocial= this.onClickSocial.bind(this);
+    this.onClickSocial= this.onClickSocial.bind(this);
     this.onClick = this.onClick.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
 
@@ -74,7 +86,7 @@ class Settings extends Component{
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount() {
-    // window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
     this.props.dispatch(indexLoad("settings", {}));
     // this.props.dispatch(indexLoad("assettypes", {}));
 
@@ -134,54 +146,108 @@ class Settings extends Component{
 
 
   ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show, network_urls) {
+  _showModal (show) {
     console.log('showing modal...', show);
-    console.log('showing modal network_urls: ', network_urls);
 
     return (
       <Modal
         isOpen={show}
         onRequestClose={this.closeModal}>
 
-        <div className="ui stacking container">
-          <h1 className="ui header">Choose the network to sign-in</h1>
-
-        <button className="ui facebook disabled button">
+        <button className="ui facebook button">
           <i className="facebook icon"></i>
           Facebook
         </button>
-        <div className="ui divider"></div>
-        <button className="ui twitter  disabled button">
+        <button className="ui twitter button">
           <i className="twitter icon"></i>
           Twitter
         </button>
-        <div className="ui divider"></div>
-        <button className="ui google plus button" id='google'>
-          <i className="google plus icon" ></i>
+        <button className="ui google plus button" id='google' onClick={this.onClickSocial}>
+          <i className="google plus icon"></i>
           Google Plus
         </button>
-        <a href={network_urls[0]} target="_blank" >Go</a>
-        <div className="ui divider"></div>
-        <button className="ui vk disabled button">
+        <button className="ui vk button">
           <i className="vk icon"></i>
           VK
         </button>
-        <div className="ui divider"></div>
-        <button className="ui linkedin disabled button">
+        <button className="ui linkedin button">
           <i className="linkedin icon"></i>
           LinkedIn
         </button>
-        <div className="ui divider"></div>
-        <button className="ui instagram disabled button">
+        <button className="ui instagram button">
           <i className="instagram icon"></i>
           Instagram
         </button>
 
-        </div>
-
       </Modal>    );
   }
 
+
+  /*
+  hellojs- requires oauth2_proxy to authenticate using providers like Google, Facebook etc.
+  This proxy is required when login request includes property "response_code: 'code'"
+  By default hellojs uses https://auth-server.herokuapp.com/proxy
+  To use this proxy service I need to add this application client-ids and client secrets
+
+  */
+
+  //This function is not in use currently
+  onClickSocial (e) {
+    console.log("onClickSocial ", e.target.id);
+    // return;
+
+    var account = e.target.id;
+
+    // if(account === 'google_new'){
+    //
+    // }
+
+    if (account === 'google') {
+      console.log("before hello.init");
+      hello.init({
+        google: "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
+      },{
+        response_type:'code',
+        scope: [
+          'https://www.googleapis.com/auth/plus.me',
+          'https://www.googleapis.com/auth/drive',
+          'https://mail.google.com/',
+          'https://www.googleapis.com/auth/drive.photos.readonly',
+          'https://www.googleapis.com/auth/contacts.readonly'
+        ]
+      });
+    }
+
+    // hello('google').login().then(function() {
+    hello(account).login({response_type: 'code'}).then(function() {
+      console.log('You are signed in to Google');
+
+      this.closeModal();
+
+
+    }, function(e) {
+      console.log('Signin error: ' + e.error.message);
+    });
+
+    hello.on('auth.login', function(auth) {
+      console.log("hello.on auth: ", auth);
+
+      postRESTApi('/rest/add', {'id': auth.network, 'category': "accounts", 'item': auth});
+
+      // Call user information, for the given network
+      hello(auth.network).api('me').then(function(r) {
+        // Inject it into the container
+        var label = document.getElementById('profile_' + auth.network);
+        if (!label) {
+          label = document.createElement('div');
+          label.id = 'profile_' + auth.network;
+          document.getElementById('profile').appendChild(label);
+        }
+        label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
+      });
+    });
+
+  }
 
   onSubmit1 () {
     this.props.dispatch(indexAdd("settings", this.state));
@@ -206,6 +272,7 @@ class Settings extends Component{
 
 
   openModal () {
+
     this.props.dispatch(showModal("settings", {showModal: true}));
   }
 
@@ -215,48 +282,6 @@ class Settings extends Component{
   ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   renderLabelValuesTable(labelvals) {
-    console.log("renderLabelValuesTable fgdffddf");
-    console.log("renderLabelValuesTable ", JSON.stringify(labelvals));
-
-    var elements = labelvals.map((item, index) => {
-
-      console.log("item: ", JSON.stringify(item));
-
-
-      var varname = "";
-
-      // IMP:
-      // Parse JSON to find label and value like for example
-      // JSON = {"hostname":"MyHomeServer"} then the table should be populated with
-      // "hostname" in col1 and "MyHomeServer" in col2
-      // replace below code when better code is found
-      for (varname in item) {
-        console.log(varname);
-        console.log(item[varname]);
-      }
-
-      return(
-        <tr>
-          <td>{varname}</td>
-          <td>{item[varname]}</td>
-          <td className="right aligned"><button className="ui right icon button">
-            <i className="right arrow icon"></i>
-          </button></td>
-        </tr>
-      );
-
-    });
-
-    console.log("elements: ", elements);
-
-
-    return (
-    <table className="ui striped table">
-      <tbody>
-      {elements}
-      </tbody>
-    </table>
-    );
 
   }
 
@@ -274,7 +299,7 @@ class Settings extends Component{
               {item.category}
             </div>
             <div className="description">
-              <p>{this.renderLabelValuesTable(item.items)}</p>
+              <p>{JSON.stringify(item)}</p>
             </div>
             <div className="extra">
               <div className="ui right floated button">
@@ -322,8 +347,8 @@ class Settings extends Component{
             <p>{JSON.stringify(item)}</p>
           </div>
           <div className="extra">
-            <div className="ui right floated button" onClick={this._onAddAccount}>
-              Add Connection
+            <div className="ui right floated button">
+              Action
             </div>
           </div>
         </div>
@@ -336,10 +361,11 @@ class Settings extends Component{
   render () {
     const { store } = this.context;
     console.log("settings this.props: ", this.props);
-    console.log("settings this.props: URLs: ", this.props.index.get('result').get('connectionUrls'));
-    console.log("settings this.props: settings: ", this.props.index.get('result').get('settings'));
+    console.log("settings this.props: ", this.props.index.get('result').get('items'));
 
-    var items = this.props.index.get('result').get('settings');
+    var items = this.props.index.get('result').get('items');
+
+    // let elements = this.props.index.result.items.map((item, index) => {
 
     let elements = items.map((item, index) => {
 
@@ -356,7 +382,7 @@ class Settings extends Component{
     var modal;
     if( showModal1 === true) {
       console.log("ShowModal: ", showModal1);
-      modal = this._showModal(showModal1, this.props.index.get('result').get('connectionUrls'));
+      modal = this._showModal(showModal1);
     }
 
     return(
@@ -365,14 +391,33 @@ class Settings extends Component{
           Add Account
         </button>
         {modal}
+
         <div className="ui items">
           {elements}
         </div>
+
+        <GoogleLogin
+          clientId="971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
+          buttonText="Google"
+          responseType="code"
+          scope="https://www.googleapis.com/auth/plus.me
+            https://www.googleapis.com/auth/drive
+            https://www.googleapis.com/auth/gmail.modify
+            https://www.googleapis.com/auth/drive.photos.readonly
+            https://www.googleapis.com/auth/contacts.readonly"
+          onSuccess={this.responseGoogle}
+          onFailure={this.responseGoogle}
+        />
       </div>
+
     );
+
   }
 }
 
+
+// 4/e5Dgj2cKwlsEvk3wJ3wzpExPzLtnQh9V5bOf_03b9Cc
+// 4/yU4cQZTMnnMtetyFcIWNItG32eKxxxgXXX-Z4yyJJJo.4qHskT-UtugceFc0ZRONyF4z7U4UmAI
 
 Settings.contextTypes = {
   store: PropTypes.object

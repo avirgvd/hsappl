@@ -3,12 +3,72 @@ var google = require('googleapis');
 // var googleAuth = require('google-auth-library');
 var OAuth2 = google.auth.OAuth2;
 
+
+const ClientId = "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com";
+const ClientSecret = "U1XBeR_Q-veTpWSxfVsl-8hH";
+// const RedirectionUrl = "http://localhost:3000/oauthCallback";
+const RedirectionUrl = "http://192.168.1.113:3000/oauthCallback";
+
+
+exports.getAuthUrl = getAuthUrl;
 exports.authorize = authorize;
 
-// function authorize(token, callback){
-function authorize(code, callback){
+function getOAuthClient () {
+  return new OAuth2(ClientId ,  ClientSecret, RedirectionUrl);
+}
 
-  var client_secret = require("./client_secret_971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com.json");
+function getAuthUrl () {
+  var oauth2Client = getOAuthClient();
+  // generate a url that asks permissions for Google+ and Google Calendar scopes
+  var scopes = [
+    'https://www.googleapis.com/auth/plus.me'
+  ];
+
+  var url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: scopes // If you only need one scope you can pass it as string
+  });
+
+  return url;
+}
+
+function authorize(code, callback) {
+  var oauth2Client = getOAuthClient();
+
+  oauth2Client.getToken(code, function(err, tokens) {
+    // Now tokens contains an access_token and an optional refresh_token. Save them.
+    console.log("setAuthCode getToken callback: tokens: ", tokens);
+
+    if(!err) {
+      oauth2Client.setCredentials(tokens);
+
+      // Now get the contact information available in Google
+      var plus = google.plus('v1');
+
+      plus.people.get({
+        userId: 'me',
+        auth: oauth2Client
+      }, function (err, response) {
+        console.log("people: ", response);
+        console.log("people: err: ", err);
+        callback({"id": response.id, "accessdata": tokens, "details": response});
+
+      });
+      
+      
+
+    }
+    else{
+
+    }
+  });
+
+}
+
+// function authorize(token, callback){
+function authorize1(code, callback){
+
+  var client_secret = require("./client_secret.json");
 
   console.log(client_secret);
 

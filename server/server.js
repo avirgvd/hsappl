@@ -13,6 +13,8 @@ var photos = require('./categories/photos');
 var google = require('./cloud/google');
 //var upload = multer().array('file');
 
+var hssettings = require("./settings/settings");
+
 var app = express();
 
 // The below code is required to enable Cross Origin REST Calls
@@ -47,16 +49,7 @@ app.post('/rest/hsfileupload', function(req,res){
   });
 });
 
-/*
-* handler for http get requests for the files.
-* The GET request should be typically like http://hostname:3000/<filename>
-* The request param 'file' has the file name to fetch
-* */
-app.get('/:file', function(req, resp){
-  console.log("get params: ", req.params);
-  console.log("get file: ", req.params.file);
 
-});
 
 app.get('/rest/photos', function(req, resp){
   console.log("get /rest/photos: req: ", req.params);
@@ -103,6 +96,9 @@ app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
   console.log("post /rest/index/items: req.body.query: ", req.body.query);
 
+  var index = esclient.getIndexForCategory(req.body.category);
+  console.log("post /rest/index/items: index: ", index);
+
 
   if(req.body.category === 'cards') {
 
@@ -132,10 +128,17 @@ app.post('/rest/index/items', function(req, resp){
 
     return;
 
+  } else if (req.body.category === 'settings') {
+    
+    hssettings.loadSettings(index, req.body.params, req.body.query, function(err, result){
+
+      console.log("settings: loadSettings returned: ",result);
+      resp.json({"result": result});
+    });
+    
+    return;
   }
 
-  var index = esclient.getIndexForCategory(req.body.category);
-  console.log("post /rest/index/items: index: ", index);
 
   if(index == "financials") {
 
@@ -212,13 +215,15 @@ app.post('/rest/add', function(req, resp){
 
     let body = req.body;
 
-    esclient.addItem(body.category, {"access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
+    esclient.addItem(body.category, {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
       console.log("/rest/add result ", result);
       resp.json({status: 'added', result: result});
     });
 
   });
 });
+
+
 app.get('/rest/googleauthcallback', function(req, resp){
 
   var code = req.query.code;
@@ -255,6 +260,55 @@ app.post('/rest/deleteitem', function(req, resp){
 
 });
 
+app.post('/oauthCallback', function(req, resp){
+  console.log("app.post /oauthCallback ", req.query.code);
+
+  google.authorize(req.query.code, function(profiledata){
+
+    console.log("profiledata: ", profiledata);
+
+    let body = req.body;
+
+    esclient.addItem(body.category, {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
+      console.log("/oauthCallback result ", result);
+      resp.json({status: 'added', result: result});
+    });
+
+
+
+  });
+
+
+
+
+  // var oauth2Client = getOAuthClient();
+  // var code = req.query.code;
+  // oauth2Client.getToken(code, function(err, tokens) {
+  //   // Now tokens contains an access_token and an optional refresh_token. Save them.
+  //   console.log("oauthCallback: tokens: ", tokens);
+  //
+  //   if(!err) {
+  //     oauth2Client.setCredentials(tokens);
+  //     res.send(`
+  //           &lt;h3&gt;Login successful!!&lt;/h3&gt;
+  //           &lt;a href="/details"&gt;Go to details page&lt;/a&gt;
+  //       `);
+  //   }
+  //   else{
+  //     res.send(`
+  //           &lt;h3&gt;Login failed!!&lt;/h3&gt;
+  //       `);
+  //     esclient.addItem(body.category, {"network": "google", "access_data": tokens, "contact_data": {}, "scopes": ["email", "drive", "photos", "videos"]}, tokens., function(err, result){
+  //       console.log("/rest/add result ", result);
+  //       resp.json({status: 'added', result: result});
+  //     });
+  //
+  //   }
+  // });
+
+
+});
+
 //app.post('/rest/hsfileupload', function(req,res){
 //  console.log(req);
 //  console.log(req.file);
@@ -269,6 +323,9 @@ app.post('/rest/deleteitem', function(req, resp){
 homeServer.init();
 restlayer.init();
 
+var urls = hssettings.getNetworkConnectionURLs();
+
+console.log("############## ", urls);
 // esclient.getFilterItems("photos", "exif.Exif IFD0.Model", function(res){
 //   console.log("getFilterItems", JSON.stringify(res));
 // });

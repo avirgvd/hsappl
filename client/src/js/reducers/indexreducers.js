@@ -225,6 +225,7 @@ const initialState = Immutable.fromJS({
       resource: '',
       showModal: 'false',
       result: {
+        connectionUrls: [],
         settings: [],
         advancedsettings: [],
       },
@@ -380,19 +381,42 @@ const handlers = {
     console.log("index_succeess state: ", state);
     console.log("index_succeess action: ", action);
 
-    newState = state
-      .setIn(
-        ['categories', action.category, 'result', 'items'],
-        action.result.items
-      )
-      .setIn(
-        ['categories', action.category, 'result', 'total'],
-        action.result.total
-      )
-      .setIn(
-        ['categories', action.category, 'result', 'currentEnd'],
-        action.result.count
-      );
+    //TODO: Need to make this piece of code independent of action category
+    if(action.category === 'settings') {
+
+      newState = state
+        .setIn(
+          ['categories', action.category, 'result', 'settings'],
+          action.result.settings.items
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'connectionUrls'],
+          action.result.connectionUrls
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'total'],
+          action.result.settings.total
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'currentEnd'],
+          action.result.settings.count
+        );
+    }
+    else {
+      newState = state
+        .setIn(
+          ['categories', action.category, 'result', 'items'],
+          action.result.items
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'total'],
+          action.result.total
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'currentEnd'],
+          action.result.count
+        );
+    }
 
     return newState;
   },

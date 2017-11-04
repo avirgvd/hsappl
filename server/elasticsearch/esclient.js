@@ -248,6 +248,9 @@ function getIndexForCategory(category) {
   else if(category === "cards") {
     index = "cards";
   }
+  else if(category === "settings") {
+    index = "settings";
+  }
 
   return index;
 }

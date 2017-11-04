@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import hello from 'hellojs';
+// import hello from 'hellojs';
 // import {} from '../../config/client_ids';
 
 
@@ -232,59 +232,59 @@ class ContactInfo extends Component {
 
   onClickSocial () {
     console.log("onClickSocial");
-    hello.init({
-      google: "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
-    },{
-      redirect_uri: 'http://192.168.1.147:3010/',
-      scope: [
-        'https://www.googleapis.com/auth/plus.me',
-        'https://www.googleapis.com/auth/contacts.readonly'
-      ]
-    });
-
-    hello('google').login().then(function() {
-      console.log('You are signed in to Google');
-
-      //Now that the sign-in is through query Google contacts for matching contact
-      // hello('google').api('me/contacts').then(function(json) {
-      hello('google').api('me/contacts', 'get', {email: "jinsun76@gmail.com"}).then(function(json) {
-
-        let contact = json.data.find((field) => {
-          return field.email === "jinsun76@gmail.com";
-
-        });
-        console.log("Contact matched!!! : ", contact);
-        console.log("Contact matched!!! props: ", this);
-        this.onSocialMatch("google", data);
-        console.log("Contact matched!!! ");
-
-      }, function(e) {
-        console.log('Whoops! ' + e.error.message);
-        console.log('Whoops! ' + JSON.stringify(e));
-      });
-
-
-    }, function(e) {
-      console.log('Signin error: ' + e.error.message);
-    });
-
-    hello.on('auth.login', function(auth) {
-      console.log("hello.on auth: ", auth);
-      console.log("hello.on auth: ", auth);
-
-      // Call user information, for the given network
-      hello(auth.network).api('me').then(function(r) {
-        // Inject it into the container
-        var label = document.getElementById('profile_' + auth.network);
-        if (!label) {
-          label = document.createElement('div');
-          label.id = 'profile_' + auth.network;
-          document.getElementById('profile').appendChild(label);
-        }
-        label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
-      });
-    });
-
+    // hello.init({
+    //   google: "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com"
+    // },{
+    //   redirect_uri: 'http://192.168.1.147:3010/',
+    //   scope: [
+    //     'https://www.googleapis.com/auth/plus.me',
+    //     'https://www.googleapis.com/auth/contacts.readonly'
+    //   ]
+    // });
+    //
+    // hello('google').login().then(function() {
+    //   console.log('You are signed in to Google');
+    //
+    //   //Now that the sign-in is through query Google contacts for matching contact
+    //   // hello('google').api('me/contacts').then(function(json) {
+    //   hello('google').api('me/contacts', 'get', {email: "jinsun76@gmail.com"}).then(function(json) {
+    //
+    //     let contact = json.data.find((field) => {
+    //       return field.email === "jinsun76@gmail.com";
+    //
+    //     });
+    //     console.log("Contact matched!!! : ", contact);
+    //     console.log("Contact matched!!! props: ", this);
+    //     this.onSocialMatch("google", data);
+    //     console.log("Contact matched!!! ");
+    //
+    //   }, function(e) {
+    //     console.log('Whoops! ' + e.error.message);
+    //     console.log('Whoops! ' + JSON.stringify(e));
+    //   });
+    //
+    //
+    // }, function(e) {
+    //   console.log('Signin error: ' + e.error.message);
+    // });
+    //
+    // hello.on('auth.login', function(auth) {
+    //   console.log("hello.on auth: ", auth);
+    //   console.log("hello.on auth: ", auth);
+    //
+    //   // Call user information, for the given network
+    //   hello(auth.network).api('me').then(function(r) {
+    //     // Inject it into the container
+    //     var label = document.getElementById('profile_' + auth.network);
+    //     if (!label) {
+    //       label = document.createElement('div');
+    //       label.id = 'profile_' + auth.network;
+    //       document.getElementById('profile').appendChild(label);
+    //     }
+    //     label.innerHTML = '<img src="' + r.thumbnail + '" /> Hey ' + r.name;
+    //   });
+    // });
+    //
 
 
   }
