@@ -83,7 +83,7 @@ class Videos extends Component{
 
   onClick(e) {
     console.log("videos clicked ", e);
-    this.props.dispatch(indexNav("/photoframe", "photoframe", e));
+    this.props.dispatch(indexNav("/photoframe", "photoframe"));
   }
 
   onCameraFilterClick(event) {

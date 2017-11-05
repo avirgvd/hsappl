@@ -32,8 +32,6 @@ var FileHandler = {
         childprocess.triggerFileDigest();
 
       });
-
-
     });
 
   },

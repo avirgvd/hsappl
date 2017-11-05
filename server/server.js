@@ -260,6 +260,7 @@ app.post('/rest/deleteitem', function(req, resp){
 
 });
 
+// This below function is not being used
 app.post('/oauthCallback', function(req, resp){
   console.log("app.post /oauthCallback ", req.query.code);
 
@@ -279,32 +280,25 @@ app.post('/oauthCallback', function(req, resp){
   });
 
 
+});
+
+app.get('/oauthCallback', function(req, resp){
+  console.log("app.get /oauthCallback ", req.query.code);
+
+  google.authorize(req.query.code, function(profiledata){
+
+    console.log("profiledata: ", profiledata);
+
+    let body = req.body;
+
+    esclient.addItem(body.category, {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
+      console.log("/oauthCallback result ", result);
+      resp.json({status: 'added', result: result});
+    });
 
 
-  // var oauth2Client = getOAuthClient();
-  // var code = req.query.code;
-  // oauth2Client.getToken(code, function(err, tokens) {
-  //   // Now tokens contains an access_token and an optional refresh_token. Save them.
-  //   console.log("oauthCallback: tokens: ", tokens);
-  //
-  //   if(!err) {
-  //     oauth2Client.setCredentials(tokens);
-  //     res.send(`
-  //           &lt;h3&gt;Login successful!!&lt;/h3&gt;
-  //           &lt;a href="/details"&gt;Go to details page&lt;/a&gt;
-  //       `);
-  //   }
-  //   else{
-  //     res.send(`
-  //           &lt;h3&gt;Login failed!!&lt;/h3&gt;
-  //       `);
-  //     esclient.addItem(body.category, {"network": "google", "access_data": tokens, "contact_data": {}, "scopes": ["email", "drive", "photos", "videos"]}, tokens., function(err, result){
-  //       console.log("/rest/add result ", result);
-  //       resp.json({status: 'added', result: result});
-  //     });
-  //
-  //   }
-  // });
+
+  });
 
 
 });

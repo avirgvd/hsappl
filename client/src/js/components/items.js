@@ -44,7 +44,7 @@ class Items extends Component{
 
   onClick(e) {
     console.log("item clicked ", e);
-    this.props.dispatch(indexNav("/item", "item", e));
+    this.props.dispatch(indexNav("/item", "item"));
   }
 
   componentWillReceiveProps(nextProps) {

@@ -100,7 +100,7 @@ const initialState = Immutable.fromJS({
       view: 'fullview',
       showModal: false,
       result: {
-        item: {}
+        items: {}
       },
     },
     messages: {
@@ -167,7 +167,7 @@ const initialState = Immutable.fromJS({
       view: 'fullview',
       showModal: false,
       result: {
-        item: {}
+        items: {}
       },
     },
     contacts: {
@@ -228,6 +228,15 @@ const initialState = Immutable.fromJS({
         connectionUrls: [],
         settings: [],
         advancedsettings: [],
+      },
+    },
+    cloudconnections: {
+      label: "cloudconnections",
+      view: 'form',
+      resource: '',
+      showModal: 'false',
+      result: {
+        items: [],
       },
     },
     activity: {
@@ -441,7 +450,6 @@ const handlers = {
 
   [INDEX_NEXT_SUCCESS]: (state, action) => {
 
-
     var newState = {};
 
     // var withNextItems = state.categories.photos.result.items.concat(action.result.items);
@@ -479,15 +487,15 @@ const handlers = {
 
     // var newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
 
-    var newState;
+    var newState = state;
     if(action.category === 'cards') {
       newState = state.setIn(['categories', action.category, 'resource'], action.data);
     }
-    else {
-      //TODO: Need to review the below line of code.
-      //Financials needs this below line of code to navigate to financial item
-      //but this line has old buggy code
-      newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+    else if(action.data) {
+      // Need to set the data only if present
+
+      //TODO: not all pages use items property. Some use property item to store the data
+      newState = state.setIn(['categories', action.category, 'result', 'items'], action.data);
     }
 
     console.log('index nav: newState: ', newState);

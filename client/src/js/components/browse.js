@@ -25,7 +25,7 @@ class Browse extends Component {
       this.props.dispatch(indexNav('/cards', 'cards', {"category": "photos"}));
     }
     else {
-      this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name'), event));
+      this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
     }
 
   }

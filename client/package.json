@@ -26,21 +26,18 @@
     "exif": "^0.6.0",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.1.1",
+    "jquery": "^3.2.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-fileupload": "^2.2.0",
     "react-modal": "^1.4.0",
     "react-pdf": "0.0.10",
-    "react-pdf-js": "^1.0.30",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
     "react-thunk": "^1.0.0",
-    "readline": "^1.3.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "semantic-ui": "^2.2.6",
-    "semantic-ui-react": "^0.71.3",
-    "whatwg-fetch": "^1.0.0"
+    "semantic-ui-react": "^0.71.3"
   }
 }

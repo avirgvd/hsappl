@@ -1,5 +1,5 @@
 /**
- * Created by govind on 8/12/17.
+ * Created by govind on 11/5/17.
  */
 
 import React, {Component, PropTypes} from 'react';
@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 var Modal = require('react-modal');
 // import authorize from './google';
 
-import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {indexLoad, showModal, indexAdd} from '../../actions/indexactions';
 import {postRESTApi} from '../../Api';
 
-class Settings extends Component{
+class CloudConnections extends Component{
 
   constructor(props) {
     super(props);
@@ -45,17 +45,6 @@ class Settings extends Component{
 
   handleScroll(event) {
 
-    // if (event.pageY === 0 ) {
-    //   //if pageY == 0 the page is scrolled up to the TOP.
-    //   // If previous items should be queried to server then this is that place
-    //   console.log("handleScroll UP so get previous items");
-    // } else if (event.pageY === event.view.scrollMaxY) {
-    //   //if pageY == 0 the page is scrolled down to the END.
-    //   // If next items should be queried to server then this is that place
-    //   console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-    //   this.props.dispatch(indexNextMore("settings", this.props.index));
-    // }
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,29 +64,28 @@ class Settings extends Component{
    * */
   componentDidMount() {
     // window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("settings", {}));
+    // this.props.dispatch(indexLoad("cloudconnections", {}));
     // this.props.dispatch(indexLoad("assettypes", {}));
 
   }
 
   componentWillUnmount() {
-    console.log("settings componentWillUnmount");
+    console.log("CloudConnections componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("settings", this.props.index));
+    // this.props.dispatch(indexUnLoad("cloudconnections", this.props.index));
 
   }
 
   _onAddAccount() {
 
-    console.log("onAddAccount!!!!!", this.props.index.get('result').get('connectionUrls'));
+    console.log("onAddAccount!!!!!");
 
-    // this.openModal();
-    this.props.dispatch(indexNav("/cloudconnections", "cloudconnections", this.props.index.get('result').get('connectionUrls')));
+    this.openModal();
 
   }
 
   onSelect(e) {
-    console.log("settings onSelect: ", e);
+    console.log("CloudConnections onSelect: ", e);
     // this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
     // this.props.dispatch(indexNav("/assetinfo", "assetinfo", {}));
 
@@ -147,36 +135,36 @@ class Settings extends Component{
         <div className="ui stacking container">
           <h1 className="ui header">Choose the network to sign-in</h1>
 
-        <button className="ui facebook disabled button">
-          <i className="facebook icon"></i>
-          Facebook
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui twitter  disabled button">
-          <i className="twitter icon"></i>
-          Twitter
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui google plus button" id='google'>
-          <i className="google plus icon" ></i>
-          Google Plus
-        </button>
-        <a href={network_urls[0]} target="_blank" >Go</a>
-        <div className="ui divider"></div>
-        <button className="ui vk disabled button">
-          <i className="vk icon"></i>
-          VK
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui linkedin disabled button">
-          <i className="linkedin icon"></i>
-          LinkedIn
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui instagram disabled button">
-          <i className="instagram icon"></i>
-          Instagram
-        </button>
+          <button className="ui facebook disabled button">
+            <i className="facebook icon"></i>
+            Facebook
+          </button>
+          <div className="ui divider"></div>
+          <button className="ui twitter  disabled button">
+            <i className="twitter icon"></i>
+            Twitter
+          </button>
+          <div className="ui divider"></div>
+          <button className="ui google plus button" id='google'>
+            <i className="google plus icon" ></i>
+            Google Plus
+          </button>
+          <a href={network_urls[0]} target="_blank" >Go</a>
+          <div className="ui divider"></div>
+          <button className="ui vk disabled button">
+            <i className="vk icon"></i>
+            VK
+          </button>
+          <div className="ui divider"></div>
+          <button className="ui linkedin disabled button">
+            <i className="linkedin icon"></i>
+            LinkedIn
+          </button>
+          <div className="ui divider"></div>
+          <button className="ui instagram disabled button">
+            <i className="instagram icon"></i>
+            Instagram
+          </button>
 
         </div>
 
@@ -185,7 +173,7 @@ class Settings extends Component{
 
 
   onSubmit1 () {
-    this.props.dispatch(indexAdd("settings", this.state));
+    this.props.dispatch(indexAdd("CloudConnections", this.state));
   }
 
   onChangeFirstName (e) {
@@ -207,11 +195,11 @@ class Settings extends Component{
 
 
   openModal () {
-    this.props.dispatch(showModal("settings", {showModal: true}));
+    this.props.dispatch(showModal("CloudConnections", {showModal: true}));
   }
 
   closeModal () {
-    this.props.dispatch(showModal("settings", {showModal: false}));
+    this.props.dispatch(showModal("CloudConnections", {showModal: false}));
   }
   ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
@@ -252,101 +240,25 @@ class Settings extends Component{
 
 
     return (
-    <table className="ui striped table">
-      <tbody>
-      {elements}
-      </tbody>
-    </table>
+      <table className="ui striped table">
+        <tbody>
+        {elements}
+        </tbody>
+      </table>
     );
-
-  }
-
-  renderSettings (item) {
-
-    if(item.id === "generalsettings") {
-
-      return (
-        <div className="item">
-          <div className="ui small image">
-            <img src=""></img>
-          </div>
-          <div className="middle aligned content">
-            <div className="header">
-              {item.category}
-            </div>
-            <div className="description">
-              <p>{this.renderLabelValuesTable(item.items)}</p>
-            </div>
-            <div className="extra">
-              <div className="ui right floated button">
-                Action
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
-    }
-    else if(item.id === "storagesettings") {
-      return (
-      <div className="item">
-        <div className="ui small image">
-          <img src=""></img>
-        </div>
-        <div className="middle aligned content">
-          <div className="header">
-            {item.category}
-          </div>
-          <div className="description">
-            <p>{JSON.stringify(item)}</p>
-          </div>
-          <div className="extra">
-            <div className="ui right floated button">
-              Action
-            </div>
-          </div>
-        </div>
-      </div>
-      );
-    }
-    else if(item.id === "socialnetworks") {
-      return (
-      <div className="item">
-        <div className="ui small image">
-          <img src=""></img>
-        </div>
-        <div className="middle aligned content">
-          <div className="header">
-            {item.category}
-          </div>
-          <div className="description">
-            <p>{JSON.stringify(item)}</p>
-          </div>
-          <div className="extra">
-            <div className="ui right floated button" onClick={this._onAddAccount}>
-              Add Connection
-            </div>
-          </div>
-        </div>
-      </div>
-      );
-    }
 
   }
 
   render () {
     const { store } = this.context;
-    console.log("settings this.props: ", this.props);
-    console.log("settings this.props: URLs: ", this.props.index.get('result').get('connectionUrls'));
-    console.log("settings this.props: settings: ", this.props.index.get('result').get('settings'));
+    console.log("CloudConnections this.props: ", this.props);
+    console.log("CloudConnections this.props: items", this.props.index.get('result').get('items'));
 
-    var items = this.props.index.get('result').get('settings');
+    var items = this.props.index.get('result').get('items');
+    console.log("items[0] ", items[0]);
 
     let elements = items.map((item, index) => {
-
-      console.log("render: item: ", item);
-
-      return(this.renderSettings(item));
+      console.log(item);
 
     });
 
@@ -365,9 +277,43 @@ class Settings extends Component{
         <button className="ui button" onClick={this._onAddAccount}>
           Add Account
         </button>
-        {modal}
         <div className="ui items">
-          {elements}
+          <div className="ui stacking container">
+            <h1 className="ui header">Choose the network to sign-in</h1>
+
+            <button className="ui facebook disabled button">
+              <i className="facebook icon"></i>
+              Facebook
+            </button>
+            <div className="ui divider"></div>
+            <button className="ui twitter  disabled button">
+              <i className="twitter icon"></i>
+              Twitter
+            </button>
+            <div className="ui divider"></div>
+            <button className="ui google plus button" id='google'>
+              <i className="google plus icon" ></i>
+              Google Plus
+            </button>
+            <a href={items[0]} target="_blank" >Go</a>
+            <div className="ui divider"></div>
+            <button className="ui vk disabled button">
+              <i className="vk icon"></i>
+              VK
+            </button>
+            <div className="ui divider"></div>
+            <button className="ui linkedin disabled button">
+              <i className="linkedin icon"></i>
+              LinkedIn
+            </button>
+            <div className="ui divider"></div>
+            <button className="ui instagram disabled button">
+              <i className="instagram icon"></i>
+              Instagram
+            </button>
+
+          </div>
+
         </div>
       </div>
     );
@@ -375,11 +321,11 @@ class Settings extends Component{
 }
 
 
-Settings.contextTypes = {
+CloudConnections.contextTypes = {
   store: PropTypes.object
 };
 
-Settings.propTypes = {
+CloudConnections.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
@@ -406,8 +352,8 @@ Settings.propTypes = {
 
 // for react-redux
 const mapStateToProps = (state) => {
-  const category = 'settings';
-  console.log("settings mapStateToProps: state: ", state);
+  const category = 'cloudconnections';
+  console.log("CloudConnections mapStateToProps: state: ", state);
 
   return {
     category: category,
@@ -416,4 +362,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(CloudConnections);

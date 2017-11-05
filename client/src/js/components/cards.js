@@ -19,7 +19,7 @@ class Cards extends Component {
   onTileClick (event) {
     console.log("on tile click: ", event.target);
     console.log("on tile click: ", event.target.getAttribute('name'));
-    this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name'), event));
+    this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
 
   }
 
@@ -114,7 +114,7 @@ Cards.propTypes = {
     label: PropTypes.string,
     view: PropTypes.string.isRequired,
     result: {
-      item: PropTypes.arrayOf(PropTypes.object),
+      items: PropTypes.arrayOf(PropTypes.object),
     },
     addRoute: PropTypes.string
   }).isRequired,

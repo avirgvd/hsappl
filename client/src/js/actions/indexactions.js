@@ -313,6 +313,9 @@ export function indexNav (path, category, json) {
   console.log("indexactions: indexNav path:", path);
   console.log("indexactions: indexNav json:", json);
   console.log("indexactions: indexNav category:", category);
+  // if(json == undefined) {
+  //   json = {};
+  // }
 
   history.pushState(null, (path || `/${category}`));
   return {

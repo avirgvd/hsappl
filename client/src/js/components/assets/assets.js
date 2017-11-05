@@ -93,7 +93,7 @@ class Assets extends Component{
 
   onSelect(e) {
     console.log("assets onSelect: ", e);
-    this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
+    this.props.dispatch(indexNav("/assetinfo", "assetinfo"));
 
   }
 

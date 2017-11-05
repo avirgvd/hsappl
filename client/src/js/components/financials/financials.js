@@ -102,7 +102,7 @@ class Financials extends Component{
   onSelect(e) {
     console.log("financials onSelect: ", e);
     // this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
-    this.props.dispatch(indexNav("/assetinfo", "assetinfo", {}));
+    this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
 
   }
 

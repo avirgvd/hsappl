@@ -162,7 +162,7 @@ class PhotoFrame extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
-    var photo = this.props.photoitem1.get('result').get('item');
+    var photo = this.props.photoitem1.get('result').get('items');
     console.log("photoframe renderFullView photo: ", photo);
 
     var photosbucket = "media1";

@@ -44,13 +44,13 @@ class Content extends Component{
   onClick (event) {
     console.log("onClick: ", event.target.innerText);
     if(event.target.innerText == "Photos") {
-      this.props.dispatch(indexNav("/photos", "photos", event));
+      this.props.dispatch(indexNav("/photos", "photos", {}));
 
     } else if(event.target.innerText == "Digital Library") {
-      this.props.dispatch(indexNav("/digitallibrary", "digitallibrary", event));
+      this.props.dispatch(indexNav("/digitallibrary", "digitallibrary", {}));
 
     } else if(event.target.innerText == "Financials") {
-      this.props.dispatch(indexNav("/financials", "financials", event));
+      this.props.dispatch(indexNav("/financials", "financials", {}));
 
     }
 

@@ -203,7 +203,7 @@ class BookInfo extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
-    var book = this.props.bookinfo1.get('result').get('item');
+    var book = this.props.bookinfo1.get('result').get('items');
     console.log("bookinfo renderFullView bookinfo: ", book);
     console.log("bookinfo renderFullView state: ", this.state);
 
@@ -265,7 +265,7 @@ BookInfo.propTypes = {
     label: PropTypes.string,
     view: PropTypes.string.isRequired,
     result: {
-      item: PropTypes.arrayOf(PropTypes.object),
+      items: PropTypes.arrayOf(PropTypes.object),
     },
     addRoute: PropTypes.string
   }).isRequired,

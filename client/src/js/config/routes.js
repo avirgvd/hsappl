@@ -28,6 +28,7 @@ import MessageItem from '../components/messages/messageitem';
 import SearchResult from '../components/search/SearchResult';
 import Cards from '../components/cards';
 import Settings from '../components/settings/settings';
+import CloudConnections from '../components/settings/cloudconnections';
 
 import Items from '../components/items';
 import history from '../RouteHistory';
@@ -68,6 +69,7 @@ var routes = (
       <Route path='searchresult' component={SearchResult} />
       <Route path='cards' component={Cards} />
       <Route path='settings' component={Settings} />
+      <Route path='cloudconnections' component={CloudConnections} />
       <Route path='unknown' component={Unknown} />
     </Route>
   </Router>

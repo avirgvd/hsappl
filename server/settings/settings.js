@@ -33,6 +33,14 @@ var HSSettings = {
       "advancedsettings": []
     };
 
+    // For settings the items are stored in ES with 'order' parameter set with the order the items should be displayed
+    // so when querying make sure the items are ordered in the ascending order of 'order' field
+    query.sort = [
+      {"order": {"order": "asc"}}
+    ];
+
+    console.log("settings: loadSettings updated query", query);
+
     output.connectionUrls = this.getNetworkConnectionURLs();
 
     esclient.getItems(index, params, query, function(err, result) {

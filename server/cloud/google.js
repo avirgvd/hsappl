@@ -7,7 +7,7 @@ var OAuth2 = google.auth.OAuth2;
 const ClientId = "971270578758-mfmfamsug6d1iea5vad34ci767gprpgi.apps.googleusercontent.com";
 const ClientSecret = "U1XBeR_Q-veTpWSxfVsl-8hH";
 // const RedirectionUrl = "http://localhost:3000/oauthCallback";
-const RedirectionUrl = "http://192.168.1.113:3000/oauthCallback";
+const RedirectionUrl = "http://localhost:3000/oauthCallback";
 
 
 exports.getAuthUrl = getAuthUrl;

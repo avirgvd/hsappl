@@ -64,14 +64,14 @@ class Main extends Component {
 
   _onSearchClick (event) {
     console.log("Main: _onSearchClick: event: ", event.target);
-    this.props.dispatch(indexNav("/searchresult", "searchresult", event));
+    this.props.dispatch(indexNav("/searchresult", "searchresult", {}));
   }
 
   _onSearchEnter (event) {
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(indexNav("/searchresult", "searchresult", event));
+      this.props.dispatch(indexNav("/searchresult", "searchresult", {}));
     }
   }
 
@@ -81,15 +81,15 @@ class Main extends Component {
 
     if (event.target.innerText == MENU_LABELS.home) {
 
-      this.props.dispatch(indexNav("/", "home", event));
+      this.props.dispatch(indexNav("/", "home"));
 
     } else if (event.target.innerText == MENU_LABELS.contacts) {
 
-      this.props.dispatch(indexNav("/contacts", "contacts", event));
+      this.props.dispatch(indexNav("/contacts", "contacts"));
 
     } else if (event.target.innerText == MENU_LABELS.content) {
 
-      this.props.dispatch(indexNav("/content", "content", event));
+      this.props.dispatch(indexNav("/content", "content"));
 
     }
   }
