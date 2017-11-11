@@ -21,11 +21,19 @@ function getAuthUrl () {
   var oauth2Client = getOAuthClient();
   // generate a url that asks permissions for Google+ and Google Calendar scopes
   var scopes = [
-    'https://www.googleapis.com/auth/plus.me'
+    'profile',
+    'https://www.googleapis.com/auth/plus.me',
+    'https://www.googleapis.com/auth/drive',
+    'https://mail.google.com/',
+    'https://www.googleapis.com/auth/drive.photos.readonly',
+    'https://www.googleapis.com/auth/contacts.readonly'
+
   ];
 
+  // approval_prompt: "force", is added to ensure refresh_token is always sent by Google
   var url = oauth2Client.generateAuthUrl({
     access_type: 'offline',
+    approval_prompt: "force",
     scope: scopes // If you only need one scope you can pass it as string
   });
 
@@ -34,6 +42,13 @@ function getAuthUrl () {
 
 function authorize(code, callback) {
   var oauth2Client = getOAuthClient();
+
+  // The refresh_token is only sent when the user initially authorizes your app with their account.
+  // So it the getToken function only returns it the first time (because you should store it).
+  // Added approval_prompt: "force" to the generateAuthUrl options, and I can get it every time.
+  // Without the approval_prompt you can go to the user google account security settings under
+  // "Apps with access to your account and remove HSAppl from the list
+  // Once you do that you will receive refresh token
 
   oauth2Client.getToken(code, function(err, tokens) {
     // Now tokens contains an access_token and an optional refresh_token. Save them.

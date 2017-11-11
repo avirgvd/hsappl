@@ -184,7 +184,9 @@ function getFilterItems(index, field1, callback1) {
 }
 
 function addItem(index, data, id, callback1) {
-  console.log("addItem");
+  console.log("addItem index: ", index);
+  console.log("addItem data: ", data);
+  console.log("addItem id: ", id);
 
   var indexDocument = {
     id: id,

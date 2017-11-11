@@ -289,9 +289,7 @@ app.get('/oauthCallback', function(req, resp){
 
     console.log("profiledata: ", profiledata);
 
-    let body = req.body;
-
-    esclient.addItem(body.category, {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
+    esclient.addItem("accounts", {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
       console.log("/oauthCallback result ", result);
       resp.json({status: 'added', result: result});
     });
