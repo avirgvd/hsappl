@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 var Modal = require('react-modal');
-import BookInfo from './messageitem';
+import MessageItem from './messageitem';
 
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
@@ -19,15 +19,6 @@ class Messages extends Component{
     super(props);
 
     this.handleScroll = this.handleScroll.bind(this);
-    this._onAddFriend = this._onAddFriend.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
 
     this.state = {query: {}};
@@ -87,84 +78,12 @@ class Messages extends Component{
 
   }
 
-  _onAddFriend() {
-
-    console.log("onAddFriend!!!!!");
-
-    this.openModal();
-
-  }
-
-  onSelect(e) {
-    console.log("messages onSelect: ", e);
-    this.props.dispatch(indexNav("/bookinfo", "bookinfo", e));
+  onSelect(messageitem) {
+    console.log("messages onSelect: ", messageitem);
+    this.props.dispatch(indexNav("/messageitem", "messageitem", messageitem));
   }
 
 
-  ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show) {
-    console.log('showing modal...');
-
-    return (
-      <Modal
-        isOpen={show}
-        onRequestClose={this.closeModal}>
-
-        <div className="ui form" onSubmit={this.onSubmit1}>
-          <div className="fields">
-            <div className="field">
-              <label>First Name</label>
-              <input placeholder="First Name" type="text" onChange={this.onChangeFirstName}></input>
-            </div>
-            <div className="field">
-              <label>Middle Name</label>
-              <input placeholder="Middle Name" type="text" onChange={this.onChangeMiddleName}></input>
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input placeholder="Last Name" type="text" onChange={this.onChangeLastName}></input>
-            </div>
-            <div className="field">
-              <label>eMail</label>
-              <input placeholder="email" type="text" onChange={this.onChangeEmail}></input>
-            </div>
-          </div>
-          <div className="ui submit button" onClick={this.onSubmit1}>Submit</div>
-        </div>
-      </Modal>    );
-  }
-
-  onSubmit1 () {
-    this.props.dispatch(indexAdd("messages", this.state));
-  }
-
-  onChangeFirstName (e) {
-    console.log("on change firstname value ", e.target.value);
-    this.setState({firstname: e.target.value});
-  }
-  onChangeMiddleName (e) {
-    console.log("on change middle name value ", e.target.value);
-    this.setState({middlename: e.target.value});
-  }
-  onChangeLastName (e) {
-    console.log("on change lastname value ", e.target.value);
-    this.setState({lastname: e.target.value});
-  }
-  onChangeEmail (e) {
-    console.log("on change email value ", e.target.value);
-    this.setState({email: e.target.value});
-  }
-
-
-  openModal () {
-
-    this.props.dispatch(showModal("messages", {showModal: true}));
-  }
-
-  closeModal () {
-    this.props.dispatch(showModal("messages", {showModal: false}));
-  }
-  ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   render () {
     const { store } = this.context;
@@ -176,40 +95,21 @@ class Messages extends Component{
       console.log("messages render item: ", item);
       console.log("messages render index: ", index);
 
-      // return (
-
-      //   <ListItem className="ui divided items">
-      //     <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
-      //   </ListItem>
-      // );
       return (
 
-        <div className="ui divided items">
-          <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
-        </div>
+        <MessageItem messageitem={item} view='listview' onSelect={this.onSelect}/>
       );
     });
 
     console.log("elements: ", elements);
-    var showModal1 = this.props.index.get('showModal');
-    console.log("ShowModal: ", showModal1);
 
     // var modal = this._showModal(this.props.index.get('showModal'));
-    var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: true");
-      modal = this._showModal(showModal1);
-    }
 
     return (
-      <div className="ui grid container">
-        <div className="ui label">
-          Total
-          <div className="detail">{this.props.index.get('result').get('total')}</div>
+      <div className="ui container">
+        <div className="ui relaxed divided list">
+          {elements}
         </div>
-
-        <p>{elements}</p>
-        {modal}
       </div>
     );
   }

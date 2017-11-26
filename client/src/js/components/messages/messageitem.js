@@ -27,10 +27,10 @@ class MessageItem extends Component {
     };
   }
 
-  _onClick() {
+  _onClick(e) {
 
-    console.log("MessageItem onClick......");
-    this.props.onSelect(this.props.data);
+    console.log("MessageItem onClick......", this.props.messageitem);
+    this.props.onSelect(this.props.messageitem);
 
   }
 
@@ -115,8 +115,7 @@ class MessageItem extends Component {
 
   renderListViewItem () {
     console.log("item listview props: ", this.props);
-    console.log("item listview props: ", this.props.data.meta);
-    var thubmailUrl = 'http://192.168.1.147:3000/' + this.props.data.meta.thumbnail;
+    console.log("item listview props: ", this.props.messageitem);
 
     // return (
     //
@@ -134,27 +133,12 @@ class MessageItem extends Component {
     //     </Card>
     // );
     return (
-
-      <div className="ui divided items" onClick={this._onClick}>
-        <div className="item">
-          <div className="ui tiny image">
-            <img src={'http://192.168.1.147:3000/' + this.props.data.meta.thumbnail}></img>
-          </div>
+        <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
           <div className="content">
-            <a className="header">{this.props.data.originalname}</a>
-            <div className="meta">
-              <p>Author: {this.props.data.meta.Author}</p>
-              <p>Created By: {this.props.data.meta.Creator}</p>
-              <p>Produced By: {this.props.data.meta.Producer}</p>
-            </div>
-            <div className="description">
-              <p>{JSON.stringify(this.props.data.meta)}</p>
-            </div>
-            <div className="extra">
-            </div>
+            <a className="header">{this.props.messageitem.subject}</a>
+            <div className="description">{this.props.messageitem['from']}</div>
           </div>
         </div>
-      </div>
     );
   }
 
@@ -165,8 +149,8 @@ class MessageItem extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
-    var book = this.props.messageItem1.get('result').get('item');
-    console.log("messageItem renderFullView messageItem: ", book);
+    var message = this.props.messageItem1.get('result').get('item');
+    console.log("messageItem renderFullView messageItem: ", message);
     console.log("messageItem renderFullView state: ", this.state);
 
     // return (
@@ -241,7 +225,7 @@ MessageItem.propTypes = {
     },
     addRoute: PropTypes.string
   }).isRequired,
-  messageItem: PropTypes.object,
+  messageitem: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 };
 

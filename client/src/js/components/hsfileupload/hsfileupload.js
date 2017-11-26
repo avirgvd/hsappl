@@ -21,8 +21,6 @@ var HSFileUpload = React.createClass({
 
     var baseUrl = filesServerBaseURL() + 'upload';
 
-
-
     return {
       options: {
         baseUrl: baseUrl,

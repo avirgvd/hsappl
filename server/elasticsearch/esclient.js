@@ -253,6 +253,9 @@ function getIndexForCategory(category) {
   else if(category === "settings") {
     index = "settings";
   }
+  else {
+    index = category;
+  }
 
   return index;
 }

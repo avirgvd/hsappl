@@ -26,8 +26,10 @@ function getAuthUrl () {
     'https://www.googleapis.com/auth/drive',
     'https://mail.google.com/',
     'https://www.googleapis.com/auth/drive.photos.readonly',
-    'https://www.googleapis.com/auth/contacts.readonly'
-
+    'https://www.googleapis.com/auth/contacts.readonly',
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
   ];
 
   // approval_prompt: "force", is added to ensure refresh_token is always sent by Google
@@ -104,6 +106,9 @@ function authorize1(code, callback){
     if (!err) {
       tokens.refresh_token = code;
       oauth2Client.setCredentials(tokens);
+
+
+
 
       // Now get the contact information available in Google
       var plus = google.plus('v1');
