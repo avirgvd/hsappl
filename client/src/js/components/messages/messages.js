@@ -10,7 +10,7 @@ import MessageItem from './messageitem';
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
 
-import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
 
 
 class Messages extends Component{

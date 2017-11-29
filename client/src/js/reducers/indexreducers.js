@@ -285,6 +285,7 @@ const handlers = {
       || action.category === 'contacts'
       || action.category === 'assets'
       || action.category === 'digitallibrary'
+      || action.category === 'messages'
       || action.category === 'financials') {
       newState = { ...state, categories: {
           photos: {
@@ -296,34 +297,10 @@ const handlers = {
           }
         }
       };
-    // } else if (action.category === 'contacts') {
-    //   newState = {
-    //     ...state, categories: {
-    //       contacts: {
-    //         result: {
-    //           total: action.result.total,
-    //           currentEnd: action.result.count,
-    //           items: action.result.items
-    //         }
-    //       }
-    //     }
-    //   };
-    // } else if (action.category === 'assets') {
-    //   newState = {
-    //     ...state, categories: {
-    //       contacts: {
-    //         result: {
-    //           total: action.result.total,
-    //           currentEnd: action.result.count,
-    //           items: action.result.items
-    //         }
-    //       }
-    //     }
-    //   };
     } else if (action.category === 'assettypes') {
       newState = {
         ...state, categories: {
-          contacts: {
+          assettypes: {
             result: {
               total: action.result.total,
               items: action.result.items
@@ -334,7 +311,7 @@ const handlers = {
     } else if (action.category === 'cards') {
       newState = {
         ...state, categories: {
-          contacts: {
+          cards: {
             result: {
               total: action.result.total,
               items: action.result.items

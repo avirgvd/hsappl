@@ -2,10 +2,12 @@
  * Created by govind on 11/25/16.
  */
 
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import {itemLoad, itemUnload} from '../../actions/itemactions';
+import { indexNav } from '../../actions/indexactions';
+
+import { itemLoad, itemUnload } from '../../actions/itemactions';
 
 var PDF = require('react-pdf');
 
@@ -31,19 +33,20 @@ class MessageItem extends Component {
 
     console.log("MessageItem onClick......", this.props.messageitem);
     this.props.onSelect(this.props.messageitem);
+    // this.props.dispatch(indexNav("/messageitem", "messageitem", this.props.messageitem));
 
   }
 
-  _onDocumentCompleted(pages){
+  _onDocumentCompleted(pages) {
     console.log("_onDocumentCompleted pages: ", pages);
 
-    this.setState({pages: pages});
+    this.setState({ pages: pages });
 
   }
 
-  _onPageCompleted(page){
+  _onPageCompleted(page) {
 
-    this.setState({currentPage: page});
+    this.setState({ currentPage: page });
 
   }
 
@@ -63,7 +66,7 @@ class MessageItem extends Component {
    * This function will be called right after the component mounting on DOM
    * and before render()
    * */
-  componentWillMount () {
+  componentWillMount() {
 
   }
 
@@ -72,12 +75,12 @@ class MessageItem extends Component {
    * It is good idea to perform any async operations here as render can show some default
    * content first and this function can asyncronously trigger render() when there is data
    * */
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(itemLoad("MessageItem", {}));
   }
 
 
-  componentWillUnmount () {
+  componentWillUnmount() {
 
   }
 
@@ -92,7 +95,7 @@ class MessageItem extends Component {
   //
   // },
 
-  render () {
+  render() {
     const { store } = this.context;
 
     console.log("item props: ", this.props);
@@ -113,7 +116,7 @@ class MessageItem extends Component {
 
   }
 
-  renderListViewItem () {
+  renderListViewItem() {
     console.log("item listview props: ", this.props);
     console.log("item listview props: ", this.props.messageitem);
 
@@ -133,72 +136,71 @@ class MessageItem extends Component {
     //     </Card>
     // );
     return (
-        <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
-          <div className="content">
-            <a className="header">{this.props.messageitem.subject}</a>
-            <div className="description">{this.props.messageitem['from']}</div>
-          </div>
+      <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
+        <div className="content">
+          <a className="header">{this.props.messageitem.subject}</a>
+          <div className="description">{this.props.messageitem['from']}</div>
         </div>
+      </div>
     );
   }
 
-  renderSlideViewItem () {
+  renderSlideViewItem() {
 
 
   }
 
-  renderFullView () {
-    // console.log("photoframe renderFullView props: ", this.props);
-    var message = this.props.messageItem1.get('result').get('item');
+  renderFullView() {
+    console.log("messageItem renderFullView props: ", this.props);
+    var message = this.props.messageitem1.get('result').get('items');
     console.log("messageItem renderFullView messageItem: ", message);
     console.log("messageItem renderFullView state: ", this.state);
 
-    // return (
-    //   <Box>
-    //     <Anchor href="" icon={<PrevIcon />} label="Prev" reverse={true}  onClick={this.prevPage} />
-    //     <Anchor href="" icon={<NextIcon />} label="Next" reverse={true}  onClick={this.prevPage} />
-    //     <div direction="row">
-    //       <Label>Page: </Label>
-    //       <NumberInput value={this.state.currentPage}  />
-    //       <Label>of {this.state.pages} pages </Label>
-    //     </div>
-    //     <PDF file={'http://192.168.1.132:3000/' + book.filename}
-    //          page={this.state.currentPage}
-    //          scale={2}
-    //          onDocumentComplete={this._onDocumentCompleted}
-    //          onPageComplete={this._onPageComplete}>
-    //     </PDF>
-    //   </Box>
-    //
-    // );
+    var attachmentlist;
+    if (message.attachment_ids != "") {
 
-    return(
+      var arrayattachments = message.attachment_ids.split(',');
+      attachmentlist = arrayattachments.map((item, index) => {
+        console.log("#$$$$$$$", item);
+
+        return (
+          <div className="item">
+            {item}
+          </div>
+        );
+
+      });
+
+    }
+
+    return (
       <div className="ui grid container">
-        <div>
-          <button className="ui left labeled icon button" onClick={this.prevPage}>
-            <i className="left arrow icon"></i>
-            Prev
-          </button>
-          <button className="ui right labeled icon button"  onClick={this.prevPage}>
-            <i className="right arrow icon"></i>
-            Next
-          </button>
-        </div>
-        <div className="ui labeled action input">
-          <div className="ui label">
-            Page:
+        <div className="ui segments">
+          <div className="ui segment">
+
+            <select className="ui dropdown">
+              <option value="">Action</option>
+              <option value="1">Import Photos</option>
+              <option value="0">Financials</option>
+            </select>
           </div>
-          <input size={2} value={this.state.currentPage} type="text"></input>
-          <div className="ui label">
-            of {this.state.pages} pages
+
+          <div className="ui middle segment">
+            <p></p>
+            <p>From: {message.from}</p>
+            <p>To: {message.to}</p>
+            <p>Date: {message.date}</p>
+            <p>Subject: {message.subject}</p>
+            <p></p>
+          </div>
+          <div className="ui secondary segment">
+            <span dangerouslySetInnerHTML={{__html: message.body}} />
+          </div>
+          <p>Attachments: </p>
+          <div className="ui list">
+            {attachmentlist}
           </div>
         </div>
-        <PDF file={'http://192.168.1.147:3000/' + book.filename}
-             page={this.state.currentPage}
-             scale={2}
-             onDocumentComplete={this._onDocumentCompleted}
-             onPageComplete={this._onPageComplete}>
-        </PDF>
       </div>
 
     );
@@ -213,7 +215,7 @@ MessageItem.contextTypes = {
 };
 
 MessageItem.propTypes = {
-  messageItem1: PropTypes.shape({
+  messageitem1: PropTypes.shape({
     category: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -221,7 +223,7 @@ MessageItem.propTypes = {
     label: PropTypes.string,
     view: PropTypes.string.isRequired,
     result: {
-      item: PropTypes.arrayOf(PropTypes.object),
+      items: PropTypes.arrayOf(PropTypes.object),
     },
     addRoute: PropTypes.string
   }).isRequired,
@@ -230,13 +232,14 @@ MessageItem.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
+  const category = 'messageitem';
+
   console.log("messageItem mapStateToProps state: ", state);
 
-  const category = 'messageItem';
 
   return {
     category: category,
-    messageItem1: state.index.getIn(['categories', category])
+    messageitem1: state.index.getIn(['categories', category])
 
   };
 };
