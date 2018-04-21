@@ -77,7 +77,7 @@ class PhotoFrame extends Component {
    * */
   componentDidMount () {
 
-    this.props.dispatch(itemLoad("photoframe", {}));
+    this.props.dispatch(itemLoad("photoframe", "ID not populated yet in photoframe.js"));
   }
 
 
@@ -125,12 +125,10 @@ class PhotoFrame extends Component {
   renderListViewItem () {
     console.log("photoframe listview props: ", this.props.photoitem);
 
-    var photosbucket = "media1";
-    
     return (
       <div className="ui card">
         <div className="image">
-          <img src={filesServerBaseURL() + photosbucket + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
+          <img src={filesServerBaseURL() + this.props.photoitem.container + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
         </div>
         <div className="content">
           <div className="meta">
@@ -140,7 +138,7 @@ class PhotoFrame extends Component {
             <span className="location">{this.props.location}</span>
           </div>
           <div className="description">
-            {this.props.photoitem.originalname}
+            {this.props.photoitem.orgfilename}
           </div>
         </div>
 
@@ -164,8 +162,6 @@ class PhotoFrame extends Component {
     // console.log("photoframe renderFullView props: ", this.props);
     var photo = this.props.photoitem1.get('result').get('items');
     console.log("photoframe renderFullView photo: ", photo);
-
-    var photosbucket = "media1";
 
     // return (
     //   <div className="ui cards">
@@ -203,7 +199,7 @@ class PhotoFrame extends Component {
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
-          <img className="ui fluid image" src={filesServerBaseURL()  + photosbucket + "/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
+          <img className="ui fluid image" src={filesServerBaseURL()  + photo.container + "/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
           <div className="content">
             <div className="meta">
               <span className="date"></span>

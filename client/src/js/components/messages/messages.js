@@ -11,6 +11,7 @@ import MessageItem from './messageitem';
 // import ListItem from 'grommet/components/ListItem';
 
 import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
+import {itemNav} from '../../actions/itemactions';
 
 
 class Messages extends Component{
@@ -80,7 +81,8 @@ class Messages extends Component{
 
   onSelect(messageitem) {
     console.log("messages onSelect: ", messageitem);
-    this.props.dispatch(indexNav("/messageitem", "messageitem", messageitem));
+    // this.props.dispatch(indexNav("/messageitem", "messageitem", messageitem));
+    this.props.dispatch(itemNav("/messageitem", "messageitem", messageitem));
   }
 
 

@@ -496,6 +496,8 @@ const handlers = {
 
 export default function indexReducer (state = initialState, action) {
   let handler = handlers[action.type];
+  
+  console.log("indexReducer ", action);
   if (!handler) return state;
 
   // return exact immutable state that is returned by handler

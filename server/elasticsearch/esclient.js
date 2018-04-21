@@ -28,7 +28,10 @@ exports.createIndex = createIndex;
 exports.initIndices = initIndices;
 exports.stageNewFiles = stageNewFiles;
 exports.addItem = addItem;
+exports.getItem = getItem;
+exports.updateItem = updateItem;
 exports.getIndexForCategory = getIndexForCategory;
+exports.getListFieldsForCategory = getListFieldsForCategory;
 
 function createIndex(indexDef) {
   _client.create(indexDef, function(error, response) {
@@ -44,7 +47,7 @@ function initIndices (allIndices, callback) {
       index: indexSetting.index
     }).then((exists) => {
       if (!exists) {
-        console.log("initIndices creating the index: ", indexSetting);
+        console.log("ESClient: initIndices creating the index: ", indexSetting);
         return _client.indices.create(indexSetting);
       }
       return undefined;
@@ -53,7 +56,7 @@ function initIndices (allIndices, callback) {
 
 
   Promise.all(promises).then((result) => {
-    console.log("initIndices promise all: ", result);
+    console.log("ESClient: initIndices promise all: ", result);
   }).catch((err) => {
     log.error('failed to create inices', err);
     callback(err);
@@ -62,25 +65,37 @@ function initIndices (allIndices, callback) {
 
 function stageNewFiles( id, filedata, callback1) {
 
-  console.log("esclient::stageNewFiles filedata: ", filedata);
+  console.log("ESClient: esclient::stageNewFiles filedata: ", filedata);
 
   let data = esIndicesConfig.hsIndices.stagedFiles;
   data.id = id;
   data.body = filedata;
   data.body.status = "unstaged";
 
-  console.log("esclient::stageNewFiles data: ", data);
+  console.log("ESClient: esclient::stageNewFiles data: ", data);
 
   _client.index(data, callback1);
 }
 
 
+// function getItems( index, id, callback1) {
+//   console.log("ESClient: esclient:getItem: index: ", index);
+//   console.log("ESClient: esclient:getItem: id: ", id);
 
-function getItems( index, params, body, callback1) {
-  console.log("getItems: index: ", index);
-  console.log("getItems: params: ", params);
-  console.log("getItems: body: ", body);
+//   let param = {
+//     index: index,
+//     type: index,
+//     id: id
+//   };
 
+//   return _client.get(param, callback);
+  
+// }
+
+function getItems( index, params, body, fields, callback1) {
+  console.log("ESClient: getItems: index: ", index);
+  console.log("ESClient: getItems: params: ", params);
+  console.log("ESClient: getItems: body: ", body);
   var indexName = index;
 
   if(index === "digitallibrary")
@@ -103,31 +118,39 @@ function getItems( index, params, body, callback1) {
     index: indexName,
     from: params.from,
     size: params.size,
-    body: body
+    body: body,
+    _source: fields
   };
 
-  console.log("getItems param: ", JSON.stringify(param));
+  console.log("ESClient: getItems param: ", JSON.stringify(param));
 
   return _client.search( param,
     ( err, resp ) => {
       if ( err ) {
-        console.log("getItems: err: ",err);
+        console.log("ESClient: getItems: err: ",err);
         callback1(err);
       } else if ( !resp  ) {
-        console.log("getItems: err: ",err);
+        console.log("ESClient: getItems: err: ",err);
         callback1(err);
       } else {
-        console.log("getItems: resp: ",resp);
-        console.log("getItems: resp: ",resp.hits.hits.length);
+        console.log("ESClient: getItems: resp: ",resp);
+        console.log("ESClient: getItems: resp: ",resp.hits.hits.length);
         let result = {
                       total: resp.hits.total,
                       count: resp.hits.hits.length,
                       items: resp.hits.hits.map((item) => {
+                        console.log("ESClient: getItems item: ", item);
+                        // When the query specifies 'fields' the return items will have data 
+                        // under 'fields' instead of "_source"
                         var returnItem = item._source;
+                        // var returnItem = item.fields;
                         // console.log("returnItem: ", returnItem);
                         returnItem['id'] = item._id;
                         // console.log("returnItem: later ", returnItem);
+                        // When the query specifies 'fields' the return items will have data 
+                        // under 'fields' instead of "_source"
                         return item._source;
+                        // return item.fields;
                       })
         };
 
@@ -168,14 +191,14 @@ function getFilterItems(index, field1, callback1) {
       var res1 = [];
 
       for (var i in buckets) {
-        console.log("each: ", JSON.stringify(buckets[i].key));
+        console.log("ESClient: each: ", JSON.stringify(buckets[i].key));
         res1.push(buckets[i].key);
         // res1.push({"status": buckets[i].key, "counts": buckets[i].doc_count});
       }
 
       callback1(res1);
     } else {
-      console.log("_client.search : error = " + err);
+      console.log("ESClient: _client.search : error = " + err);
       callback1(null);
     }
 
@@ -184,9 +207,9 @@ function getFilterItems(index, field1, callback1) {
 }
 
 function addItem(index, data, id, callback1) {
-  console.log("addItem index: ", index);
-  console.log("addItem data: ", data);
-  console.log("addItem id: ", id);
+  console.log("ESClient: addItem index: ", index);
+  console.log("ESClient: addItem data: ", data);
+  console.log("ESClient: addItem id: ", id);
 
   var indexDocument = {
     id: id,
@@ -197,8 +220,53 @@ function addItem(index, data, id, callback1) {
 
   // if (!id) {
     _client.index(indexDocument, function (error, response) {
-      console.log("addItem: error", error);
-      console.log("addItem: response", response);
+      console.log("ESClient: addItem: error", error);
+      console.log("ESClient: addItem: response", response);
+      callback1(error, response);
+    });
+  // }
+
+}
+
+function getItem(index, id, callback1) {
+  console.log("ESClient: getItem index: ", index);
+  console.log("ESClient: getItem id: ", id);
+
+  var indexDocument = {
+    id: id,
+    index: index,
+    type: index
+  };
+
+  // if (!id) {
+    _client.get(indexDocument, function (error, response) {
+      console.log("ESClient: getItem: error", error);
+      console.log("ESClient: getItem: response", response._source);
+      callback1(error, response._source);
+    });
+  // }
+
+}
+
+
+function updateItem(index, data, id, callback1) {
+  console.log("ESClient: updateItem index: ", index);
+  console.log("ESClient: updateItem data: ", data);
+  console.log("ESClient: updateItem id: ", id);
+
+  var indexDocument = {
+    id: id,
+    index: index,
+    type: index,
+    body: {
+      doc: data
+    }
+  };
+
+  // if (!id) {
+    _client.update(indexDocument, function (error, response) {
+      console.log("ESClient: updateItem: error", error);
+      console.log("ESClient: updateItem: response", response);
       callback1(error, response);
     });
   // }
@@ -206,7 +274,7 @@ function addItem(index, data, id, callback1) {
 }
 
 function deleteItem(index, id, callback1) {
-  console.log("deleteItem: id:", id);
+  console.log("ESClient: deleteItem: id:", id);
 
   var indexDocument = {
     index: index,
@@ -215,10 +283,10 @@ function deleteItem(index, id, callback1) {
   };
 
   if (id) {
-    console.log("deleteItem: before:");
+    console.log("ESClient: deleteItem: before:");
     _client.delete(indexDocument, function (error, response) {
-      console.log("addItem: error", error);
-      console.log("addItem: response", response);
+      console.log("ESClient: addItem: error", error);
+      console.log("ESClient: addItem: response", response);
       callback1(error, response);
     });
   }
@@ -258,4 +326,26 @@ function getIndexForCategory(category) {
   }
 
   return index;
+}
+
+// Return fields that should be returned by server for each item in getItems
+// This is required to reduce data size for items list sent to the client
+// Client can fetch additional details on need basis using seperate calls to server
+function getListFieldsForCategory(category) {
+  console.log("ESClient: getListFieldsForCategory: ", category);
+
+  if(category === "photos") {
+    return ["_id","id","container","file_date","orgfilename","mimetype"];
+  }
+  else if(category === "cards") {
+    return ["cardorder","caption","_id","cardimageid"];
+  }
+  else if(category === "digitallibrary") {
+    return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
+  }
+  else {
+    return ["_all"];
+  }
+
+
 }

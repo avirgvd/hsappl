@@ -11,7 +11,7 @@ var Photos = {
 
   },
 
-  getitems: function(params, query1, callback) {
+  getitems: function(params, query1, fields, callback) {
 
     console.log("Photos: getitems: ", query1);
 
@@ -33,7 +33,7 @@ var Photos = {
 
 
     // Fetch photos from index "sm_objectstoreindex_media1" for photos
-    esclient.getItems('sm_objectstoreindex_media1', params, esQuery, function(err, result) {
+    esclient.getItems('sm_objectstoreindex_media1', params, esQuery, fields, function(err, result) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
         callback(err, {error: err, result: {items: []}});

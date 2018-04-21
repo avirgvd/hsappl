@@ -15,9 +15,7 @@ const NEW_ITEMS = {
 };
 
 const initialState = Immutable.fromJS({
-  activeCategory: null,
-  responsive: 'multiple',
-  result: {}
+  item: {}      
 });
 
 const handlers = {
@@ -39,13 +37,28 @@ const handlers = {
     return newState;
 
   },
+  [ITEM_NAV]: (state, action) => {
+
+    console.log("ITEM_NAV..........state: ", state);
+    console.log("ITEM_NAV..............", action);
+    var newState = state;
+    // newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
+    newState = state.setIn(['item'], action.data);
+    console.log('index nav: newState: ', newState);
+    
+    return newState;
+
+  },
 
 
 };
 
 export default function itemReducer (state = initialState, action) {
 
+  console.log("itemReducer ", initialState.get('item'));
+
   let handler = handlers[action.type];
   if (!handler) return state;
-  return { ...state, ...handler(state, action) };
+  return handler(state, action);
+  // return { ...state, ...handler(state, action) };
 }

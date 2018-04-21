@@ -10,11 +10,11 @@ var Cards = {
 
   },
   
-  getitems: function(params, query1, callback) {
+  getitems: function(params, query1, fields, callback) {
 
     console.log("Cards: getitems: ", query1);
 
-    esclient.getItems('cards', params, {'query': {'match': query1}}, function(err, result) {
+    esclient.getItems('cards', params, {'query': {'match': query1}}, fields, function(err, result) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
         callback(err, {error: err, result: {items: []}});

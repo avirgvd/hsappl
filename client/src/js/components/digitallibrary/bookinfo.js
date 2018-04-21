@@ -179,7 +179,7 @@ class BookInfo extends Component {
               <img src={filesServerBaseURL() + bucket + "/" + this.props.data.id + '/?size=small'} onClick={this._onClickImage}/>
             </div>
             <div className="content">
-              <a className="header">{this.props.data.originalname}</a>
+              <a className="header">{this.props.data.orgfilename}</a>
               <div className="meta">
                 <p>Author: {this.props.data.pdfmeta.Author}</p>
                 <p>Created By: {this.props.data.pdfmeta.Creator}</p>

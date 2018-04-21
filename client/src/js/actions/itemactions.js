@@ -5,7 +5,9 @@
 
 // var restclient = require('promised-rest-client')({url: 'http://localhost:3000'});
 // import fetch from 'isomorphic-fetch';
-import {indexNav} from '../actions/indexactions';
+import history from '../RouteHistory';
+
+
 import {getRESTApi, postRESTApi} from '../Api';
 
 // import {} from 'whatwg-fetch';
@@ -47,36 +49,29 @@ export const ITEM_MAP_FAILURE = 'ITEM_MAP_FAILURE';
 
 export function itemLoad(category, selection) {
 
-  return {
-    type: ITEM_LOAD,
-    category: category,
-    items: [
-    ]
+  return dispatch => {
+    let uri = '/rest/category/' + category;
+    // let uri = 'http://localhost:3000/rest/index/items';
+    let reqBody = {
+      url: '/rest/' + category,
+      category: category,
+      id: selection
+    };
+  
+  
+    postRESTApi(uri, reqBody)
+    .then(function(response) {
+      console.log("itemLoad: ", response);
+      return response.json()
+    }).then(function(items) {
+      console.log('itemLoad: parsed json', items);
+    dispatch(itemSuccess(category, items));
+    }).catch(function(ex) {
+      console.log('itemLoad: parsing failed', ex);
+    });
+      
   };
 
-  // return dispatch => {
-
-
-
-    // let uri = 'http://localhost:3000/rest/photo';
-    // let restRequest = {
-    //   url: '/rest/photo',
-    //   category: category
-    // };
-    //
-    // fetch(uri)
-    //   .then(function(response) {
-    //     return response.json()
-    //   }).then(function(json) {
-    //   console.log('parsed json', json);
-    //   dispatch(itemSuccess("photoframe", json.items));
-    // }).catch(function(ex) {
-    //   console.log('parsing failed', ex);
-    // });
-
-
-
-  // };
 }
 
 export function itemUnLoad(category, selection) {
@@ -87,6 +82,47 @@ export function itemUnLoad(category, selection) {
     items: [
     ]
   };
+}
+
+export function itemProcess(category, id, data) {
+  console.log("itemProcess id: ", id);
+  console.log("itemProcess data: ", data);
+
+  return dispatch => {
+    
+        let uri = '/rest/processitem';
+        // let uri = 'http://192.168.1.147:3000/rest/updateitem';
+    
+    
+        let reqBody = {
+          category: category,
+          id: id,
+          action: data
+        };
+    
+        // let restRequest = {
+        //   method: "POST",
+        //   body: JSON.stringify(reqBody),
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   }
+        // };
+    
+        // fetch(uri, restRequest)
+        postRESTApi(uri, reqBody)
+          .then(function(response) {
+            console.log('parsed response', response);
+            return response.json()
+          }).then(function(json) {
+          console.log('parsed json', json);
+          // dispatch(indexNav("/contacts", "contacts"));
+        }).catch(function(ex) {
+          console.log('parsing failed', ex);
+        });
+    
+      };
+    
+  
 }
 
 export function itemUpdate(category, id, data) {
@@ -158,7 +194,7 @@ export function itemDelete(category, selection) {
         return response.json()
       }).then(function(json) {
       console.log('parsed json', json);
-      dispatch(indexNav("/contacts", "contacts"));
+      dispatch(itemNav("/contacts", "contacts"));
     }).catch(function(ex) {
       console.log('parsing failed', ex);
     });
@@ -179,4 +215,18 @@ export function itemSuccess(category, items) {
     category: category,
     items: items
   };
+}
+
+export function itemNav (path, category, json) {
+  console.log("itemactions: itemNav path:", path);
+  console.log("itemactions: itemNav json:", json);
+  console.log("itemactions: itemNav category:", category);
+
+  history.pushState(null, (path || `/${category}`));
+  return {
+    type: ITEM_NAV,
+    category: category,
+    data: json
+  };
+
 }

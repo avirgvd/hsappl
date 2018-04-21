@@ -11,6 +11,7 @@ var child_process = require("./childprocess/childprocess");
 var cards = require('./categories/cards');
 var photos = require('./categories/photos');
 var google = require('./cloud/google');
+var messages = require('./categories/messages');
 //var upload = multer().array('file');
 
 var hssettings = require("./settings/settings");
@@ -50,7 +51,6 @@ app.post('/rest/hsfileupload', function(req,res){
 });
 
 
-
 app.get('/rest/photos', function(req, resp){
   console.log("get /rest/photos: req: ", req.params);
   console.log("get /rest/photos: req: ", req.query);
@@ -72,6 +72,7 @@ app.get('/rest/photos', function(req, resp){
   });
 });
 
+// TODO: To be deleted 4/21/2018
 app.get('/rest/photo', function(req, resp){
   console.log("get /rest/photo: req: ", req.params);
   console.log("get /rest/photo: req: ", req.query);
@@ -81,6 +82,7 @@ app.get('/rest/photo', function(req, resp){
 
 });
 
+// TODO: To be deleted 4/21/2018
 // For files like photos that come with the application
 app.get('/rest/system', function(req, resp){
   console.log("get /rest/system: req.params: ", req.params);
@@ -92,6 +94,10 @@ app.get('/rest/system', function(req, resp){
 });
 
 // Get collection of items from any specified index
+// Items can be photos, contacts, documents etc
+// TODO: restructure the flow for reducing repeated code 4/21/2018
+// list of items for photos should include id, file_date, orgfilename, mimetype, container
+// list of items for other category should include?
 app.post('/rest/index/items', function(req, resp){
   console.log("post /rest/index/items: req: ", req.body);
   console.log("post /rest/index/items: req.body.query: ", req.body.query);
@@ -99,10 +105,11 @@ app.post('/rest/index/items', function(req, resp){
   var index = esclient.getIndexForCategory(req.body.category);
   console.log("post /rest/index/items: index: ", index);
 
+  var fields = esclient.getListFieldsForCategory(req.body.category);
 
   if(req.body.category === 'cards') {
 
-    cards.getitems(req.body.params, req.body.query, function(err, result) {
+    cards.getitems(req.body.params, req.body.query, fields, function(err, result) {
       if (err) {
         resp.json({error: err, result: {items: []}});
       } else {
@@ -116,7 +123,7 @@ app.post('/rest/index/items', function(req, resp){
   }
   else if (req.body.category === 'photos') {
 
-    photos.getitems(req.body.params, req.body.query, function(err, result) {
+    photos.getitems(req.body.params, req.body.query, fields, function(err, result) {
       if (err) {
         resp.json({error: err, result: {items: []}});
       } else {
@@ -130,7 +137,7 @@ app.post('/rest/index/items', function(req, resp){
 
   } else if (req.body.category === 'settings') {
     
-    hssettings.loadSettings(index, req.body.params, req.body.query, function(err, result){
+    hssettings.loadSettings(index, req.body.params, req.body.query, fields, function(err, result){
 
       console.log("settings: loadSettings returned: ",result);
       resp.json({"result": result});
@@ -161,7 +168,7 @@ app.post('/rest/index/items', function(req, resp){
     return;
   }
 
-  esclient.getItems(index, req.body.params, req.body.query, function(err, result) {
+  esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     if (err) {
       resp.json({error: err, result: {items: []}});
@@ -172,6 +179,8 @@ app.post('/rest/index/items', function(req, resp){
   });
 });
 
+// Get filter parameters for a given category type
+// TODO: Try another approach for querying filters 4/21/2018
 app.post('/rest/index/items/filters', function(req, resp){
 
   // TODO: temporarily commenting this function code
@@ -189,19 +198,26 @@ app.post('/rest/index/items/filters', function(req, resp){
   });
 });
 
+// Get item of category specified by :category
+app.post('/rest/category/:category', function(req, resp){
+  console.log("post /rest/category/:category: req.params.category: ", req.params.category);
+  console.log("post /rest/category/:category: req: ", req.body);
+  
 
-app.post('/rest/contacts', function(req, resp){
-  console.log("post /rest/contacts: req: ", req.body);
+  if(req.params.category === 'messages') {
+    
+  }
 
-  esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
-    // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
-    if (err) {
-      resp.json({error: err});
-    } else {
-      console.log("server: /rest/contacts items[0]: ", result);
-      resp.json({result: result});
-    }
-  });
+  // TODO: Need to complete the implementation for this function
+  // esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
+  //   // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
+  //   if (err) {
+  //     resp.json({error: err});
+  //   } else {
+  //     console.log("server: /rest/contacts items[0]: ", result);
+  //     resp.json({result: result});
+  //   }
+  // });
 });
 
 
@@ -244,6 +260,30 @@ app.post('/rest/updateitem', function(req, resp){
   // esclient.deleteItem(body.category, body.id, function(err, result){
   //   resp.json({id: body.id, status: 'deleted', result: result});
   // });
+
+
+});
+
+app.post('/rest/processitem', function(req, resp){
+  console.log("/rest/processitem req ", req.body);
+
+  let body = req.body;
+  let action = body.action;
+
+  console.log("/rest/processitem data: ", JSON.stringify(action));
+
+
+
+  if(req.body.category === "messages") {
+    // TODO: Act on the specified item based on the specified action and return the result
+    messages.processMessage(req.body.id, req.body.action, function(err, result){
+      console.log("/rest/processitem messages.processMessage returned result: ", result);
+      console.log("/rest/processitem messages.processMessage returned err: ", err);
+
+    });
+    
+  }
+
 
 
 });

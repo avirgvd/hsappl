@@ -7,9 +7,7 @@ import { connect } from 'react-redux';
 
 import { indexNav } from '../../actions/indexactions';
 
-import { itemLoad, itemUnload } from '../../actions/itemactions';
-
-var PDF = require('react-pdf');
+import { itemLoad, itemNav, itemProcess, itemUnload } from '../../actions/itemactions';
 
 class MessageItem extends Component {
 
@@ -22,11 +20,19 @@ class MessageItem extends Component {
     this._onPageCompleted = this._onPageCompleted.bind(this);
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
+    this._onActionSelect = this._onActionSelect.bind(this);
 
     this.state = {
       currentPage: 1,
       pages: 0,
     };
+  }
+
+  _onActionSelect(e){
+    console.log("_onActionSelect....", e.target.value);
+    console.log("_onActionSelect....this.props.messageitem1.id: ", this.props.messageitem1.id);
+
+    this.props.dispatch(itemProcess("messages", this.props.messageitem1.id, {"action":  e.target.value}));
   }
 
   _onClick(e) {
@@ -67,6 +73,14 @@ class MessageItem extends Component {
    * and before render()
    * */
   componentWillMount() {
+    console.log("componentWillMount................");
+    console.log ("@#@###@#", this.props.view);
+    console.log("componentWillMount ", this.props.messageitem1);
+
+    // if(this.props.view != 'listview') {
+    //   this.props.dispatch(itemLoad("MessageItem", this.props.messageitem1.id));
+    // }
+
 
   }
 
@@ -76,7 +90,15 @@ class MessageItem extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount() {
-    this.props.dispatch(itemLoad("MessageItem", {}));
+    console.log("componentDidMount.............");
+    console.log ("@#@###@#", this.props.view);
+    console.log("componentDidMount ", this.props.messageitem);
+    console.log("componentDidMount messageitem1: ", this.props.messageitem1);
+    
+    if(this.props.view != 'listview') {
+      this.props.dispatch(itemLoad("messages", this.props.messageitem1.id));
+    }
+    
   }
 
 
@@ -135,14 +157,32 @@ class MessageItem extends Component {
     //           </div>
     //     </Card>
     // );
-    return (
-      <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
-        <div className="content">
-          <a className="header">{this.props.messageitem.subject}</a>
-          <div className="description">{this.props.messageitem['from']}</div>
+
+    if(this.props.messageitem.hasOwnProperty("action") ) {
+      return (
+        <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
+          <div className="content">
+            <a className="header">{this.props.messageitem.subject}</a>
+            <div className="description">{this.props.messageitem['from']}</div>
+            <i className="checkmark box icon"></i> <b>{this.props.messageitem['action']}</b>            
+          </div>
         </div>
-      </div>
-    );
+      );
+  
+    }
+    else {
+      return (
+        <div className="item" value={this.props.messageitem.id} onClick={this._onClick}>
+          <div className="content">
+            <a className="header">{this.props.messageitem.subject}</a>
+            <div className="description">{this.props.messageitem['from']}</div>
+
+          </div>
+        </div>
+      );
+  
+    }
+
   }
 
   renderSlideViewItem() {
@@ -152,9 +192,8 @@ class MessageItem extends Component {
 
   renderFullView() {
     console.log("messageItem renderFullView props: ", this.props);
-    var message = this.props.messageitem1.get('result').get('items');
-    console.log("messageItem renderFullView messageItem: ", message);
-    console.log("messageItem renderFullView state: ", this.state);
+
+    var message = this.props.messageitem1;
 
     var attachmentlist;
     if (message.attachment_ids != "") {
@@ -178,11 +217,13 @@ class MessageItem extends Component {
         <div className="ui segments">
           <div className="ui segment">
 
-            <select className="ui dropdown">
+            <select className="ui dropdown" onChange={this._onActionSelect}>
               <option value="">Action</option>
-              <option value="1">Import Photos</option>
-              <option value="0">Financials</option>
-            </select>
+              <option value="photos">Import Photos</option>
+              <option value="attachments">Import Attachments</option>
+              <option value="financials">Extract Financial Information</option>
+              <option value="ignore">Ignore</option>
+              </select>
           </div>
 
           <div className="ui middle segment">
@@ -235,11 +276,12 @@ const mapStateToProps = (state, props) => {
   const category = 'messageitem';
 
   console.log("messageItem mapStateToProps state: ", state);
-
-
+  console.log("messageItem mapStateToProps state.item: ", state.item);
+  console.log("messageItem mapStateToProps state.item: ", state.item.getIn(['item']));
+  
   return {
     category: category,
-    messageitem1: state.index.getIn(['categories', category])
+    messageitem1: state.item.getIn(['item'])
 
   };
 };
