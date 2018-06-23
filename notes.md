@@ -145,3 +145,13 @@ Sharp http://sharp.dimens.io/en/stable/
 
 
 
+Date: 4.21.2018
+The items returned by server for listview contain whole item data including metadata etc. This will cause huge overhead on the browser memory utilization.
+To avoid this overhead, the items for list view will contain subset of overall items. However this subset of items is differnt for differnt category of items. This will be hardcoded in the file "HSAppl/server/elasticsearch/esclient.js" and function 'getListFieldsForCategory'.
+The fields list is given to '_source' parameter of search request (not 'fields' parameter) as '_source' allows better wildcard support and '_all' for all fields.
+When the user selects an item in the list to view details, then item specific details can be fetched,
+
+Date: 23.06.2018
+Issue: Clicking on photo from list view fails with error
+'TypeError: this.props.photoitem1.result is undefined'
+

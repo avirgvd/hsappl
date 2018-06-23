@@ -83,10 +83,10 @@ export function indexLoad(category, data) {
         console.log("indexLoad: ", response);
         return response.json()
       }).then(function(items) {
-        console.log('parsed json', items);
+        console.log('indexLoad: parsed json', items);
       dispatch(indexSuccess(category, items));
       }).catch(function(ex) {
-        console.log('parsing failed', ex);
+        console.log('indexLoad: parsing failed', ex);
       });
 
       // Need to revisit below commented code for fetching filter parameters

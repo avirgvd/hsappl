@@ -25,11 +25,13 @@ export function postRESTApi(url, reqBody) {
     method: "POST",
     body: JSON.stringify(reqBody),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     }
   };
 
   console.log('URL: ', 'http://' + _hostname + url);
+  console.log('RESTrEQUEST: ', JSON.stringify(restRequest));
 
   // return fetch('http://' + _hostname + url, restRequest);
   return fetch('http://' + _hostname + url, restRequest);

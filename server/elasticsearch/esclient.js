@@ -343,6 +343,9 @@ function getListFieldsForCategory(category) {
   else if(category === "digitallibrary") {
     return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
   }
+  else if(category === "messages") {
+    return ["_id","id","date","subject","from","to"];
+  }
   else {
     return ["_all"];
   }

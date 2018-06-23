@@ -15,7 +15,15 @@ const NEW_ITEMS = {
 };
 
 const initialState = Immutable.fromJS({
-  item: {}      
+  categories: {
+    photoframe: {
+      item:{}
+    },
+    bookinfo: {
+      item:{}
+    }
+  }
+
 });
 
 const handlers = {
@@ -27,6 +35,13 @@ const handlers = {
   },
   [ITEM_SUCCESS]: (state, action) => {
     var newState = state;
+
+    console.log("ITEM_SUCCESS: action: ", action);
+    newState = state
+      .setIn(
+        ['categories', action.category, 'item'],
+        action.data
+      )
 
     return newState;
 
@@ -43,7 +58,7 @@ const handlers = {
     console.log("ITEM_NAV..............", action);
     var newState = state;
     // newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
-    newState = state.setIn(['item'], action.data);
+    newState = state.setIn(['categories', action.category, 'item'], action.data);
     console.log('index nav: newState: ', newState);
     
     return newState;

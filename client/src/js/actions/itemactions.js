@@ -49,6 +49,8 @@ export const ITEM_MAP_FAILURE = 'ITEM_MAP_FAILURE';
 
 export function itemLoad(category, selection) {
 
+  console.log("itemLoad: category: ", category, " selection: ", selection);
+
   return dispatch => {
     let uri = '/rest/category/' + category;
     // let uri = 'http://localhost:3000/rest/index/items';

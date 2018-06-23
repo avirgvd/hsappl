@@ -54,7 +54,7 @@ var routes = (
       <Route path='photos' component={Photos} />
       <Route path='audios' component={Audios} />
       <Route path='videos' component={Videos} />
-      <Route path='photoframe' component={PhotoFrame} />
+      <Route path='photoframe' view="fullview" component={PhotoFrame} />
       <Route path='contacts' component={Contacts} />
       <Route path='contactinfo' component={ContactInfo} />
       <Route path='financials' component={Financials} />

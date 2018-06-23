@@ -99,6 +99,8 @@ app.get('/rest/system', function(req, resp){
 // list of items for photos should include id, file_date, orgfilename, mimetype, container
 // list of items for other category should include?
 app.post('/rest/index/items', function(req, resp){
+
+  //TODO: There is a bug in this function. To reproduce go to Phase2->System Settings and server.js crashes. dt: 9Jun2018
   console.log("post /rest/index/items: req: ", req.body);
   console.log("post /rest/index/items: req.body.query: ", req.body.query);
 
@@ -207,6 +209,9 @@ app.post('/rest/category/:category', function(req, resp){
   if(req.params.category === 'messages') {
     
   }
+  console.log("post /rest/category/:category: FUNCTION NOT IMPLEMENTED!!!");
+
+  resp.json({error: "Function not implemented!!!"});
 
   // TODO: Need to complete the implementation for this function
   // esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
