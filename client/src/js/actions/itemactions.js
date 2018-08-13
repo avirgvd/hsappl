@@ -57,7 +57,7 @@ export function itemLoad(category, selection) {
     let reqBody = {
       url: '/rest/' + category,
       category: category,
-      id: selection
+      id: selection.id
     };
   
   
@@ -65,9 +65,9 @@ export function itemLoad(category, selection) {
     .then(function(response) {
       console.log("itemLoad: ", response);
       return response.json()
-    }).then(function(items) {
-      console.log('itemLoad: parsed json', items);
-    dispatch(itemSuccess(category, items));
+    }).then(function(itemdata) {
+      console.log('itemLoad: parsed json', itemdata);
+    dispatch(itemSuccess(category, itemdata));
     }).catch(function(ex) {
       console.log('itemLoad: parsing failed', ex);
     });
@@ -210,12 +210,12 @@ export function itemDelete(category, selection) {
   // };
 }
 
-export function itemSuccess(category, items) {
+export function itemSuccess(category, itemdata) {
 
   return {
     type: ITEM_SUCCESS,
     category: category,
-    items: items
+    data: itemdata
   };
 }
 

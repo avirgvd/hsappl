@@ -19,7 +19,17 @@ class Cards extends Component {
   onTileClick (event) {
     console.log("on tile click: ", event.target);
     console.log("on tile click: ", event.target.getAttribute('name'));
-    this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
+    console.log("on tile click query: ", event.target.getAttribute('data'));
+
+
+    console.log("@@@@@@@Event: ", event);
+
+    this.props.dispatch(indexNav(
+      event.target.getAttribute('name'), 
+      event.target.getAttribute('name'),
+      null,
+      {'select': event.target.getAttribute('data')}
+    ));
 
   }
 
@@ -49,6 +59,7 @@ class Cards extends Component {
 
     console.log("Cards: componentDidMount ", this.props.index);
 
+    // Note: Cards pages loads based on the value set in resource attr.
     var resource = this.props.index.getIn(['resource']);
     console.log("Cards: componentDidMount resource", resource);
 
@@ -62,7 +73,9 @@ class Cards extends Component {
     const { store } = this.context;
 
     console.log("cards this.props: ", this.props);
-    console.log("cards this.props: ", this.props.index.getIn(['result']));
+    console.log("cards this.props result: ", this.props.index.getIn(['result']));
+    console.log("cards this.props: result->filters", this.props.index.getIn(['result']).getIn(['filters']));
+    console.log("cards this.props: result->items", this.props.index.getIn(['result']).getIn(['items']));
 
     var items = this.props.index.get('result').get('items');
 
@@ -70,9 +83,9 @@ class Cards extends Component {
       console.log("Cards: render item: ", item);
 
       return(
-        <div className="ui link card" >
-          <div className="image" >
-            <img src={ filesServerBaseURL() + item.cardimageid} className="ui fluid floated image" name="photos"></img>
+        <div className="ui link card" name={item.category} >
+          <div className="image" onClick={this.onTileClick}>
+            <img src={ filesServerBaseURL() + item.cardimageid} className="ui fluid floated image" name={item.category} data={item.query}></img>
           </div>
           <div className="content" >
             <div className="header">{item.caption}</div>
@@ -92,7 +105,7 @@ class Cards extends Component {
 
     return (
       <div className="ui equal width center aligned padded grid" featureName="potos" >
-        <div className="ui stackable cards" onClick={this.onTileClick}>
+        <div className="ui stackable cards" >
           {elements}
         </div>
       </div>

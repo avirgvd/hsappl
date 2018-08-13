@@ -26,6 +26,7 @@ const statusAttribute = {name: 'status', label: 'Status', size: 'small',
 const initialState = Immutable.fromJS({
   activeCategory: null,
   responsive: 'multiple',
+  selection: undefined,
   categories: {
     items: {
       label: "Index",
@@ -462,18 +463,30 @@ const handlers = {
   [INDEX_NAV]: (state, action) => {
     console.log('index nav: action: ', action);
 
+    console.log("index nav: state[action.category]", state.getIn(['categories', action.category, 'result', 'items']));
+
     // var newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
 
     var newState = state;
     if(action.category === 'cards') {
       newState = state.setIn(['categories', action.category, 'resource'], action.data);
     }
-    else if(action.data) {
+    // else if(action.data) {
+    else {
       // Need to set the data only if present
+      if(action.data)
+      {
+        newState = state
+          .setIn(['categories', action.category, 'result', 'items'], action.data);
+      }
 
       //TODO: not all pages use items property. Some use property item to store the data
-      newState = state.setIn(['categories', action.category, 'result', 'items'], action.data);
+      newState = state
+                    .setIn(['categories', action.category, 'result', 'filters'], action.query);
+
+
     }
+    console.log("index nav: newState[action.category]", newState.getIn(['categories', action.category, 'result', 'items']));
 
     console.log('index nav: newState: ', newState);
 

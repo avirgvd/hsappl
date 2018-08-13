@@ -33,24 +33,9 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 
 
-// File-server implementation using this below line
-// app.use( express.static('/home/govind/HomeServer/storage/staging'));
+/************************ GET FUNCTIONS  *************************************/
 
-//app.post('/rest/hsfileupload', upload.array('file'), function(req,res){
-app.post('/rest/hsfileupload', function(req,res){
-
-  console.log("#############$$$$$$$$$$$FILES", req.files);
-
-  restlayer.fileUploadHandler(req, res, function (err, req, res) {
-
-    console.log("#$$$$$$ RESP: ", req.files);
-    //console.log("#$$$$$$ RESP: ", resp);
-
-    res.end("File uploaded.");
-  });
-});
-
-
+//TODO: need to get rid of this function and use a generic function instead
 app.get('/rest/photos', function(req, resp){
   console.log("get /rest/photos: req: ", req.params);
   console.log("get /rest/photos: req: ", req.query);
@@ -59,7 +44,6 @@ app.get('/rest/photos', function(req, resp){
     {"import_date" : "desc"},
     {"file_date" : "desc"}
   ]};
-
 
   esclient.getItems('photos', query, function(err, items) {
     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
@@ -92,6 +76,54 @@ app.get('/rest/system', function(req, resp){
 
 
 });
+
+app.get('/rest/googleauthcallback', function(req, resp){
+
+  var code = req.query.code;
+  console.log("/rest/googleauthcallback: code: ", code);
+  // google.authorize2(code);
+
+
+});
+
+app.get('/oauthCallback', function(req, resp){
+  console.log("app.get /oauthCallback ", req.query.code);
+
+  google.authorize(req.query.code, function(profiledata){
+
+    console.log("profiledata: ", profiledata);
+
+    esclient.addItem("accounts", {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
+      console.log("/oauthCallback result ", result);
+      resp.json({status: 'added', result: result});
+    });
+
+
+
+  });
+
+});
+
+/************************ POST FUNCTIONS *************************************/
+
+// File-server implementation using this below line
+// app.use( express.static('/home/govind/HomeServer/storage/staging'));
+
+//app.post('/rest/hsfileupload', upload.array('file'), function(req,res){
+app.post('/rest/hsfileupload', function(req,res){
+
+  console.log("#############$$$$$$$$$$$FILES", req.files);
+
+  restlayer.fileUploadHandler(req, res, function (err, req, res) {
+
+    console.log("#$$$$$$ RESP: ", req.files);
+    //console.log("#$$$$$$ RESP: ", resp);
+
+    res.end("File uploaded.");
+  });
+});
+
+
 
 // Get collection of items from any specified index
 // Items can be photos, contacts, documents etc
@@ -211,9 +243,19 @@ app.post('/rest/category/:category', function(req, resp){
   }
   console.log("post /rest/category/:category: FUNCTION NOT IMPLEMENTED!!!");
 
-  resp.json({error: "Function not implemented!!!"});
+  // resp.json({error: "Function not implemented!!!"});
+  //
+  // // TODO: Need to complete the implementation for this function
+  let index = esclient.getIndexForCategory(req.params.category);
+  esclient.getItem(index, req.body.id, function(err, result){
+      if (err) {
+        resp.json({error: err});
+      } else {
+        console.log("result: ", result);
+        resp.json({result: result});
+      }
 
-  // TODO: Need to complete the implementation for this function
+  });
   // esclient.getItems(req.body.category, req.body.params, req.body.query, function(err, result) {
   //   // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
   //   if (err) {
@@ -245,14 +287,6 @@ app.post('/rest/add', function(req, resp){
 });
 
 
-app.get('/rest/googleauthcallback', function(req, resp){
-
-  var code = req.query.code;
-  console.log("/rest/googleauthcallback: code: ", code);
-  // google.authorize2(code);
-
-
-});
 
 app.post('/rest/updateitem', function(req, resp){
   console.log("/rest/updateitem req ", req.body);
@@ -327,24 +361,6 @@ app.post('/oauthCallback', function(req, resp){
 
 });
 
-app.get('/oauthCallback', function(req, resp){
-  console.log("app.get /oauthCallback ", req.query.code);
-
-  google.authorize(req.query.code, function(profiledata){
-
-    console.log("profiledata: ", profiledata);
-
-    esclient.addItem("accounts", {"network": "google", "access_data": profiledata.accessdata, "contact_data": profiledata.details, "scopes": ["email", "drive", "photos", "videos"]}, profiledata.id, function(err, result){
-      console.log("/oauthCallback result ", result);
-      resp.json({status: 'added', result: result});
-    });
-
-
-
-  });
-
-
-});
 
 //app.post('/rest/hsfileupload', function(req,res){
 //  console.log(req);

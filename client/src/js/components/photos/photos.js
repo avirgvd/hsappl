@@ -81,9 +81,10 @@ class Photos extends Component{
 
   }
 
-  onClick(e) {
-    console.log("photos clicked ", e);
-    this.props.dispatch(indexNav("/photoframe", "photoframe", e));
+  onClick(selection) {
+    console.log("photos clicked ", selection);
+    // this.props.dispatch(indexNav("/photos/photoframe", "photoframe", e));
+    this.setState({ selection: selection});
   }
 
   onCameraFilterClick(event) {
@@ -111,8 +112,12 @@ class Photos extends Component{
   render () {
     const { store } = this.context;
 
+    // const { filterActive, searchText, selection } = this.state;
+    const { selection } = this.state;
+
     console.log("photos this.props: ", this.props);
     console.log("photos this.props: ", this.props.index.getIn(['result']));
+    console.log("photos this.props: Selection: ", selection);
 
     var items = this.props.index.get('result').get('items');
     var filters = this.props.index.get('result').get('filters');
@@ -120,17 +125,28 @@ class Photos extends Component{
     console.log("photos filters.camera: ", filters.camera);
     console.log("photos items count: ", this.props.index.get('result').get('total'));
 
-    // let elements = this.props.index.result.items.map((item, index) => {
-    let elements = items.map((item, index) => {
-      console.log("render: item: ", item);
-      return (
-        <div className="raised segment">
-          <PhotoFrame photoitem={item} view='listview' onSelect={this.onClick}/>
-        </div>
-      );
-    });
+    let elements, detailsLayer;
 
-    let camerafilters = <div className="item"> None found!!!  </div>;
+
+    if(selection >= 0) {
+      detailsLayer = (
+          <PhotoFrame photoitem={items[selection]} view="fullview"  />
+        );
+    }
+    else {
+      if(items) {
+        // let elements = this.props.index.result.items.map((item, index) => {
+        elements = items.map((item, index) => {
+          return (
+            <div className="raised segment">
+              <PhotoFrame photoitem={item} view='listview' index={index} onSelect={this.onClick}/>
+            </div>
+          );
+        });
+      }
+    }
+
+    let camerafilters = (<div className="item"> None found!!!  </div>);
 
     if(filters.camera) {
       camerafilters = filters.camera.map((item, index) => {
@@ -190,6 +206,9 @@ class Photos extends Component{
         <div className="ui internally celled grid">
           {elements}
         </div>
+        <div>
+          {detailsLayer}
+        </div>
       </div>
     );
   }
@@ -226,6 +245,8 @@ Photos.propTypes = {
 
 // for react-redux
 const mapStateToProps = (state) => {
+
+  console.log("photos:mapStateProps: state: ", state);
   const category = 'photos';
 
   return {

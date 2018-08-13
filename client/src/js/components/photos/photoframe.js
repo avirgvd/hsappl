@@ -41,13 +41,12 @@ class PhotoFrame extends Component {
 
   _onClickImage(e) {
 
-    console.log("onClickImage......", e);
-    console.log("onClickImage......this.props.photoitem", this.props.photoitem);
+    console.log("onClickImage......this.props.index", this.props.index);
 
-    // pass this photoitem to caller which is photos.js
-    this.props.onSelect(this.props.photoitem);
+    // pass this index of the photoitem in the photos list
+    this.props.onSelect(this.props.index);
     // Get the photo details from server as the user clicked for viewing
-    // this.props.dispatch(itemLoad("photoframe", this.props.photoitem));
+    this.props.dispatch(itemLoad("photoframe", this.props.photoitem));
   }
 
   _onRate(e) {
@@ -79,10 +78,6 @@ class PhotoFrame extends Component {
    * and before render()
    * */
   componentWillMount () {
-    console.log("photoframe: componentWillMount: enter: props", this.props);
-    if(this.props.view !== "listview")
-      console.log("photoframe: componentWillMount: enter: props", this.props.photoitem1.result.items[0]);
-
   }
 
   /*
@@ -91,12 +86,12 @@ class PhotoFrame extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount () {
-    console.log("photoframe: componentDidMount: enter");
+    // console.log("photoframe: componentDidMount: enter");
   }
 
 
   componentWillUnmount () {
-    console.log("photoframe: componentWillUnmount: enter");
+    // console.log("photoframe: componentWillUnmount: enter");
 
   }
 
@@ -114,7 +109,7 @@ class PhotoFrame extends Component {
   render () {
     const { store } = this.context;
 
-    console.log("photoframe: render: props: ", this.props);
+    // console.log("photoframe: render: props: ", this.props);
 
     if (this.props.view === 'listview') {
 
@@ -138,7 +133,8 @@ class PhotoFrame extends Component {
   }
 
   renderListViewItem () {
-    console.log("photoframe listview props: ", this.props.photoitem);
+    // console.log("photoframe listview props: ", this.props.photoitem);
+    // console.log("photoframe listview index: ", this.props.index);
 
     return (
       <div className="ui card">
@@ -176,6 +172,7 @@ class PhotoFrame extends Component {
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
     var photo = this.props.photoitem1.get('result').get('items');
+    // var photo = this.props.photoitem;
     console.log("photoframe renderFullView photo: ", photo);
 
     // return (
@@ -211,6 +208,9 @@ class PhotoFrame extends Component {
     //     </div>
     //   </div>
     // );
+
+    //
+
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
@@ -255,20 +255,8 @@ PhotoFrame.contextTypes = {
 // TODO: the variables photoitem, photoitem2 and photoitem1 needs to be reduced to one variable 4/22/2018
 PhotoFrame.propTypes = {
 
-  photoitem1: PropTypes.shape({
-    category: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string)
-    ]),
-    label: PropTypes.string,
-    view: PropTypes.string.isRequired,
-    result: {
-      item: PropTypes.arrayOf(PropTypes.object),
-    },
-    addRoute: PropTypes.string
-  }).isRequired,
+  photoitem1: PropTypes.object,
   photoitem: PropTypes.object,
-  photoitem2: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 
 
@@ -280,8 +268,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     category: category,
-    photoitem1: state.index.getIn(['categories', category]),
-    photoitem2: state.item.getIn(['categories', category])
+    photoitem1: state.index.getIn(['category', category, 'item'])
 
   };
 };

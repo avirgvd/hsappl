@@ -153,5 +153,11 @@ When the user selects an item in the list to view details, then item specific de
 
 Date: 23.06.2018
 Issue: Clicking on photo from list view fails with error
-'TypeError: this.props.photoitem1.result is undefined'
+```TypeError: this.props.photoitem1.result is undefined```
+Partially fixed on Aug 12 2018. server.js should be fixed to return data expected for photoitem1 variable
+
+
+Date: 19-07-2018
+Issue: Photos filter by camera feature not working anymore. No camera models available
+
 

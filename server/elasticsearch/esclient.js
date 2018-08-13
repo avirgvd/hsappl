@@ -338,7 +338,7 @@ function getListFieldsForCategory(category) {
     return ["_id","id","container","file_date","orgfilename","mimetype"];
   }
   else if(category === "cards") {
-    return ["cardorder","caption","_id","cardimageid"];
+    return ["cardorder","caption","_id","cardimageid", "query", "category"];
   }
   else if(category === "digitallibrary") {
     return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];

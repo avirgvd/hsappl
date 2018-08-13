@@ -310,10 +310,11 @@ export function showModal(category, json) {
 
 
 
-export function indexNav (path, category, json) {
+export function indexNav (path, category, datajson, queryjson) {
   console.log("indexactions: indexNav path:", path);
-  console.log("indexactions: indexNav json:", json);
   console.log("indexactions: indexNav category:", category);
+  console.log("indexactions: indexNav datajson:", datajson);
+  console.log("indexactions: indexNav queryjson:", queryjson);
   // if(json == undefined) {
   //   json = {};
   // }
@@ -323,7 +324,8 @@ export function indexNav (path, category, json) {
   return {
     type: INDEX_NAV,
     category: category,
-    data: json
+    data: datajson,
+    query: queryjson
   };
 
 }

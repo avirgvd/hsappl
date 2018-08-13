@@ -51,10 +51,12 @@ var routes = (
       <Route path='assets' component={Assets} />
       <Route path='browse' component={Browse} />
       <Route path='content' component={Content} />
-      <Route path='photos' component={Photos} />
+      <Route path='/photos' component={Photos}>
+        <Route path='/photos/photoframe' view="fullview" component={PhotoFrame} />
+      </Route>
       <Route path='audios' component={Audios} />
       <Route path='videos' component={Videos} />
-      <Route path='photoframe' view="fullview" component={PhotoFrame} />
+
       <Route path='contacts' component={Contacts} />
       <Route path='contactinfo' component={ContactInfo} />
       <Route path='financials' component={Financials} />
