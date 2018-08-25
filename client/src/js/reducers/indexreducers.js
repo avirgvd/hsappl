@@ -198,8 +198,8 @@ const initialState = Immutable.fromJS({
         filters: {}
       },
     },
-    cards: {
-      label: "cards",
+    directories: {
+      label: "directories",
       view: 'tiles',
       resource: '',
       showModal: 'false',
@@ -309,10 +309,10 @@ const handlers = {
           }
         }
       };
-    } else if (action.category === 'cards') {
+    } else if (action.category === 'directories') {
       newState = {
         ...state, categories: {
-          cards: {
+          directories: {
             result: {
               total: action.result.total,
               items: action.result.items
@@ -468,7 +468,7 @@ const handlers = {
     // var newState = state.setIn(['categories', action.category, 'result', 'item'], action.data);
 
     var newState = state;
-    if(action.category === 'cards') {
+    if(action.category === 'directories') {
       newState = state.setIn(['categories', action.category, 'resource'], action.data);
     }
     // else if(action.data) {

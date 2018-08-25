@@ -96,6 +96,7 @@ function getItems( index, params, body, fields, callback1) {
   console.log("ESClient: getItems: index: ", index);
   console.log("ESClient: getItems: params: ", params);
   console.log("ESClient: getItems: body: ", body);
+  // console.log("ESClient: getItems: query: ", query);
   var indexName = index;
 
   if(index === "digitallibrary")
@@ -114,6 +115,13 @@ function getItems( index, params, body, fields, callback1) {
 
   // the search can take fields and their values for filtering the resultset
   // The body section of the query statement 'param' will have filter conditons specified
+  // let body = {
+  //   query: {
+  //     match: query
+  //   }
+  //
+  // };
+
   let param = {
     index: indexName,
     from: params.from,
@@ -337,8 +345,8 @@ function getListFieldsForCategory(category) {
   if(category === "photos") {
     return ["_id","id","container","file_date","orgfilename","mimetype"];
   }
-  else if(category === "cards") {
-    return ["cardorder","caption","_id","cardimageid", "query", "category"];
+  else if(category === "directories") {
+    return ["show_order","default_caption","_id","disp_imageid", "name", "category"];
   }
   else if(category === "digitallibrary") {
     return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];

@@ -79,31 +79,6 @@ class Content extends Component{
         
       </div>
     );
-    // return (
-    //   <Box direction="row">
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-1" wrap={true} onClick={this.onClick}>
-    //       Photos
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-2" wrap={true} onClick={this.onClick}>
-    //       Digital Library
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-3" wrap={true} onClick={this.onClick}>
-    //       Assets
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-4" wrap={true} onClick={this.onClick}>
-    //       Financials
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-1" wrap={true} onClick={this.onClick}>
-    //       Medical
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-2" wrap={true} onClick={this.onClick}>
-    //       Travel
-    //     </Box>
-    //     <Box margin="medium" pad="medium" align="center" justify="center" colorIndex="neutral-3" wrap={true} onClick={this.onClick}>
-    //       Diary
-    //     </Box>
-    //   </Box>
-    // );
   }
 }
 

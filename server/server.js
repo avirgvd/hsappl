@@ -8,7 +8,7 @@ var homeServer = require('./homeserver/homeserver');
 var esclient = require('./elasticsearch/esclient');
 var bodyParser = require('body-parser');
 var child_process = require("./childprocess/childprocess");
-var cards = require('./categories/cards');
+var directories = require('./categories/directories');
 var photos = require('./categories/photos');
 var google = require('./cloud/google');
 var messages = require('./categories/messages');
@@ -141,9 +141,9 @@ app.post('/rest/index/items', function(req, resp){
 
   var fields = esclient.getListFieldsForCategory(req.body.category);
 
-  if(req.body.category === 'cards') {
+  if(req.body.category === 'directories') {
 
-    cards.getitems(req.body.params, req.body.query, fields, function(err, result) {
+    directories.getitems(req.body.params, req.body.query, fields, function(err, result) {
       if (err) {
         resp.json({error: err, result: {items: []}});
       } else {
@@ -284,6 +284,21 @@ app.post('/rest/add', function(req, resp){
     });
 
   });
+});
+
+// TODO: The rest URL /rest/add_1 should soon to be moved to /rest/add
+app.post('/rest/add_1', function(req, resp){
+  console.log("/rest/add_1 req ", req.body);
+
+  const {category, data} = req.body;
+
+  console.log('/rest/add_1 category: ', category);
+  console.log('/rest/add_1 data: ', data);
+
+  if(category==='directories') {
+    directories.addItem(data);
+  }
+
 });
 
 

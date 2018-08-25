@@ -66,14 +66,6 @@ export function indexLoad(category, data) {
       reqBody.params = {};
     }
 
-    // let restRequest = {
-    //   method: "POST",
-    //   body: JSON.stringify(reqBody),
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // };
-
     console.log("uri: ", uri);
     console.log("reqBody: ", reqBody);
 
@@ -88,21 +80,7 @@ export function indexLoad(category, data) {
       }).catch(function(ex) {
         console.log('indexLoad: parsing failed', ex);
       });
-
-      // Need to revisit below commented code for fetching filter parameters
-    // let filtersuri = uri + "/filters";
-    // // fetch(filtersuri, restRequest)
-    // postRESTApi(filtersuri, reqBody)
-    //   .then(function(response) {
-    //     console.log("indexLoad: filters", response);
-    //     return response.json()
-    //   }).then(function(filters) {
-    //   console.log('parsed json', filters);
-    //   dispatch(indexSuccess(category, null, filters));
-    // }).catch(function(ex) {
-    //   console.log('parsing failed', ex);
-    // });
-
+    
   };
 }
 
@@ -330,7 +308,7 @@ export function indexNav (path, category, datajson, queryjson) {
 
 }
 
-// TODO: Write come comments on this index action 4/21/2018
+// TODO: Write some comments on this index action 4/21/2018
 export function globalFetch(category, query) {
   console.log("indexactions: fetch catgegory:", category);
   console.log("indexactions: fetch query:", query);

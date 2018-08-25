@@ -21,12 +21,13 @@ class Browse extends Component {
     console.log("on tile click: ", event.target);
     console.log("on tile click: ", event.target.getAttribute('name'));
 
-    if(event.target.getAttribute('name') == 'photos') {
-      this.props.dispatch(indexNav('/cards', 'cards', {"category": "photos"}));
-    }
-    else {
-      this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
-    }
+    this.props.dispatch(indexNav('/directories', 'directories', {"category": event.target.getAttribute('name')}));
+    // if(event.target.getAttribute('name') == 'photos') {
+    //   this.props.dispatch(indexNav('/directories', 'directories', {"category": "photos"}));
+    // }
+    // else {
+    //   this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
+    // }
 
   }
 
@@ -37,7 +38,6 @@ class Browse extends Component {
 
     console.log("Browse: this.state: ", this.state);
     console.log("Browse: this.props.index: ", this.props.index);
-
 
     return (
       <div className="ui equal width center aligned padded grid" featureName="potos" >

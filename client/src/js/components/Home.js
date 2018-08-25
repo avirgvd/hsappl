@@ -58,16 +58,7 @@ class Home extends Component{
   render () {
 
     var state = "Importing the files from " + "<--get it from state-->";
-    // return (
-    //   <Box pad='medium' >
-    //
-    //     <Notification state={state} status="Ok" size="medium" full={false}
-    //                    percentComplete={33}/>
-    //     <TextInput placeHolder="Import from local directory..." onDOMChange={this.onInputChange}  />
-    //     <Button onClick={this.onImportClick} label="Bulk Import Files" primary={true} />
-    //   </Box>
-    //
-    // );
+
     return(
       <div className="ui doubling stackable grid container">
         

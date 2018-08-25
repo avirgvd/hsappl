@@ -118,6 +118,19 @@ var hsIndices = {
       'mappings': {
       }
     }
+  },
+  'directories': {
+    'index': 'directories',
+    'type': 'directories',
+    'id': 'directories',
+    'body': {
+      'settings': {
+        'number_of_shards': 1,
+        'number_of_replicas': 1
+      },
+      'mappings': {
+      }
+    }
   }
 };
 

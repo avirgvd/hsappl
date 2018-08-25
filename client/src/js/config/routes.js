@@ -69,7 +69,7 @@ var routes = (
       <Route path='messageitem' component={MessageItem} />
       <Route path='travel' component={Travel} />
       <Route path='searchresult' component={SearchResult} />
-      <Route path='cards' component={Cards} />
+      <Route path='directories' component={Cards} />
       <Route path='settings' component={Settings} />
       <Route path='cloudconnections' component={CloudConnections} />
       <Route path='unknown' component={Unknown} />

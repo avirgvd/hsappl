@@ -133,8 +133,6 @@ class PhotoFrame extends Component {
   }
 
   renderListViewItem () {
-    // console.log("photoframe listview props: ", this.props.photoitem);
-    // console.log("photoframe listview index: ", this.props.index);
 
     return (
       <div className="ui card">
@@ -142,12 +140,15 @@ class PhotoFrame extends Component {
           <img src={filesServerBaseURL() + this.props.photoitem.container + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
         </div>
         <div className="content">
+
           <div className="meta">
             <span className="date">{this.props.photoitem.file_date}</span>
           </div>
+
           <div className="meta">
             <span className="location">{this.props.location}</span>
           </div>
+
           <div className="description">
             {this.props.photoitem.orgfilename}
           </div>
@@ -161,7 +162,6 @@ class PhotoFrame extends Component {
         </div>
       </div>
     );
-
   }
 
   renderSlideViewItem () {
@@ -171,45 +171,11 @@ class PhotoFrame extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
-    var photo = this.props.photoitem1.get('result').get('items');
-    // var photo = this.props.photoitem;
+    // var photo = this.props.photoitem_ex.get('result').get('items');
+    var photo = this.props.photoitem;
     console.log("photoframe renderFullView photo: ", photo);
 
-    // return (
-    //   <div className="ui cards">
-    //     <div className="ui  fluid card">
-    //       <img className="ui fluid image" src={'http://192.168.1.130:3000/' + photo.filename} onClick={this._onClickImage}/>
-    //       <div className="content">
-    //         <div className="meta">
-    //           <span className="date"></span>
-    //         </div>
-    //         <div className="meta">
-    //           <span className="location"></span>
-    //         </div>
-    //         <div className="description">
-    //           {photo.originalname}
-    //           <p><b>Shot By</b> {photo.exif['Exif IFD0']['Make']} {photo.exif['Exif IFD0']['Model']}</p>
-    //         </div>
-    //       </div>
-    //
-    //       <div className="extra content">
-    //         <a>
-    //           <i className="user icon"></i>
-    //           {this.props.tags}
-    //         </a>
-    //         <a className="ui red circular label">2</a>
-    //         <a className="ui tag label">New</a>
-    //         <Rating icon='heart' rating={3} maxRating={5} />
-    //       </div>
-    //       <div className="ui left icon input  loading">
-    //         <input placeholder="Search..." type="text" onChange={this._onTagInput}></input>
-    //         <i class="search icon"></i>
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
-
-    //
+    // <p><b>Shot By</b> {photo.exif['Exif IFD0']['Make']} {photo.exif['Exif IFD0']['Model']}</p>
 
     return (
       <div className="ui cards">
@@ -224,7 +190,7 @@ class PhotoFrame extends Component {
             </div>
             <div className="description">
               {photo.originalname}
-              <p><b>Shot By</b> {photo.exif['Exif IFD0']['Make']} {photo.exif['Exif IFD0']['Model']}</p>
+
             </div>
           </div>
 
@@ -255,7 +221,7 @@ PhotoFrame.contextTypes = {
 // TODO: the variables photoitem, photoitem2 and photoitem1 needs to be reduced to one variable 4/22/2018
 PhotoFrame.propTypes = {
 
-  photoitem1: PropTypes.object,
+  photoitem_ex: PropTypes.object,
   photoitem: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 
@@ -268,7 +234,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     category: category,
-    photoitem1: state.index.getIn(['category', category, 'item'])
+    photoitem_ex: state.index.getIn(['category', category, 'item'])
 
   };
 };

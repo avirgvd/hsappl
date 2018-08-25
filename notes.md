@@ -155,6 +155,7 @@ Date: 23.06.2018
 Issue: Clicking on photo from list view fails with error
 ```TypeError: this.props.photoitem1.result is undefined```
 Partially fixed on Aug 12 2018. server.js should be fixed to return data expected for photoitem1 variable
+Fixed by Aug 25 2018
 
 
 Date: 19-07-2018
