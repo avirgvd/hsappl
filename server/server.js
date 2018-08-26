@@ -161,7 +161,7 @@ app.post('/rest/index/items', function(req, resp){
       if (err) {
         resp.json({error: err, result: {items: []}});
       } else {
-        console.log("server: /rest/index/items: photos", result);
+        // console.log("server: /rest/index/items: photos", result);
         resp.json({result: result});
       }
     });

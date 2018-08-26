@@ -38,7 +38,7 @@ var Photos = {
       if (err) {
         callback(err, {error: err, result: {items: []}});
       } else {
-        console.log("Photos: getitems: ", result);
+        // console.log("Photos: getitems: ", result);
         callback(undefined, result);
       }
     });

@@ -20,6 +20,7 @@ export function getRESTApi(url, request) {
 export function postRESTApi(url, reqBody) {
 
   console.log("postRESTApi: url:", url);
+  console.log("postRESTApi: reqBody:", reqBody);
 
   let restRequest = {
     method: "POST",

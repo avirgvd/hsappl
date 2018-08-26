@@ -27,13 +27,24 @@ var Directories = {
   },
 
   addItem(data) {
-    
+
+    let storage_container = '';
+
+    if(data.type==='photos') {
+      storage_container = 'media1'
+    }
+    else if(data.type==='Unprocessed') {
+      storage_container = 'staging'
+    }
+
+
     let finaldata = {
       category: data.type,
       name: data.name,
       default_caption: data.name,
       disp_imageid:'system/photos.png',
-      desc: ""
+      desc: "",
+      container: storage_container
     };
     
     esclient.addItem('directories', finaldata, undefined, function(err, result){

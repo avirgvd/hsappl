@@ -50,8 +50,9 @@ class Photos extends Component{
   componentDidMount() {
 
     console.log("componentDidMount ", this.props.index);
+    console.log("componentDidMount query", this.props.index.get('query'));
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("photos", {}));
+    this.props.dispatch(indexLoad("photos", this.props.index.get('query')));
 
   }
 

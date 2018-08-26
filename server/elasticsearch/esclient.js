@@ -141,13 +141,13 @@ function getItems( index, params, body, fields, callback1) {
         console.log("ESClient: getItems: err: ",err);
         callback1(err);
       } else {
-        console.log("ESClient: getItems: resp: ",resp);
+        // console.log("ESClient: getItems: resp: ",resp);
         console.log("ESClient: getItems: resp: ",resp.hits.hits.length);
         let result = {
                       total: resp.hits.total,
                       count: resp.hits.hits.length,
                       items: resp.hits.hits.map((item) => {
-                        console.log("ESClient: getItems item: ", item);
+                        // console.log("ESClient: getItems item: ", item);
                         // When the query specifies 'fields' the return items will have data 
                         // under 'fields' instead of "_source"
                         var returnItem = item._source;

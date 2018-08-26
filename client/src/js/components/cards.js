@@ -80,7 +80,7 @@ class Cards extends Component {
       event.target.getAttribute('name'), 
       event.target.getAttribute('name'),
       null,
-      {'select': event.target.getAttribute('data')}
+      {'directory': event.target.getAttribute('data')}
     ));
 
   }
@@ -141,8 +141,10 @@ class Cards extends Component {
     let createDialog;
 
     if(showCreateDirectory==="yes") {
+
+      //Create Directory dialog should be displayed
       createDialog = (
-      <form className="ui form" onSubmit={this.handleSubmit} on>
+      <form className="ui form" onSubmit={this.handleFormSubmit} on>
         <h1 className="ui header">Create Directory</h1>
         <div className="field">
           <label>Name</label>

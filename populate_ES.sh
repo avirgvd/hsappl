@@ -11,11 +11,11 @@ curl -XPOST localhost:9200/cards/_bulk -d '
 
 curl -XPOST localhost:9200/directories/_bulk -d '
 {"index": {"_index": "directories", "_type": "directories", "_id": "1"}}
-{"show_order": "1", "category": "photos", "default_caption": "Unprocessed", "disp_imageid": "system/photos.png", "name": "unprocessed", "desc": ""}
+{"show_order": "1", "category": "photos", "default_caption": "Unprocessed", "disp_imageid": "system/photos.png", "name": "unprocessed", "desc": "", "container": "staging"}
 {"index": {"_index": "directories", "_type": "directories", "_id": "2"}}
-{"show_order": "2", "category": "photos", "default_caption": "All", "disp_imageid": "system/photos.png", "name": "all", "desc": "shows all photos"}
+{"show_order": "2", "category": "photos", "default_caption": "All", "disp_imageid": "system/photos.png", "name": "all", "desc": "shows all photos", "container": "media1"}
 {"index": {"_index": "directories", "_type": "directories", "_id": "3"}}
-{"show_order": "3", "category": "photos", "default_caption": "Album 1", "disp_imageid": "system/photos.png", "name": "album1", "desc": ""}
+{"show_order": "3", "category": "photos", "default_caption": "Album 1", "disp_imageid": "system/photos.png", "name": "album1", "desc": "", "container": "media1"}
 '
 
 
