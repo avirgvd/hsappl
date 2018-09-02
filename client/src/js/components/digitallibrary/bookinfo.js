@@ -61,8 +61,8 @@ class BookInfo extends Component {
   _onClick() {
     console.log("BookInfo onClick......");
 
-    this.props.onSelect(this.props.data);
-    this.props.dispatch(itemLoad("bookinfo", this.props.bookinfo));
+    this.props.onSelect(this.props.index);
+    // this.props.dispatch(itemLoad("bookinfo", this.props.bookinfo));
 
 
   }
@@ -205,7 +205,7 @@ class BookInfo extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
-    var book = this.props.bookinfo1.get('result').get('items');
+    var book = this.props.data;
     console.log("bookinfo renderFullView bookinfo: ", book);
     console.log("bookinfo renderFullView state: ", this.state);
 
@@ -214,6 +214,7 @@ class BookInfo extends Component {
     let pdf = <div className="ui container"><h3>Full mode not supported...</h3></div>;
 
     if (this.state.bookViewMode == "Lite Mode"){
+      console.log("renderFullView: ");
       pdf = (
         <PDF file={getFileBaseURL() + bucket + "/" + book.id}
             page={this.state.currentPage}

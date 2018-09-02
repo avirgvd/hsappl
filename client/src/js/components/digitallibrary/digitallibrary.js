@@ -3,13 +3,12 @@
  */
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-var Modal = require('react-modal');
 import BookInfo from './bookinfo';
 
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
 
-import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {indexLoad, indexUnLoad, indexNextMore, indexAdd, indexNav} from '../../actions/indexactions';
 
 
 class DigitalLibrary extends Component{
@@ -18,15 +17,8 @@ class DigitalLibrary extends Component{
     super(props);
 
     this.handleScroll = this.handleScroll.bind(this);
-    this._onAddFriend = this._onAddFriend.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this._onAddBook = this._onAddBook.bind(this);
     this.onSubmit1 = this.onSubmit1.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
 
     this.state = {query: {}, selection: -1};
@@ -87,11 +79,10 @@ class DigitalLibrary extends Component{
 
   }
 
-  _onAddFriend() {
+  _onAddBook() {
 
-    console.log("onAddFriend!!!!!");
-
-    this.openModal();
+    console.log("_onAddBook!!!!!");
+    alert("Add books feature not implemented yet!");
 
   }
 
@@ -100,71 +91,9 @@ class DigitalLibrary extends Component{
     this.setState({ selection: selection});
   }
 
-
-  ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show) {
-    console.log('showing modal...');
-
-    return (
-      <Modal
-        isOpen={show}
-        onRequestClose={this.closeModal}>
-
-        <div className="ui form" onSubmit={this.onSubmit1}>
-          <div className="fields">
-            <div className="field">
-              <label>First Name</label>
-              <input placeholder="First Name" type="text" onChange={this.onChangeFirstName}></input>
-            </div>
-            <div className="field">
-              <label>Middle Name</label>
-              <input placeholder="Middle Name" type="text" onChange={this.onChangeMiddleName}></input>
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input placeholder="Last Name" type="text" onChange={this.onChangeLastName}></input>
-            </div>
-            <div className="field">
-              <label>eMail</label>
-              <input placeholder="email" type="text" onChange={this.onChangeEmail}></input>
-            </div>
-          </div>
-          <div className="ui submit button" onClick={this.onSubmit1}>Submit</div>
-        </div>
-      </Modal>    );
-  }
-
   onSubmit1 () {
     this.props.dispatch(indexAdd("digitallibrary", this.state));
   }
-
-  onChangeFirstName (e) {
-    console.log("on change firstname value ", e.target.value);
-    this.setState({firstname: e.target.value});
-  }
-  onChangeMiddleName (e) {
-    console.log("on change middle name value ", e.target.value);
-    this.setState({middlename: e.target.value});
-  }
-  onChangeLastName (e) {
-    console.log("on change lastname value ", e.target.value);
-    this.setState({lastname: e.target.value});
-  }
-  onChangeEmail (e) {
-    console.log("on change email value ", e.target.value);
-    this.setState({email: e.target.value});
-  }
-
-
-  openModal () {
-
-    this.props.dispatch(showModal("digitallibrary", {showModal: true}));
-  }
-
-  closeModal () {
-    this.props.dispatch(showModal("digitallibrary", {showModal: false}));
-  }
-  ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   render () {
     const { store } = this.context;
@@ -172,7 +101,7 @@ class DigitalLibrary extends Component{
     const { selection } = this.state;
     var items = this.props.index.get('result').get('items');
 
-    let elements;
+    let elements, detailsLayer;
 
     if(selection >= 0) {
       detailsLayer = (
@@ -186,27 +115,18 @@ class DigitalLibrary extends Component{
 
         return (
           <div className="ui divided items">
-            <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
+            <BookInfo id={item.id} data={item} index={index} view='listview' onSelect={this.onSelect}/>
           </div>
         );
       });
     }
 
     console.log("elements: ", elements);
-    var showModal1 = this.props.index.get('showModal');
-    console.log("ShowModal: ", showModal1);
-
-    // var modal = this._showModal(this.props.index.get('showModal'));
-    var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: true");
-      modal = this._showModal(showModal1);
-    }
 
     return (
       <div className="ui grid container">
         <p>
-          <button className="ui basic button" onClick={this._onAddFriend}>
+          <button className="ui basic button" onClick={this._onAddBook}>
             <i className="icon user"></i>
             Add Books
           </button>
@@ -215,10 +135,12 @@ class DigitalLibrary extends Component{
           Total
           <div className="detail">{this.props.index.get('result').get('total')}</div>
         </div>
-
         <p>{elements}</p>
-        {modal}
+        <div>
+          {detailsLayer}
+        </div>
       </div>
+
     );
   }
 }
