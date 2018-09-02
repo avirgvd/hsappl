@@ -29,7 +29,7 @@ class DigitalLibrary extends Component{
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
 
-    this.state = {query: {}};
+    this.state = {query: {}, selection: -1};
 
   }
 
@@ -95,9 +95,9 @@ class DigitalLibrary extends Component{
 
   }
 
-  onSelect(e) {
-    console.log("digitallibrary onSelect: ", e);
-    this.props.dispatch(indexNav("/bookinfo", "bookinfo", e));
+  onSelect(selection) {
+    console.log("digitallibrary onSelect: ", selection);
+    this.setState({ selection: selection});
   }
 
 
@@ -169,25 +169,28 @@ class DigitalLibrary extends Component{
   render () {
     const { store } = this.context;
     console.log("digitallibrary this.props: ", this.props);
-
+    const { selection } = this.state;
     var items = this.props.index.get('result').get('items');
 
-    let elements = items.map((item, index) => {
-      console.log("digitallibrary render item: ", item);
-      console.log("digitallibrary render index: ", index);
+    let elements;
 
-      // return (
+    if(selection >= 0) {
+      detailsLayer = (
+        <BookInfo id={items[selection].id} data={items[selection]} view="fullview"  />
+      );
+    }
+    else {
+      elements = items.map((item, index) => {
+        console.log("digitallibrary render item: ", item);
+        console.log("digitallibrary render index: ", index);
 
-      //   <ListItem className="ui divided items">
-      //     <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
-      //   </ListItem>
-      // );
-      return (
-        <div className="ui divided items">
-          <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
-        </div>
+        return (
+          <div className="ui divided items">
+            <BookInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
+          </div>
         );
-    });
+      });
+    }
 
     console.log("elements: ", elements);
     var showModal1 = this.props.index.get('showModal');

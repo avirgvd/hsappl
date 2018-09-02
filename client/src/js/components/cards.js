@@ -6,7 +6,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
 import {indexNav, indexLoad, indexUnLoad} from '../actions/indexactions';
-import {filesServerBaseURL, postRESTApi} from '../Api';
+import {getFileBaseURL, postRESTApi} from '../Api';
 
 class Cards extends Component {
 
@@ -165,7 +165,7 @@ class Cards extends Component {
         return(
           <div className="ui link card" name={item.category} >
             <div className="image" onClick={this.onTileClick}>
-              <img src={ filesServerBaseURL() + item.disp_imageid} className="ui fluid floated image" name={item.category} data={item.name}></img>
+              <img src={ getFileBaseURL() + item.disp_imageid} className="ui fluid floated image" name={item.category} data={item.name}></img>
             </div>
             <div className="content" >
               <div className="header">{item.default_caption}</div>

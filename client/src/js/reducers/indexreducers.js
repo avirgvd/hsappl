@@ -6,7 +6,8 @@ import { combineReducers } from 'redux';
 import update from 'react/lib/update';
 import Immutable, {List, Map} from 'immutable';
 
-import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_SUCCESS_FILTERS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS, SHOW_MODAL} from '../actions/indexactions';
+// import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_SUCCESS_FILTERS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS, SHOW_MODAL} from '../actions/indexactions';
+import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS, SHOW_MODAL} from '../actions/indexactions';
 
 const statusFilter = {
   all: true,
@@ -392,6 +393,25 @@ const handlers = {
           action.result.settings.count
         );
     }
+    else if(action.category === 'photos' || action.category === 'digitallibrary') { // TODO: Get rid of if statements here by making generic reducer
+      newState = state
+        .setIn(
+          ['categories', action.category, 'result', 'items'],
+          action.result.itemsData.items
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'total'],
+          action.result.itemsData.total
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'currentEnd'],
+          action.result.itemsData.count
+        )
+        .setIn(
+          ['categories', action.category, 'result', 'filters'],
+          action.result.filters
+        );
+    }
     else {
       newState = state
         .setIn(
@@ -411,23 +431,24 @@ const handlers = {
     return newState;
   },
 
-  [INDEX_SUCCESS_FILTERS]: (state, action) => {
-
-    // var newState = Object.assign({}, state, {categories: {photos: {items: action.items}} });
-    // var newState = { ...state, categories: {photos: {items: action.items}}};
-    var newState;
-
-    console.log("index_succeess_filters state: ", state);
-    console.log("index_succeess_filters action: ", action);
-
-    newState = state
-      .setIn(
-        ['categories', action.category, 'result', 'filters'],
-        action.result
-      );
-
-    return newState;
-  },
+  // will be obsolete 1-SEP-2018
+  // [INDEX_SUCCESS_FILTERS]: (state, action) => {
+  //
+  //   // var newState = Object.assign({}, state, {categories: {photos: {items: action.items}} });
+  //   // var newState = { ...state, categories: {photos: {items: action.items}}};
+  //   var newState;
+  //
+  //   console.log("index_succeess_filters state: ", state);
+  //   console.log("index_succeess_filters action: ", action);
+  //
+  //   newState = state
+  //     .setIn(
+  //       ['categories', action.category, 'result', 'filters'],
+  //       action.result
+  //     );
+  //
+  //   return newState;
+  // },
 
   [INDEX_NEXT_SUCCESS]: (state, action) => {
 

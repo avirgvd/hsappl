@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 // import Image from 'grommet/components/Image';
 // import Card from 'grommet/components/Card';
 import {itemLoad, itemUnload} from '../../actions/itemactions';
-import {filesServerBaseURL} from '../../Api';
+import {getFileBaseURL} from '../../Api';
 
 var PDF = require('react-pdf');
 
@@ -62,6 +62,8 @@ class BookInfo extends Component {
     console.log("BookInfo onClick......");
 
     this.props.onSelect(this.props.data);
+    this.props.dispatch(itemLoad("bookinfo", this.props.bookinfo));
+
 
   }
 
@@ -125,7 +127,7 @@ class BookInfo extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount () {
-    this.props.dispatch(itemLoad("bookinfo", {}));
+    // this.props.dispatch(itemLoad("bookinfo", {}));
   }
 
   componentWillUnmount () {
@@ -167,7 +169,7 @@ class BookInfo extends Component {
   renderListViewItem () {
     console.log("item listview props: ", this.props);
     console.log("item listview props: ", this.props.data.pdfmeta);
-    // var thubmailUrl = filesServerBaseURL() + this.props.data.meta.thumbnail;
+    // var thubmailUrl = getFileBaseURL() + this.props.data.meta.thumbnail;
 
     var bucket = "docs";
 
@@ -176,7 +178,7 @@ class BookInfo extends Component {
         <div className="ui divided items" onClick={this._onClick}>
           <div className="item">
             <div className="ui tiny image">
-              <img src={filesServerBaseURL() + bucket + "/" + this.props.data.id + '/?size=small'} onClick={this._onClickImage}/>
+              <img src={getFileBaseURL() + bucket + "/" + this.props.data.id + '/?size=small'} onClick={this._onClick}/>
             </div>
             <div className="content">
               <a className="header">{this.props.data.orgfilename}</a>
@@ -213,7 +215,7 @@ class BookInfo extends Component {
 
     if (this.state.bookViewMode == "Lite Mode"){
       pdf = (
-        <PDF file={filesServerBaseURL() + bucket + "/" + book.id}
+        <PDF file={getFileBaseURL() + bucket + "/" + book.id}
             page={this.state.currentPage}
             scale={2}
             onDocumentComplete={this._onDocumentCompleted}

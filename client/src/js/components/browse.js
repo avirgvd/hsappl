@@ -7,7 +7,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
 import {indexNav} from '../actions/indexactions';
-import {filesServerBaseURL} from '../Api';
+import {getFileBaseURL} from '../Api';
 
 class Browse extends Component {
 
@@ -44,7 +44,7 @@ class Browse extends Component {
         <div className="ui stackable cards" onClick={this.onTileClick}>
           <div className="ui link card"  >
             <div className="image" >
-              <img src={ filesServerBaseURL("system") + "contacts.png"} className="ui fluid floated small image" name="contacts" ></img>
+              <img src={ getFileBaseURL("system") + "contacts.png"} className="ui fluid floated small image" name="contacts" ></img>
             </div>
             <div className="content" >
               <div className="header">Contacts</div>
@@ -58,7 +58,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card" >
             <div className="image" >
-              <img src={ filesServerBaseURL("system") + "photos.png"} className="ui fluid floated small image" name="photos" ></img>
+              <img src={ getFileBaseURL("system") + "photos.png"} className="ui fluid floated small image" name="photos" ></img>
             </div>
             <div className="content" >
               <div className="header">Photos</div>
@@ -72,7 +72,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card" >
             <div className="image" >
-              <img src={ filesServerBaseURL("system") + "Music.jpg"} className="ui fluid floated small image" name="audios" ></img>
+              <img src={ getFileBaseURL("system") + "Music.jpg"} className="ui fluid floated small image" name="audios" ></img>
             </div>
             <div className="content" >
               <div className="header">Audios and Music</div>
@@ -86,7 +86,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card" >
             <div className="image" >
-              <img src={ filesServerBaseURL("system") + "Videos.jpg"} className="ui fluid floated small image" name="videos" ></img>
+              <img src={ getFileBaseURL("system") + "Videos.jpg"} className="ui fluid floated small image" name="videos" ></img>
             </div>
             <div className="content" >
               <div className="header">Videos and Movies</div>
@@ -100,7 +100,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "DigitalLibrary.png"} className="ui fluid floated small image" name="digitallibrary" ></img>
+              <img src={ getFileBaseURL("system") + "DigitalLibrary.png"} className="ui fluid floated small image" name="digitallibrary" ></img>
             </a>
             <div className="content" >
               <div className="header">Digital Library</div>
@@ -114,7 +114,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "Financials.png"} className="ui fluid floated small image" name="financials" ></img>
+              <img src={ getFileBaseURL("system") + "Financials.png"} className="ui fluid floated small image" name="financials" ></img>
             </a>
             <div className="content" >
               <div className="header">Financials</div>
@@ -128,7 +128,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "medical_records.png"} className="ui fluid floated small image" name="medical" ></img>
+              <img src={ getFileBaseURL("system") + "medical_records.png"} className="ui fluid floated small image" name="medical" ></img>
             </a>
             <div className="content" >
               <div className="header">Medical Records</div>
@@ -142,7 +142,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "travel.jpg"} className="ui fluid floated small image" name="travel" ></img>
+              <img src={ getFileBaseURL("system") + "travel.jpg"} className="ui fluid floated small image" name="travel" ></img>
             </a>
             <div className="content" >
               <div className="header">Travel</div>
@@ -156,7 +156,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "Assets.jpg"} className="ui fluid floated small image" name="assets" ></img>
+              <img src={ getFileBaseURL("system") + "Assets.jpg"} className="ui fluid floated small image" name="assets" ></img>
             </a>
             <div className="content" >
               <div className="header">Assets</div>
@@ -170,7 +170,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "Unknown.jpg"} className="ui fluid floated small image" name="unknown" ></img>
+              <img src={ getFileBaseURL("system") + "Unknown.jpg"} className="ui fluid floated small image" name="unknown" ></img>
             </a>
             <div className="content" >
               <div className="header">Unknown</div>
@@ -184,7 +184,7 @@ class Browse extends Component {
           </div>
           <div className="ui link card">
             <a class="image" >
-              <img src={ filesServerBaseURL("system") + "Settings.png"} className="ui fluid floated small image" name="settings" ></img>
+              <img src={ getFileBaseURL("system") + "Settings.png"} className="ui fluid floated small image" name="settings" ></img>
             </a>
             <div className="content" >
               <div className="header">Settings</div>

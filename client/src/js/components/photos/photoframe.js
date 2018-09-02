@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {filesServerBaseURL} from '../../Api';
+import {getFileBaseURL} from '../../Api';
 import {itemLoad, itemUnload} from '../../actions/itemactions';
 import {globalFetch} from '../../actions/indexactions';
 
@@ -13,7 +13,7 @@ class PhotoFrame extends Component {
 
   constructor() {
     super();
-    this._onClickImage = this._onClickImage.bind(this);
+    this._onClick = this._onClick.bind(this);
     this._onTagInput = this._onTagInput.bind(this);
     this._onRate = this._onRate.bind(this);
     this.refs1 = this.refs1.bind(this);
@@ -39,9 +39,9 @@ class PhotoFrame extends Component {
   //   }
   // },
 
-  _onClickImage(e) {
+  _onClick(e) {
 
-    console.log("onClickImage......this.props.index", this.props.index);
+    console.log("PhotoFrame: onClick......this.props.index", this.props.index);
 
     // pass this index of the photoitem in the photos list
     this.props.onSelect(this.props.index);
@@ -137,7 +137,7 @@ class PhotoFrame extends Component {
     return (
       <div className="ui card">
         <div className="image">
-          <img src={filesServerBaseURL() + this.props.photoitem.container + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClickImage}/>
+          <img src={getFileBaseURL() + this.props.photoitem.container + "/" + this.props.photoitem.id + '/?size=small'} onClick={this._onClick}/>
         </div>
         <div className="content">
 
@@ -180,7 +180,7 @@ class PhotoFrame extends Component {
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
-          <img className="ui fluid image" src={filesServerBaseURL()  + photo.container + "/" + photo.id + '/?size=full'} onClick={this._onClickImage}/>
+          <img className="ui fluid image" src={getFileBaseURL()  + photo.container + "/" + photo.id + '/?size=full'} onClick={this._onClick}/>
           <div className="content">
             <div className="meta">
               <span className="date"></span>

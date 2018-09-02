@@ -4,7 +4,7 @@
 
 const FileUpload = require('react-fileupload');
 var React = require('react');
-import {filesServerBaseURL} from '../../Api';
+import {fileServerBaseURL} from '../../Api';
 
 var HSFileUpload = React.createClass({
 
@@ -19,7 +19,9 @@ var HSFileUpload = React.createClass({
     console.log("HSFileUpload getInitialState: ", this.props.caption);
     console.log("HSFileUpload getInitialState: ", this.props.tag);
 
-    var baseUrl = filesServerBaseURL() + 'upload';
+    var baseUrl = fileServerBaseURL() + 'upload';
+
+    console.log("HSFileUpload baseURL: ", baseUrl);
 
     return {
       options: {
@@ -27,6 +29,7 @@ var HSFileUpload = React.createClass({
         param:{
           fid:0,
         },
+        tag: {tagname: 'sampletag'},
         chooseAndUpload: true,
         fileFieldName : 'file',
         paramAddToField : {tag: this.props.tag},
@@ -37,6 +40,8 @@ var HSFileUpload = React.createClass({
   },
 
   _beforeUpload: function(files, mill) {
+
+    console.log("HSFileUpload beforeUpload, ", this.state.options);
     return true;
 
     //console.log(mill);
@@ -61,6 +66,7 @@ var HSFileUpload = React.createClass({
    * and before render()
    * */
   componentWillMount: function () {
+    console.log("HSFileUpload componentWillMount: ");
 
   },
 
@@ -70,6 +76,7 @@ var HSFileUpload = React.createClass({
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount: function () {
+    console.log("HSFileUpload componentDidMount: ");
 
   },
 

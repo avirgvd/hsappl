@@ -83,7 +83,7 @@ class AccountPage extends Component {
     return (
       <div className="ui card">
         <div className="image">
-          <img src={'http://192.168.1.130:3000/' + this.props.photoitem.filename} onClick={this._onClickImage}/>
+          <img src={'http://192.168.1.130:3000/' + this.props.photoitem.filename} onClick={this._onClick}/>
         </div>
         <div className="content">
           <div className="meta">
@@ -119,7 +119,7 @@ class AccountPage extends Component {
     return (
       <div className="ui grid container">
         <div className="ui  fluid card">
-          <img className="ui fluid image" src={'http://192.168.1.130:3000/' + photo.filename} onClick={this._onClickImage}/>
+          <img className="ui fluid image" src={'http://192.168.1.130:3000/' + photo.filename} onClick={this._onClick}/>
           <div className="content">
             <div className="meta">
               <span className="date"></span>

@@ -27,7 +27,7 @@ export const INDEX_ADD = 'INDEX_ADD';
 
 // index api
 export const INDEX_SUCCESS = 'INDEX_SUCCESS';
-export const INDEX_SUCCESS_FILTERS = 'INDEX_SUCCESS_FILTERS';
+// export const INDEX_SUCCESS_FILTERS = 'INDEX_SUCCESS_FILTERS';
 export const INDEX_PREV_SUCCESS = 'INDEX_PREV_SUCCESS';
 export const INDEX_NEXT_SUCCESS = 'INDEX_NEXT_SUCCESS';
 
@@ -43,9 +43,9 @@ export const SHOW_MODAL = 'SHOW_MODAL';
 
 // Action creators
 
-export function indexLoad(category, data) {
+export function indexLoad(category, query) {
   console.log("indexLoad category", category);
-  console.log("indexLoad data", data);
+  console.log("indexLoad data", query);
 
   return dispatch => {
 
@@ -58,11 +58,11 @@ export function indexLoad(category, data) {
         from: 0,
         size: 100,
       },
-      query: data
+      query: query
     };
 
     if(category === 'cards') {
-      reqBody.resource = data;
+      reqBody.resource = query;
       reqBody.params = {};
     }
 
@@ -74,9 +74,9 @@ export function indexLoad(category, data) {
       .then(function(response) {
         console.log("indexLoad: ", response);
         return response.json()
-      }).then(function(items) {
-        console.log('indexLoad: parsed json', items);
-      dispatch(indexSuccess(category, items));
+      }).then(function(result) {
+        console.log('indexLoad: parsed json', result);
+      dispatch(indexSuccess(category, result));
       }).catch(function(ex) {
         console.log('indexLoad: parsing failed', ex);
       });
@@ -84,6 +84,8 @@ export function indexLoad(category, data) {
   };
 }
 
+// Purpose of this action is to handle filtered queries
+//TODO: But is this required if indexLoad can also handle query params?
 export function indexFilter (category, query) {
   console.log("indexactions: indexFilter categpry:", category);
   console.log("indexactions: indexFilter query:", query);
@@ -240,11 +242,10 @@ export function indexUnLoad(category, index) {
 //   };
 // }
 
-export function indexSuccess(category, items, filters) {
+export function indexSuccess(category, items) {
 
   console.log("indexSuccess: category: ", category);
   console.log("################ indexSuccess: items: ", items);
-  console.log("################ indexSuccess: filters: ", filters);
 
   if(items) {
     return {
@@ -255,13 +256,6 @@ export function indexSuccess(category, items, filters) {
     };
   }
 
-  if(filters){
-    return {
-      type: INDEX_SUCCESS_FILTERS,
-      category: category,
-      result: filters
-    };
-  }
 }
 
 export function indexNextSuccess(category, json) {

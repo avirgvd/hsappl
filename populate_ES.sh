@@ -16,6 +16,8 @@ curl -XPOST localhost:9200/directories/_bulk -d '
 {"show_order": "2", "category": "photos", "default_caption": "All", "disp_imageid": "system/photos.png", "name": "all", "desc": "shows all photos", "container": "media1"}
 {"index": {"_index": "directories", "_type": "directories", "_id": "3"}}
 {"show_order": "3", "category": "photos", "default_caption": "Album 1", "disp_imageid": "system/photos.png", "name": "album1", "desc": "", "container": "media1"}
+{"index": {"_index": "directories", "_type": "directories", "_id": "4"}}
+{"show_order": "1", "category": "digitallibrary", "default_caption": "All", "disp_imageid": "system/DigitalLibrary.png", "name": "all", "desc": "", "container": "sm_objectstoreindex_docs"}
 '
 
 

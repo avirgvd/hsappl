@@ -1,11 +1,11 @@
 /**
- * Created by govind on 8/6/17.
+ * Created by govind on 9/1/18.
  */
 
 
 var esclient = require('../elasticsearch/esclient');
 
-var Photos = {
+var DigitalLibrary = {
 
   init: function(){
 
@@ -16,9 +16,9 @@ var Photos = {
     console.log("Photos: getitems: ", query1);
 
     var esQuery = {'sort': [
-                    {"import_date" : "desc"},
-                    {"file_date" : "desc"}
-                  ]};
+      {"import_date" : "desc"},
+      {"file_date" : "desc"}
+    ]};
 
     // body.sort = [
     //               {"import_date" : "desc"},
@@ -34,19 +34,15 @@ var Photos = {
 
 
     // Fetch photos from index "sm_objectstoreindex_media1" for photos
-    esclient.getItems('sm_objectstoreindex_media1', params, esQuery, fields, function(err, items) {
+    esclient.getItems('sm_objectstoreindex_docs', params, esQuery, fields, function(err, items) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
-        callback(err, {error: err, result: {items: []}});
+        callback(err, {error: err, result: {itemsData: []}});
       } else {
 
-        esclient.getFilterItems('sm_objectstoreindex_media1', "exif.Exif IFD0.Model", function(filters) {
-          // Insert filters into the getItems result
-          let result = {itemsData: items, filters: {"camera": filters}};
-          console.log("categories/photos: result: ", result);
-          callback(undefined, result);
-        });
-
+        let result = {itemsData: items};
+        callback(undefined, result);
+        
       }
     });
 
@@ -56,4 +52,4 @@ var Photos = {
 
 };
 
-module.exports = Photos;
+module.exports = DigitalLibrary;

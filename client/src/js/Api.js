@@ -39,12 +39,16 @@ export function postRESTApi(url, reqBody) {
 
 }
 
-export function filesServerBaseURL(bucket) {
+export function getFileBaseURL(bucket) {
   // The file server is HSStorageManager which is listening on 3040
   // return 'http://' + _hostname.replace('3000', '3040') + '/rest/';
   if(bucket != undefined)
     return 'http://' + _storagehost + '/rest/file/' + bucket + '/';
   else
     return 'http://' + _storagehost + '/rest/file/';
+}
+
+export function fileServerBaseURL() {
+    return 'http://' + _storagehost + '/rest/';
 }
 

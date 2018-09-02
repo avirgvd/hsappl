@@ -21,7 +21,7 @@ class Photos extends Component{
     this.onClick = this.onClick.bind(this);
     this.onCameraFilterClick = this.onCameraFilterClick.bind(this);
 
-    this.state = {query: {}};
+    this.state = {query: {}, selection: -1};
 
   }
 
@@ -104,7 +104,8 @@ class Photos extends Component{
     this.setState({query: query});
     console.log("onCameraFilterClick: after query: ", query);
 
-    this.props.dispatch(indexFilter("photos", {query: query}));
+    // this.props.dispatch(indexFilter("photos", {query: query}));
+    this.props.dispatch(indexLoad("photos", {query: query}));
 
   }
   
@@ -127,8 +128,7 @@ class Photos extends Component{
     console.log("photos items count: ", this.props.index.get('result').get('total'));
 
     let elements, detailsLayer;
-
-
+    
     if(selection >= 0) {
       detailsLayer = (
           <PhotoFrame photoitem={items[selection]} view="fullview"  />
@@ -230,7 +230,6 @@ Photos.propTypes = {
     ]),
     label: PropTypes.string,
     query: PropTypes.object,
-    filter: PropTypes.object,
     result: {
       begin: PropTypes.number,
       currentBegin: PropTypes.number,

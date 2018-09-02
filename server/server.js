@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var child_process = require("./childprocess/childprocess");
 var directories = require('./categories/directories');
 var photos = require('./categories/photos');
+var digitallibrary = require('./categories/digitallibrary');
 var google = require('./cloud/google');
 var messages = require('./categories/messages');
 //var upload = multer().array('file');
@@ -114,6 +115,8 @@ app.post('/rest/hsfileupload', function(req,res){
 
   console.log("#############$$$$$$$$$$$FILES", req.files);
 
+  return;
+  
   restlayer.fileUploadHandler(req, res, function (err, req, res) {
 
     console.log("#$$$$$$ RESP: ", req.files);
@@ -161,7 +164,22 @@ app.post('/rest/index/items', function(req, resp){
       if (err) {
         resp.json({error: err, result: {items: []}});
       } else {
-        // console.log("server: /rest/index/items: photos", result);
+        console.log("server: /rest/index/items: photos", result);
+        resp.json({result: result});
+      }
+    });
+
+
+    return;
+
+  }
+  else if (req.body.category === 'digitallibrary') {
+
+    digitallibrary.getitems(req.body.params, req.body.query, fields, function(err, result) {
+      if (err) {
+        resp.json({error: err, result: {itemsData: []}});
+      } else {
+        console.log("server: /rest/index/items: digitallibrary", result);
         resp.json({result: result});
       }
     });
@@ -215,22 +233,22 @@ app.post('/rest/index/items', function(req, resp){
 
 // Get filter parameters for a given category type
 // TODO: Try another approach for querying filters 4/21/2018
-app.post('/rest/index/items/filters', function(req, resp){
-
-  // TODO: temporarily commenting this function code
-  return;
-
-  console.log("post /rest/index/items/filters: req: ", req.body);
-
-  var index = esclient.getIndexForCategory(req.body.category);
-
-  // esclient.getFilterItems("photos", "exif.Exif IFD0.Model", function(result) {
-  esclient.getFilterItems(index, "exif.Exif IFD0.Model", function(result) {
-    // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
-    console.log("server: /rest/photos items[0]: ", result);
-    resp.json({camera: result});
-  });
-});
+// app.post('/rest/index/items/filters', function(req, resp){
+//
+//   // TODO: temporarily commenting this function code
+//   return;
+//
+//   console.log("post /rest/index/items/filters: req: ", req.body);
+//
+//   var index = esclient.getIndexForCategory(req.body.category);
+//
+//   // esclient.getFilterItems("photos", "exif.Exif IFD0.Model", function(result) {
+//   esclient.getFilterItems(index, "exif.Exif IFD0.Model", function(result) {
+//     // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
+//     console.log("server: /rest/photos items[0]: ", result);
+//     resp.json({camera: result});
+//   });
+// });
 
 // Get item of category specified by :category
 app.post('/rest/category/:category', function(req, resp){

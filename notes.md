@@ -160,5 +160,6 @@ Fixed by Aug 25 2018
 
 Date: 19-07-2018
 Issue: Photos filter by camera feature not working anymore. No camera models available
+Filter feature implemented for filter-by-camera - 1-SEP-2018
 
 
