@@ -8,13 +8,43 @@ import { connect } from 'react-redux';
 
 import {indexNav} from '../actions/indexactions';
 import {getFileBaseURL} from '../Api';
+var HSFileUpload = require('./hsfileupload/hsfileupload');
 
 class Browse extends Component {
 
   constructor() {
     super();
     console.log("Browse");
+
     this.onTileClick= this.onTileClick.bind(this);
+    this._onSearchChange = this._onSearchChange.bind(this);
+    this._onSearchClick = this._onSearchClick.bind(this);
+    this._onSearchEnter = this._onSearchEnter.bind(this);
+
+    this.state = {search: "", query: {}, selection: -1};
+  }
+
+  _onSearchChange (event) {
+    console.log("Main: _onChange: ", event.target.value);
+    console.log("Main: this.state: ", this.state);
+    this.setState({search: event.target.value});
+  }
+
+
+  _onSearchClick (event) {
+    console.log("Main: _onSearchClick: event: ", event.target);
+    console.log("Main: _onSearchClick: this.state: ", this.state);
+
+
+    this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+  }
+
+  _onSearchEnter (event) {
+    console.log("Main: _onSearchEnter: event: ", event.target);
+    console.log("Main: _onSearchEnter: event key: ", event.key);
+    if(event.key === 'Enter') {
+      this.props.dispatch(indexNav("/search", "search", {}));
+    }
   }
 
   onTileClick (event) {
@@ -41,6 +71,17 @@ class Browse extends Component {
 
     return (
       <div className="ui equal width center aligned padded grid" featureName="potos" >
+        <div className="ui container">
+          <div className="column">
+            <a>
+              <HSFileUpload caption="Upload Files" tag="generic"/>
+            </a>
+            <a className="ui icon fluid input">
+              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
+              <input placeholder="Global Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearchChange}></input>
+            </a>
+          </div>
+        </div>
         <div className="ui stackable cards" onClick={this.onTileClick}>
           <div className="ui link card"  >
             <div className="image" >

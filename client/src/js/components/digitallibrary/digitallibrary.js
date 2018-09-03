@@ -4,6 +4,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import BookInfo from './bookinfo';
+var HSFileUpload = require('../hsfileupload/hsfileupload');
 
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
@@ -17,11 +18,14 @@ class DigitalLibrary extends Component{
     super(props);
 
     this.handleScroll = this.handleScroll.bind(this);
-    this._onAddBook = this._onAddBook.bind(this);
+    // this._onAddBook = this._onAddBook.bind(this);
     this.onSubmit1 = this.onSubmit1.bind(this);
     this.onSelect = this.onSelect.bind(this);
+    this._onSearchChange = this._onSearchChange.bind(this);
+    this._onSearchClick = this._onSearchClick.bind(this);
+    this._onSearchEnter = this._onSearchEnter.bind(this);
 
-    this.state = {query: {}, selection: -1};
+    this.state = {search: "", query: {}, selection: -1};
 
   }
 
@@ -35,6 +39,30 @@ class DigitalLibrary extends Component{
 
 
   }
+
+  _onSearchChange (event) {
+    console.log("Digitallibrary: _onChange: ", event.target.value);
+    console.log("Digitallibrary: this.state: ", this.state);
+    this.setState({search: event.target.value});
+  }
+
+
+  _onSearchClick (event) {
+    console.log("Digitallibrary: _onSearchClick: event: ", event.target);
+    console.log("Digitallibrary: _onSearchClick: this.state: ", this.state);
+
+
+    this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+  }
+
+  _onSearchEnter (event) {
+    console.log("Digitallibrary: _onSearchEnter: event: ", event.target);
+    console.log("Digitallibrary: _onSearchEnter: event key: ", event.key);
+    if(event.key === 'Enter') {
+      this.props.dispatch(indexNav("/search", "search", {}));
+    }
+  }
+
 
   handleScroll(event) {
 
@@ -79,12 +107,12 @@ class DigitalLibrary extends Component{
 
   }
 
-  _onAddBook() {
-
-    console.log("_onAddBook!!!!!");
-    alert("Add books feature not implemented yet!");
-
-  }
+  // _onAddBook() {
+  //
+  //   console.log("_onAddBook!!!!!");
+  //   alert("Add books feature not implemented yet!");
+  //
+  // }
 
   onSelect(selection) {
     console.log("digitallibrary onSelect: ", selection);
@@ -125,12 +153,17 @@ class DigitalLibrary extends Component{
 
     return (
       <div className="ui grid container">
-        <p>
-          <button className="ui basic button" onClick={this._onAddBook}>
-            <i className="icon user"></i>
-            Add Books
-          </button>
-        </p>
+        <div className="ui container">
+          <div className="column">
+            <a>
+              <HSFileUpload caption="Upload Books" tag="generic"/>
+            </a>
+            <a className="ui icon fluid input">
+              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
+              <input placeholder="Search books..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearchChange}></input>
+            </a>
+          </div>
+        </div>
         <div className="ui label">
           Total
           <div className="detail">{this.props.index.get('result').get('total')}</div>

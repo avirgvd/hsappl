@@ -10,7 +10,7 @@
 
 import React, {Component, PropTypes} from 'react';
 
-import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../actions/indexactions';
+import {indexNav} from '../actions/indexactions';
 
 var Link = require('react-router').Link;
 var HSFileUpload = require('./hsfileupload/hsfileupload');
@@ -38,9 +38,10 @@ class Main extends Component {
     super();
     this._onClick = this._onClick.bind(this);
     this._onChange = this._onChange.bind(this);
-    this._onSearch = this._onSearch.bind(this);
     this._onSearchClick = this._onSearchClick.bind(this);
     this._onSearchEnter = this._onSearchEnter.bind(this);
+
+    this.state = {text: "", selection: -1};
 
   }
 
@@ -53,25 +54,25 @@ class Main extends Component {
   }
 
   _onChange (event) {
+    console.log("Main: _onChange: ", event.target.value);
+    console.log("Main: this.state: ", this.state);
     this.setState({text: event.target.value});
   }
 
-  _onSearch (event) {
-    console.log("Main: _onSearch: event: ", event.target.value);
-    console.log("Main: _onSearch: children: ", this.props.children);
-    console.log("Main: _onSearch: children: ", this.props.children.props.route.path);
-  }
 
   _onSearchClick (event) {
     console.log("Main: _onSearchClick: event: ", event.target);
-    this.props.dispatch(indexNav("/searchresult", "searchresult", {}));
+    console.log("Main: _onSearchClick: this.state: ", this.state);
+
+
+    this.props.dispatch(indexNav("search", "search", {search: this.state.text}));
   }
 
   _onSearchEnter (event) {
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(indexNav("/searchresult", "searchresult", {}));
+      this.props.dispatch(indexNav("/search", "search", {}));
     }
   }
 
@@ -96,19 +97,9 @@ class Main extends Component {
 
   render () {
 
-    console.log("this.props.children: ", this.props.children);
+    console.log("Main: render: this.props.children: ", this.props.children);
 
-    var searchBox =
-            <div className="menu">
-              <div className="ui search" >
-                <div className="ui icon input">
-                  <input className="prompt" placeholder="Search..." type="text" onChange={this._onChange}/>
-                  <i className="search icon"></i>
-                </div>
-                <div className="results"></div>
-              </div>
-            </div>;
-    
+
     return (
       <div>
         <div className="ui stackable menu">
@@ -132,17 +123,6 @@ class Main extends Component {
               <a className="item"><i className="calendar icon"></i><Link to="/calendar">Calendar</Link></a>
               <a className="item"><i className="setting icon"></i><Link to="/settings">System Settings</Link></a>
             </div>
-          </div>
-        </div>
-        <div className="ui container">
-          <div className="column">
-            <a>
-              <HSFileUpload caption="Upload Files" tag="generic"/>
-            </a>
-            <a className="ui icon fluid input">
-              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
-              <input placeholder="Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearch}></input>
-            </a>
           </div>
         </div>
         <div class="ui divider"></div>

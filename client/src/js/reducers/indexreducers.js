@@ -189,10 +189,12 @@ const initialState = Immutable.fromJS({
         filters: {}
       },
     },
-    searchresult: {
+    search: {
       label: "Search Result",
       view: 'tiles',
       showModal: 'false',
+      data: {},
+      query: {},
       result: {
         begin: 0,
         currentBegin: 0,

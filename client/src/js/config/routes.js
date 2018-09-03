@@ -25,7 +25,7 @@ import DigitalLibrary from '../components/digitallibrary/digitallibrary';
 import BookInfo from '../components/digitallibrary/bookinfo';
 import Messages from "../components/messages/messages";
 import MessageItem from '../components/messages/messageitem';
-import SearchResult from '../components/search/SearchResult';
+import Search from '../components/search/Search';
 import Cards from '../components/cards';
 import Settings from '../components/settings/settings';
 import CloudConnections from '../components/settings/cloudconnections';
@@ -68,7 +68,7 @@ var routes = (
       <Route path='activity' component={Messages} />
       <Route path='messageitem' component={MessageItem} />
       <Route path='travel' component={Travel} />
-      <Route path='searchresult' component={SearchResult} />
+      <Route path='search' component={Search} />
       <Route path='directories' component={Cards} />
       <Route path='settings' component={Settings} />
       <Route path='cloudconnections' component={CloudConnections} />

@@ -9,7 +9,7 @@ import { Divider, Tab } from 'semantic-ui-react';
 import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
 import Immutable, {Map, List} from 'immutable';
 
-class SearchResult extends Component{
+class Search extends Component{
 
   constructor(props) {
     super(props);
@@ -24,6 +24,8 @@ class SearchResult extends Component{
    * and before render()
    * */
   componentWillMount() {
+    console.log("Search componentWillMount: this.prop.index: ", this.prop.index);
+    // this.props.dispatch(indexLoad("search", {}));
 
   }
 
@@ -183,11 +185,11 @@ class SearchResult extends Component{
 
 
 
-SearchResult.contextTypes = {
+Search.contextTypes = {
   store: PropTypes.object
 };
 
-SearchResult.propTypes = {
+Search.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
@@ -214,7 +216,8 @@ SearchResult.propTypes = {
 
 // for react-redux
 const mapStateToProps = (state) => {
-  const category = 'searchresult';
+  console.log("Search: mapStateToProps: state: ", state);
+  const category = 'search';
 
   return {
     category: category,
@@ -223,4 +226,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SearchResult);
+export default connect(mapStateToProps)(Search);
