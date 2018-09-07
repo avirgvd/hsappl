@@ -98,7 +98,8 @@ class Photos extends Component{
     console.log("Main: _onSearchClick: this.state: ", this.state);
 
 
-    this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+    // this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+    this.props.dispatch(indexLoad("photos", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
@@ -156,25 +157,8 @@ class Photos extends Component{
     console.log("photos filters.camera: ", filters.camera);
     console.log("photos items count: ", this.props.index.get('result').get('total'));
 
-    let elements, detailsLayer;
-    
-    if(selection >= 0) {
-      detailsLayer = (
-          <PhotoFrame photoitem={items[selection]} view="fullview"  />
-        );
-    }
-    else {
-      if(items) {
-        // let elements = this.props.index.result.items.map((item, index) => {
-        elements = items.map((item, index) => {
-          return (
-            <div className="raised segment">
-              <PhotoFrame photoitem={item} view='listview' index={index} onSelect={this.onClick}/>
-            </div>
-          );
-        });
-      }
-    }
+    let elements, detailsLayer, photosmenu;
+
 
     let camerafilters = (<div className="item"> None found!!!  </div>);
 
@@ -202,26 +186,9 @@ class Photos extends Component{
     }
 
 
-    console.log("elements: ", elements);
-    console.log("camerafilters: ", camerafilters);
 
-    return (
-      <div className="ui container stacked segment">
-        <div className="ui container">
-          <div className="column">
-            <a>
-              <HSFileUpload caption="Upload Photos" tag="generic"/>
-            </a>
-            <a className="ui icon fluid input">
-              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
-              <input placeholder="Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearchChange}></input>
-            </a>
-          </div>
-        </div>
-        <div className="ui label">
-          Total
-          <div className="detail">{this.props.index.get('result').get('total')}</div>
-        </div>
+    photosmenu =
+      (
         <div className="ui menu">
           <a className="ui button item">
             Location
@@ -244,6 +211,53 @@ class Photos extends Component{
             Rating
           </a>
         </div>
+
+      );
+
+    if(selection >= 0) {
+      detailsLayer = (
+          <PhotoFrame photoitem={items[selection]} view="fullview"  />
+        );
+
+      // Dont show the menu in photoframe view
+      photosmenu = undefined;
+    }
+    else {
+      if(items) {
+        // let elements = this.props.index.result.items.map((item, index) => {
+        elements = items.map((item, index) => {
+          return (
+            <div className="raised segment">
+              <PhotoFrame photoitem={item} view='listview' index={index} onSelect={this.onClick}/>
+            </div>
+          );
+        });
+      }
+    }
+
+
+
+    console.log("elements: ", elements);
+    console.log("camerafilters: ", camerafilters);
+
+    return (
+      <div className="ui container stacked segment">
+        <div className="ui container">
+          <div className="column">
+            <a>
+              <HSFileUpload caption="Upload Photos" tag="generic"/>
+            </a>
+            <a className="ui icon fluid input">
+              <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
+              <input placeholder="Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearchChange}></input>
+            </a>
+          </div>
+        </div>
+        <div className="ui label">
+          Total
+          <div className="detail">{this.props.index.get('result').get('total')}</div>
+        </div>
+        {photosmenu}
         <div className="ui internally celled grid">
           {elements}
         </div>

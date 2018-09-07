@@ -56,7 +56,7 @@ export function indexLoad(category, query) {
       category: category,
       params: {
         from: 0,
-        size: 100,
+        size: 10,
       },
       query: query
     };
@@ -75,12 +75,12 @@ export function indexLoad(category, query) {
         console.log("indexLoad: ", response);
         return response.json()
       }).then(function(result) {
-        console.log('indexLoad: parsed json', result);
+      console.log('indexLoad: parsed json', result);
       dispatch(indexSuccess(category, result));
-      }).catch(function(ex) {
-        console.log('indexLoad: parsing failed', ex);
-      });
-    
+    }).catch(function(ex) {
+      console.log('indexLoad: parsing failed', ex);
+    });
+
   };
 }
 
@@ -225,7 +225,7 @@ export function indexAdd(category, item) {
 }
 
 export function indexUnLoad(category, index) {
-  
+
   console.log("indexUnLoad");
 
   return {

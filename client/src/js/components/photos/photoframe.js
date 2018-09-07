@@ -133,6 +133,7 @@ class PhotoFrame extends Component {
   }
 
   renderListViewItem () {
+    // console.log("photoframe: renderListViewItem: props: ", this.props);
 
     return (
       <div className="ui card">
@@ -229,8 +230,8 @@ PhotoFrame.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
+
   const category = 'photoframe';
-  // var item = state.index.getIn(['categories', category]);
 
   return {
     category: category,

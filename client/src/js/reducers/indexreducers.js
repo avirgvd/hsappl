@@ -461,9 +461,9 @@ const handlers = {
     console.log("index next success action: ", action);
 
     var items = state.getIn(['categories', action.category, 'result', 'items']);
-    var withNextItems = items.concat(action.result.items);
+    var withNextItems = items.concat(action.result.itemsData.items);
 
-    var currentEnd = state.getIn(['categories', action.category, 'result', 'currentEnd']) + action.result.count;
+    var currentEnd = state.getIn(['categories', action.category, 'result', 'currentEnd']) + action.result.itemsData.count;
 
     newState = state
       .setIn(
@@ -472,7 +472,7 @@ const handlers = {
       )
       .setIn(
         ['categories', action.category, 'result', 'total'],
-        action.result.total
+        action.result.itemsData.total
       )
       .setIn(
         ['categories', action.category, 'result', 'currentEnd'],
