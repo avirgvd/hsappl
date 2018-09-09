@@ -25,11 +25,22 @@ var DigitalLibrary = {
     //               {"file_date" : "desc"}
     //             ];
 
-    if(query1.hasOwnProperty('query') && query1.query.hasOwnProperty('camerafilter')) {
-      console.log("$%$%$$%$%$%$%$%$%$%$");
-      let q = {match: {['exif.Exif IFD0.Model'] : query1.query.camerafilter}};
-      // esQuery = {'query': {'match': q}};
-      esQuery = {'query': q};
+    if(query1.hasOwnProperty('query')) {
+    }
+
+    var tempQuery = {
+      'query': {
+        'bool': {
+
+        }
+      }
+    };
+    if((query1.hasOwnProperty('search'))
+      && (query1.search)
+      && (query1.search.length) ) {
+      let q = {"match": {"_all": query1.search}}
+      tempQuery.query.bool.must = q;
+      esQuery.query = tempQuery;
     }
 
 

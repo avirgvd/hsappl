@@ -6,13 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0cdaee3a-8cd8-49b0-8f15-60c79c62db24" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Docs/Javascript_json_tips.MD" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/js/components/photos/photos.js" afterPath="$PROJECT_DIR$/client/src/js/components/photos/photos.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/js/reducers/indexreducers.js" afterPath="$PROJECT_DIR$/client/src/js/reducers/indexreducers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/categories/directories.js" afterPath="$PROJECT_DIR$/server/categories/directories.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/categories/photos.js" afterPath="$PROJECT_DIR$/server/categories/photos.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js" afterPath="$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/categories/digitallibrary.js" afterPath="$PROJECT_DIR$/server/categories/digitallibrary.js" />
     </list>
     <ignored path="HSAppl.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,21 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="indexactions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/js/actions/indexactions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="58" column="16" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="photos.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="photos.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/js/components/photos/photos.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+            <state relative-caret-position="555">
+              <caret line="111" column="3" selection-start-line="111" selection-start-column="3" selection-end-line="111" selection-end-column="3" />
               <folding>
                 <element signature="e#271#375#0" expanded="true" />
               </folding>
@@ -56,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="photoframe.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/js/components/photos/photoframe.js">
+      <file leaf-file-name="digitallibrary.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1590">
-              <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+            <state relative-caret-position="540">
+              <caret line="61" column="34" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -91,8 +77,18 @@
       <file leaf-file-name="photos.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/categories/photos.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="220">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="digitallibrary.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/categories/digitallibrary.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -184,7 +180,6 @@
         <option value="$PROJECT_DIR$/client/src/js/components/hsfileupload/hsfileupload.js" />
         <option value="$PROJECT_DIR$/notes.md" />
         <option value="$PROJECT_DIR$/populate_ES.sh" />
-        <option value="$PROJECT_DIR$/server/categories/digitallibrary.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/AccountPage.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/assets/assetinfo.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/assets/assets.js" />
@@ -208,7 +203,6 @@
         <option value="$PROJECT_DIR$/client/src/js/config/routes.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/Main.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/browse.js" />
-        <option value="$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js" />
         <option value="$PROJECT_DIR$/server/nlp.js" />
         <option value="$PROJECT_DIR$/client/src/js/actions/indexactions.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/photos/photoframe.js" />
@@ -218,6 +212,8 @@
         <option value="$PROJECT_DIR$/Docs/Javascript_json_tips.MD" />
         <option value="$PROJECT_DIR$/server/categories/photos.js" />
         <option value="$PROJECT_DIR$/client/src/js/components/photos/photos.js" />
+        <option value="$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js" />
+        <option value="$PROJECT_DIR$/server/categories/digitallibrary.js" />
       </list>
     </option>
   </component>
@@ -304,25 +300,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="elasticsearch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HSAppl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HSAppl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="categories" />
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -529,6 +507,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="photos" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HSAppl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HSAppl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="digitallibrary" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -858,12 +866,12 @@
       <workItem from="1536289666416" duration="7690000" />
       <workItem from="1536421961930" duration="4939000" />
       <workItem from="1536465934810" duration="2497000" />
-      <workItem from="1536489073367" duration="3679000" />
+      <workItem from="1536489073367" duration="5419000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="602534000" />
+    <option name="totallyTimeSpent" value="604274000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1590" height="1200" extended-state="0" />
@@ -872,7 +880,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21072797" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38229755" sideWeight="0.53489846" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32797733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32768363" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3493976" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33050847" sideWeight="0.4651015" order="9" side_tool="false" content_ui="tabs" />
@@ -916,13 +924,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="24" column="80" selection-start-line="24" selection-start-column="80" selection-end-line="24" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/categories/digitallibrary.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="43" column="16" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -1164,13 +1165,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="174" column="12" selection-start-line="174" selection-start-column="12" selection-end-line="174" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1300,21 +1294,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/js/components/photos/photos.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="111" column="3" selection-start-line="111" selection-start-column="3" selection-end-line="111" selection-end-column="3" />
+          <folding>
+            <element signature="e#271#375#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/categories/photos.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="220">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/js/components/photos/photos.js">
+    <entry file="file://$PROJECT_DIR$/server/categories/digitallibrary.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
-          <folding>
-            <element signature="e#271#375#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="540">
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/js/components/digitallibrary/digitallibrary.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="61" column="34" selection-start-line="61" selection-start-column="34" selection-end-line="61" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>

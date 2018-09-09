@@ -52,14 +52,14 @@ class DigitalLibrary extends Component{
     console.log("Digitallibrary: _onSearchClick: this.state: ", this.state);
 
 
-    this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+    this.props.dispatch(indexLoad("digitallibrary", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
     console.log("Digitallibrary: _onSearchEnter: event: ", event.target);
     console.log("Digitallibrary: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(indexNav("/search", "search", {}));
+      this.props.dispatch(indexLoad("digitallibrary", {search: this.state.search}));
     }
   }
 
