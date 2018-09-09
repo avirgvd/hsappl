@@ -155,7 +155,6 @@ app.post('/rest/index/items', function(req, resp){
       }
     });
 
-
     return;
   }
   else if (req.body.category === 'photos') {
@@ -184,7 +183,6 @@ app.post('/rest/index/items', function(req, resp){
       }
     });
 
-
     return;
 
   } else if (req.body.category === 'settings') {
@@ -198,14 +196,9 @@ app.post('/rest/index/items', function(req, resp){
     return;
   }
 
-
   if(index == "financials") {
 
     console.log("post /rest/index/items financials");
-
-    // if(req.body.params.hasOwnProperty("from"))
-    //   return;
-
 
     var result = {"total": 10, "currentEnd": 5, "items": [
         {"id": "0AF49C3444","bankname": "Citibank N.A.", "type": "saving", "accountnum": "1234567890", "statements": [], "otherdocs": [], "balance": "4343", "currency": "INR", "address": {}},
@@ -221,7 +214,6 @@ app.post('/rest/index/items', function(req, resp){
   }
 
   esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {
-    // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
     if (err) {
       resp.json({error: err, result: {items: []}});
     } else {

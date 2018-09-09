@@ -106,7 +106,8 @@ class Photos extends Component{
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(indexNav("/search", "search", {}));
+      // this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
+      this.props.dispatch(indexLoad("photos", {search: this.state.search}));
     }
   }
 
@@ -185,8 +186,6 @@ class Photos extends Component{
 
     }
 
-
-
     photosmenu =
       (
         <div className="ui menu">
@@ -197,10 +196,16 @@ class Photos extends Component{
             <i className="filter icon"></i>
             <span className="text">Camera</span>
             <div className="menu" onClick={this.onCameraFilterClick}>
-              <a className="header">
+
+              <div class="ui icon search input">
+                <i className="search icon"></i>
+                <input placeholder="Search tags..." type="text"></input>
+              </div>
+              <div className="divider"></div>
+              <div className="header">
                 <i className="tags icon"></i>
-                Filter by Camera
-              </a>
+                Select Camera...
+              </div>
               {camerafilters}
             </div>
           </div>
@@ -234,8 +239,6 @@ class Photos extends Component{
         });
       }
     }
-
-
 
     console.log("elements: ", elements);
     console.log("camerafilters: ", camerafilters);

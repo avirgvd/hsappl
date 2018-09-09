@@ -14,13 +14,13 @@ var Directories = {
 
     console.log("Directories: getitems: ", query1);
 
-    esclient.getItems('directories', params, {'query': {'match': query1}}, fields, function(err, result) {
+    esclient.getItems('directories', params, {'query': {'match': query1}}, fields, function(err, itemsData) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
-        callback(err, {error: err, result: {items: []}});
+        callback(err, {error: err, result: {itemsData:{}}});
       } else {
-        console.log("Cards: getitems: ", result);
-        callback(undefined, result);
+        console.log("Cards: getitems: ", itemsData);
+        callback(undefined, {itemsData: itemsData});
       }
     });
     

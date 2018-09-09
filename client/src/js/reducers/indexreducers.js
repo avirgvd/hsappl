@@ -395,7 +395,8 @@ const handlers = {
           action.result.settings.count
         );
     }
-    else if(action.category === 'photos' || action.category === 'digitallibrary') { // TODO: Get rid of if statements here by making generic reducer
+    // else if(action.category === 'photos' || action.category === 'digitallibrary') { // TODO: Get rid of if statements here by making generic reducer
+    else {
       newState = state
         .setIn(
           ['categories', action.category, 'result', 'items'],
@@ -414,21 +415,21 @@ const handlers = {
           action.result.filters
         );
     }
-    else {
-      newState = state
-        .setIn(
-          ['categories', action.category, 'result', 'items'],
-          action.result.items
-        )
-        .setIn(
-          ['categories', action.category, 'result', 'total'],
-          action.result.total
-        )
-        .setIn(
-          ['categories', action.category, 'result', 'currentEnd'],
-          action.result.count
-        );
-    }
+    // else {
+    //   newState = state
+    //     .setIn(
+    //       ['categories', action.category, 'result', 'items'],
+    //       action.result.items
+    //     )
+    //     .setIn(
+    //       ['categories', action.category, 'result', 'total'],
+    //       action.result.total
+    //     )
+    //     .setIn(
+    //       ['categories', action.category, 'result', 'currentEnd'],
+    //       action.result.count
+    //     );
+    // }
 
     return newState;
   },
