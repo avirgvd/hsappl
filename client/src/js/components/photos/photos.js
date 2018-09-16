@@ -8,7 +8,7 @@ import PhotoFrame from './photoframe';
 // var PhotoFrame = require('./photoframe');
 // var index = require("../../actions/indexactions");
 
-import {indexLoad, indexUnLoad, indexNextMore, indexNav, indexFilter} from '../../actions/indexactions';
+import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
 import Immutable, {Map, List} from 'immutable';
 var HSFileUpload = require('../hsfileupload/hsfileupload');
 

@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 
 import {indexNav, indexLoad, indexUnLoad} from '../actions/indexactions';
 import {getFileBaseURL, postRESTApi} from '../Api';
+import {documentsNav} from '../actions/documentsactions';
+
+
 
 class Cards extends Component {
 
@@ -73,15 +76,30 @@ class Cards extends Component {
     console.log("on tile click: ", event.target.getAttribute('name'));
     console.log("on tile click query: ", event.target.getAttribute('data'));
 
+    let category = event.target.getAttribute('name');
+
 
     console.log("@@@@@@@Event: ", event);
 
-    this.props.dispatch(indexNav(
-      event.target.getAttribute('name'), 
-      event.target.getAttribute('name'),
-      null,
-      {'directory': event.target.getAttribute('data')}
-    ));
+    if(["medical", "assets", "travel", "financial"].find(function(currentitem){
+        return currentitem == category;
+      })) {
+      this.props.dispatch(documentsNav(
+        event.target.getAttribute('name'),
+        category,
+        null,
+        {'directory': event.target.getAttribute('data')}
+      ));
+
+    }
+    else {
+      this.props.dispatch(indexNav(
+        event.target.getAttribute('name'),
+        event.target.getAttribute('name'),
+        null,
+        {'directory': event.target.getAttribute('data')}
+      ));
+    }
 
   }
 

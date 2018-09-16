@@ -9,8 +9,8 @@ import history from '../RouteHistory';
 
 import {getRESTApi, postRESTApi} from '../Api';
 
-// import {fetch} from 'whatwg-fetch';
 require('es6-promise').polyfill();
+
 
 // index page
 export const INDEX_NAV = 'INDEX_NAV';
@@ -83,53 +83,6 @@ export function indexLoad(category, query) {
 
   };
 }
-
-// Purpose of this action is to handle filtered queries
-//TODO: But is this required if indexLoad can also handle query params?
-export function indexFilter (category, query) {
-  console.log("indexactions: indexFilter categpry:", category);
-  console.log("indexactions: indexFilter query:", query);
-
-
-  return dispatch => {
-
-    // let uri = 'http://192.168.1.147:3000/rest/index/items';
-    let uri = `/rest/index/items`;
-    let reqBody = {
-      url: '/rest/' + category,
-      category: category,
-      params: {
-        from: 0,
-        size: 10,
-      },
-      query: query
-    };
-
-    // let restRequest = {
-    //   method: "POST",
-    //   body: JSON.stringify(reqBody),
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // };
-
-
-    // fetch(uri, restRequest)
-    postRESTApi(uri, reqBody)
-      .then(function(response) {
-        console.log("indexFilter: ", response);
-        return response.json()
-      }).then(function(items) {
-      console.log('indexFilter parsed json', items);
-      dispatch(indexSuccess(category, items));
-    }).catch(function(ex) {
-      console.log('indexFilter parsing failed', ex);
-    });
-
-  };
-}
-
-
 
 export function indexNextMore(category, index, query) {
 
@@ -287,9 +240,6 @@ export function indexNav (path, category, datajson, queryjson) {
   console.log("indexactions: indexNav category:", category);
   console.log("indexactions: indexNav datajson:", datajson);
   console.log("indexactions: indexNav queryjson:", queryjson);
-  // if(json == undefined) {
-  //   json = {};
-  // }
 
   // TODO: Warning: [history] pushState is deprecated; use push instead 4/21/2018
   history.pushState(null, (path || `/${category}`));
@@ -299,6 +249,8 @@ export function indexNav (path, category, datajson, queryjson) {
     data: datajson,
     query: queryjson
   };
+
+
 
 }
 

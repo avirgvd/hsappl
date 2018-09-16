@@ -46,7 +46,7 @@ class PhotoFrame extends Component {
     // pass this index of the photoitem in the photos list
     this.props.onSelect(this.props.index);
     // Get the photo details from server as the user clicked for viewing
-    this.props.dispatch(itemLoad("photoframe", this.props.photoitem));
+    // this.props.dispatch(itemLoad("photoframe", this.props.photoitem));
   }
 
   _onRate(e) {

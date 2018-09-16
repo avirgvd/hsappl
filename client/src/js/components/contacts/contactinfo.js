@@ -91,7 +91,7 @@ class ContactInfo extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount () {
-    this.props.dispatch(itemLoad("contactinfo", {}));
+    // this.props.dispatch(itemLoad("contactinfo", {}));
   }
 
 

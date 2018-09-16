@@ -51,7 +51,17 @@ class Browse extends Component {
     console.log("on tile click: ", event.target);
     console.log("on tile click: ", event.target.getAttribute('name'));
 
-    this.props.dispatch(indexNav('/directories', 'directories', {"category": event.target.getAttribute('name')}));
+
+   if(["photos", "digitallibrary", "medical"].find(function(item){
+       return event.target.getAttribute("name") === item;
+     })) {
+     // if one of "photos", digitallibrary" etc then show directories
+     this.props.dispatch(indexNav('/directories', 'directories', {"category": event.target.getAttribute('name')}));
+   } else {
+     this.props.dispatch(indexNav(event.target.getAttribute('name'), event.target.getAttribute('name')));
+   }
+
+
     // if(event.target.getAttribute('name') == 'photos') {
     //   this.props.dispatch(indexNav('/directories', 'directories', {"category": "photos"}));
     // }

@@ -60,7 +60,7 @@ class AssetInfo extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount () {
-    this.props.dispatch(itemLoad("assetinfo", {}));
+    // this.props.dispatch(itemLoad("assetinfo", {}));
   }
 
 

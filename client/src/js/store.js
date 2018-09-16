@@ -10,10 +10,10 @@ import thunk from 'redux-thunk';
 
 // TODO: fix webpack loader to allow import * from './reducers'
 import index from './reducers/indexreducers';
-import item from './reducers/itemreducers';
+import documents from './reducers/documentsreducers';
 import defReducer from './reducers/reducers';
 
-let combinedReducers = combineReducers({index, item, defReducer});
+let combinedReducers = combineReducers({index, documents, defReducer});
 
 let customizedCombinedReducers = (state, action) => {
   //self defined reducer to handle cross module state reducing

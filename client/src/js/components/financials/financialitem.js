@@ -40,7 +40,7 @@ class FinancialItem extends Component {
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount () {
-    this.props.dispatch(itemLoad("financialitem", {}));
+    // this.props.dispatch(itemLoad("financialitem", {}));
   }
 
 

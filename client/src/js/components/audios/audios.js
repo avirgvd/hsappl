@@ -8,7 +8,7 @@ import PhotoFrame from '../photos/photoframe';
 // var PhotoFrame = require('./photoframe');
 // var index = require("../../actions/indexactions");
 
-import {indexLoad, indexUnLoad, indexNextMore, indexNav, indexFilter} from '../../actions/indexactions';
+import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
 import Immutable, {Map, List} from 'immutable';
 
 // var Audios = React.createClass({
@@ -101,8 +101,6 @@ class Audios extends Component{
     }
     this.setState({query: query});
     console.log("onCameraFilterClick: after query: ", query);
-
-    this.props.dispatch(indexFilter("audios", {query: query}));
 
   }
   

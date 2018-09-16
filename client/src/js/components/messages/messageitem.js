@@ -95,9 +95,9 @@ class MessageItem extends Component {
     console.log("componentDidMount ", this.props.messageitem);
     console.log("componentDidMount messageitem1: ", this.props.messageitem1);
     
-    if(this.props.view != 'listview') {
-      this.props.dispatch(itemLoad("messages", this.props.messageitem1.id));
-    }
+    // if(this.props.view != 'listview') {
+    //   this.props.dispatch(itemLoad("messages", this.props.messageitem1.id));
+    // }
     
   }
 

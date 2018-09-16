@@ -2,15 +2,7 @@
  * Created by govind on 7/22/16.
  */
 import React, {Component, PropTypes} from 'react';
-// import Box from 'grommet/components/Box';
-// import Meter from 'grommet/components/Meter';
-// import Label from 'grommet/components/Label';
-// import Value from 'grommet/components/Value';
-// import Section from 'grommet/components/Section';
-import FolderView from '../FolderView';
 import { connect } from 'react-redux';
-var Modal = require('react-modal');
-import FinancialItem from './financialitem';
 
 import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
 
@@ -20,45 +12,25 @@ class Financials extends Component{
   constructor(props) {
     super(props);
 
-    this.handleScroll = this.handleScroll.bind(this);
     this._onAddAccount = this._onAddAccount.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-    this.onMeterActive= this.onMeterActive.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleFormCancel = this.handleFormCancel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
     this.onClick = this.onClick.bind(this);
 
-  }
+    this.state = {
+      showAddAccountForm: "no",
+      formdata: {}
+    };
 
+  }
 
   /*
    * This function will be called right after the component mounting on DOM
    * and before render()
    * */
   componentWillMount() {
-
-
-
-  }
-
-  handleScroll(event) {
-
-    // if (event.pageY === 0 ) {
-    //   //if pageY == 0 the page is scrolled up to the TOP.
-    //   // If previous items should be queried to server then this is that place
-    //   console.log("handleScroll UP so get previous items");
-    // } else if (event.pageY === event.view.scrollMaxY) {
-    //   //if pageY == 0 the page is scrolled down to the END.
-    //   // If next items should be queried to server then this is that place
-    //   console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-    //   this.props.dispatch(indexNextMore("financials", this.props.index));
-    // }
 
   }
 
@@ -78,7 +50,6 @@ class Financials extends Component{
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
     this.props.dispatch(indexLoad("financials", {}));
     // this.props.dispatch(indexLoad("assettypes", {}));
 
@@ -86,7 +57,6 @@ class Financials extends Component{
 
   componentWillUnmount() {
     console.log("financials componentWillUnmount");
-    window.removeEventListener('scroll', this.handleScroll);
     this.props.dispatch(indexUnLoad("financials", this.props.index));
 
   }
@@ -94,18 +64,47 @@ class Financials extends Component{
   _onAddAccount() {
 
     console.log("onAddAccount!!!!!");
-
-    this.openModal();
-
-  }
-
-  onSelect(e) {
-    console.log("financials onSelect: ", e);
-    // this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
-    this.props.dispatch(indexNav("/assetinfo", "assetinfo", e));
+    this.setState({showAddAccountForm: "yes"});
 
   }
 
+  // The default HTML behaviour for form submit action should be avoided
+  // This is achieved here using technique calleed "controlled components"
+  // where a JS function handles the submission of form and has access to the data that the user entered into the form.
+  //Ref: https://reactjs.org/docs/forms.html
+  handleFormSubmit(event) {
+    alert('A name was submitted: ' + this.state.directory);
+    event.preventDefault();
+    this.setState({showAddAccountForm: "no"});
+    let reqBody = {category: "financials", data: this.state.formdata};
+    postRESTApi("/rest/add_1", reqBody);
+
+    this.setState(
+      {
+        showAddAccountForm: "no"
+      }
+    );
+  }
+
+  handleChange(event) {
+
+    let formdata = this.state.formdata;
+
+    formdata[event.target.name] = event.target.value;
+
+    console.log("handleChange: formdata: ", formdata)
+
+    this.setState({formdata: formdata});
+  }
+
+  handleFormCancel(event) {
+    event.preventDefault();
+    this.setState(
+      {
+        showAddAccountForm: "no",
+      }
+    );
+  }
 
   onClick(e) {
     console.log("bank clicked ", e.target.innerText);
@@ -125,144 +124,100 @@ class Financials extends Component{
   }
 
 
-  onMeterActive(index) {
-    console.log("active meter index: ", index);
-  }
-
-
-  ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show) {
-    console.log('showing modal...');
-
-    return (
-      <Modal
-        isOpen={show}
-        onRequestClose={this.closeModal}>
-
-        <div className="ui form" onSubmit={this.onSubmit1}>
-          <div className="fields">
-            <div className="field">
-              <label>First Name</label>
-              <input placeholder="First Name" type="text" onChange={this.onChangeFirstName}></input>
-            </div>
-            <div className="field">
-              <label>Middle Name</label>
-              <input placeholder="Middle Name" type="text" onChange={this.onChangeMiddleName}></input>
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input placeholder="Last Name" type="text" onChange={this.onChangeLastName}></input>
-            </div>
-            <div className="field">
-              <label>eMail</label>
-              <input placeholder="email" type="text" onChange={this.onChangeEmail}></input>
-            </div>
-          </div>
-          <div className="ui submit button" onClick={this.onSubmit1}>Submit</div>
-        </div>
-      </Modal>    );
-  }
-
-  onSubmit1 () {
-    this.props.dispatch(indexAdd("financials", this.state));
-  }
-
-  onChangeFirstName (e) {
-    console.log("on change firstname value ", e.target.value);
-    this.setState({firstname: e.target.value});
-  }
-  onChangeMiddleName (e) {
-    console.log("on change middle name value ", e.target.value);
-    this.setState({middlename: e.target.value});
-  }
-  onChangeLastName (e) {
-    console.log("on change lastname value ", e.target.value);
-    this.setState({lastname: e.target.value});
-  }
-  onChangeEmail (e) {
-    console.log("on change email value ", e.target.value);
-    this.setState({email: e.target.value});
-  }
-
-
-  openModal () {
-
-    this.props.dispatch(showModal("financials", {showModal: true}));
-  }
-
-  closeModal () {
-    this.props.dispatch(showModal("financials", {showModal: false}));
-  }
-  ////////////end - MODAL DIALOG FUNCTIONS/////////////
-
   render () {
     const { store } = this.context;
+    const { showAddAccountForm } = this.state;
+
     console.log("financials this.props: ", this.props);
-    console.log("financials this.props: ", this.props.index.get('result').get('items'));
+    console.log("financials showAddAccountForm: ", showAddAccountForm);
 
-    var items = this.props.index.get('result').get('items');
+    var items = [];
 
-    let bankaccounts = items.map((item, index) => {
-      console.log("financials render item: ", item);
-      console.log("financials render index: ", index);
-
-      if(item.type == "saving" || item.type == "current"){
-
-        return (
-
-          <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
-            <div className="bar">
-              <div className="progress" ></div>
-            </div>
-            <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
-          </div>
-
-        );
-
-      }
-
-    });
-
-    let creditaccounts = items.map((item, index) => {
-      console.log("financials render item: ", item);
-      console.log("financials render index: ", index);
-
-      if(item.type == "credit"){
-        return (
-
-          <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
-            <div className="bar">
-              <div className="progress" ></div>
-            </div>
-            <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
-          </div>
-
-        );
-      }
-
-    });
-
-    var showModal1 = this.props.index.get('showModal');
-    console.log("ShowModal: ", showModal1);
-
-    // var modal = this._showModal(this.props.index.get('showModal'));
-    var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: true");
-      modal = this._showModal(showModal1);
-    }
-
+    let addAcctDlg, bankaccounts, creditaccounts, finances;
     let totalsavings = 49422.00;
     let totalcredit = 5000.00;
 
-    return(
-      <div className="ui stacking container">
-        <button className="ui basic button" onClick={this._onAddAccount}>
-          <i className="icon user"></i>
-          Add Account
-        </button>
+    if(showAddAccountForm ==="yes") {
 
+      // show add Account form
+      addAcctDlg = (
+        <div>
+          <form className="ui form" onSubmit={this.handleFormSubmit} >
+            <h1 className="ui header">Add Account</h1>
+            <div className="field">
+              <label>Account Name</label>
+              <input name="accountname" type="text" onChange={this.handleChange}></input>
+            </div>
+            <div className="field">
+              <label>Account Type</label>
+              <select className="ui fluid dropdown">
+                <option value="">Select...</option>
+                <option value="savingbankaccount">Saving Account</option>
+                <option value="creditcardaccount">Credit Card</option>
+                <option value="loanaccount">Loan</option>
+              </select>
+            </div>
+            <div className="field">
+              <label>Bank Name</label>
+              <input name="bankname" type="text" onChange={this.handleChange}></input>
+            </div>
+            <div className="field">
+              <label>Account Number</label>
+              <input name="accountnumber" type="text" onChange={this.handleChange}></input>
+            </div>
+            <div className="field">
+              <label>Account Holder Name</label>
+              <input name="accountholdername" type="text" onChange={this.handleChange}></input>
+            </div>
 
+            <button className="ui primary button" type="submit">Add</button>
+            <button className="ui button" onClick={this.handleFormCancel}>Cancel</button>
+          </form>
+        </div>
+      );
+
+    }
+    else {
+      bankaccounts = items.map((item, index) => {
+        console.log("financials render item: ", item);
+        console.log("financials render index: ", index);
+
+        if(item.type == "saving" || item.type == "current"){
+
+          return (
+
+            <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
+              <div className="bar">
+                <div className="progress" ></div>
+              </div>
+              <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
+            </div>
+
+          );
+
+        }
+
+      });
+
+      creditaccounts = items.map((item, index) => {
+        console.log("financials render item: ", item);
+        console.log("financials render index: ", index);
+
+        if(item.type == "credit"){
+          return (
+
+            <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
+              <div className="bar">
+                <div className="progress" ></div>
+              </div>
+              <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
+            </div>
+
+          );
+        }
+      });
+
+      finances = (
         <div>
           <div className="eight wide wide column">
             <h2 className="ui header">Saving Bank Account Balances</h2>
@@ -278,8 +233,23 @@ class Financials extends Component{
               <h4 className="ui header">Total Balance(Rs): {totalcredit.toFixed(2)}</h4>
             </div>
           </div>
-          {modal}
         </div>
+      );
+
+    }
+
+
+
+
+
+    return(
+      <div className="ui stacking container">
+        <button className="ui basic button" onClick={this._onAddAccount}>
+          <i className="icon user"></i>
+          Add Account
+        </button>
+        {addAcctDlg}
+        {finances}
       </div>
 
     );

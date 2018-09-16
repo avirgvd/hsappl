@@ -127,7 +127,7 @@ function getItems( index, params, body, fields, callback1) {
     from: params.from,
     size: params.size,
     body: body,
-    _source: fields
+    _sourceInclude: fields
   };
 
   console.log("ESClient: getItems param: ", JSON.stringify(param));
@@ -320,6 +320,9 @@ function getIndexForCategory(category) {
   else if(category === "digitallibrary") {
     index = "sm_objectstoreindex_docs";
   }
+  else if(category === "documents") {
+    index = "sm_objectstoreindex_docs";
+  }
   else if(category === "financials") {
     index = "financials";
   }
@@ -349,6 +352,9 @@ function getListFieldsForCategory(category) {
     return ["show_order","default_caption","_id","disp_imageid", "name", "category"];
   }
   else if(category === "digitallibrary") {
+    return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
+  }
+  else if(category === "medical") {
     return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
   }
   else if(category === "messages") {

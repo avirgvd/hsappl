@@ -11,8 +11,10 @@ var child_process = require("./childprocess/childprocess");
 var directories = require('./categories/directories');
 var photos = require('./categories/photos');
 var digitallibrary = require('./categories/digitallibrary');
+var documents = require('./categories/documents');
 var google = require('./cloud/google');
 var messages = require('./categories/messages');
+var financials = require('./categories/financials');
 //var upload = multer().array('file');
 
 var hssettings = require("./settings/settings");
@@ -200,16 +202,21 @@ app.post('/rest/index/items', function(req, resp){
 
     console.log("post /rest/index/items financials");
 
-    var result = {"total": 10, "currentEnd": 5, "items": [
-        {"id": "0AF49C3444","bankname": "Citibank N.A.", "type": "saving", "accountnum": "1234567890", "statements": [], "otherdocs": [], "balance": "4343", "currency": "INR", "address": {}},
-        {"id": "0AF49C3445","bankname": "ICICI Bank", "type": "current", "accountnum": "5545547770", "statements": [], "otherdocs": [], "balance": "1500", "currency": "INR", "address": {}},
-        {"id": "0AF49C3446","bankname": "State Bank of India", "type": "saving", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "5000", "currency": "INR", "address": {}},
-        {"id": "0AF49C3448","bankname": "State Bank of India", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "0", "currency": "INR", "address": {}},
-        {"id": "0AF49C3449","bankname": "ICICI Platinum Credit Card", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "50000", "currency": "INR", "address": {}}
-      ]
-    };
+    financials.getData(function(err, result){
+      console.log("settings: loadSettings returned: ",result);
+      resp.json({"result": result});
+    });
 
-    resp.json({"result": result});
+    // var result = {"total": 10, "currentEnd": 5, "items": [
+    //     {"id": "0AF49C3444","bankname": "Citibank N.A.", "type": "saving", "accountnum": "1234567890", "statements": [], "otherdocs": [], "balance": "4343", "currency": "INR", "address": {}},
+    //     {"id": "0AF49C3445","bankname": "ICICI Bank", "type": "current", "accountnum": "5545547770", "statements": [], "otherdocs": [], "balance": "1500", "currency": "INR", "address": {}},
+    //     {"id": "0AF49C3446","bankname": "State Bank of India", "type": "saving", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "5000", "currency": "INR", "address": {}},
+    //     {"id": "0AF49C3448","bankname": "State Bank of India", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "0", "currency": "INR", "address": {}},
+    //     {"id": "0AF49C3449","bankname": "ICICI Platinum Credit Card", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "50000", "currency": "INR", "address": {}}
+    //   ]
+    // };
+    //
+    // resp.json({"result": {itemsData: result}});
     return;
   }
 
@@ -218,9 +225,45 @@ app.post('/rest/index/items', function(req, resp){
       resp.json({error: err, result: {items: []}});
     } else {
       console.log("server: /rest/index/items: ", result);
+      resp.json({result: {itemsData: result}});
+    }
+  });
+});
+
+
+// Get collection of items from any specified index
+// Items can be photos, contacts, documents etc
+// TODO: restructure the flow for reducing repeated code 4/21/2018
+// list of items for photos should include id, file_date, orgfilename, mimetype, container
+// list of items for other category should include?
+app.post('/rest/documents/items', function(req, resp){
+
+  console.log("post /rest/documents/items: req: ", req.body);
+  console.log("post /rest/documents/items: req.body.query: ", req.body.query);
+
+  var index = esclient.getIndexForCategory(req.body.category);
+  console.log("post /rest/documents/items: index: ", index);
+
+  var fields = esclient.getListFieldsForCategory(req.body.category);
+
+  documents.getitems(req.body.params, req.body.query, fields, function(err, result) {
+    if (err) {
+      resp.json({error: err, result: {items: []}});
+    } else {
+      console.log("server: /rest/documents/items: cards", JSON.stringify(result));
       resp.json({result: result});
     }
   });
+
+
+  // esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {
+  //   if (err) {
+  //     resp.json({error: err, result: {items: []}});
+  //   } else {
+  //     console.log("server: /rest/index/items: ", result);
+  //     resp.json({result: {itemsData: result}});
+  //   }
+  // });
 });
 
 // Get filter parameters for a given category type
@@ -307,6 +350,9 @@ app.post('/rest/add_1', function(req, resp){
 
   if(category==='directories') {
     directories.addItem(data);
+  }
+  else if(category==='directories') {
+    financials.addAccount(data);
   }
 
 });
