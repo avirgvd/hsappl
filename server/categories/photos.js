@@ -73,7 +73,7 @@ var Photos = {
       esQuery.query = tempQuery;
     }
 
-    if(query1.hasOwnProperty('search')) {
+    if(query1.hasOwnProperty('search') && query1.search.length > 0) {
       let q = {"match": {"_all": query1.search}}
       tempQuery.query.bool.must = q;
       esQuery.query = tempQuery;
@@ -81,11 +81,6 @@ var Photos = {
 
     console.log("esQuery: ", esQuery);
     console.log("tempQuery: ", JSON.stringify(tempQuery));
-
-
-
-
-
 
     // Fetch photos from index "sm_objectstoreindex_media1" for photos
     esclient.getItems('sm_objectstoreindex_media1', params, esQuery, fields, function(err, items) {

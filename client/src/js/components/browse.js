@@ -52,7 +52,7 @@ class Browse extends Component {
     console.log("on tile click: ", event.target.getAttribute('name'));
 
 
-   if(["photos", "digitallibrary", "medical"].find(function(item){
+   if(["photos", "digitallibrary", "medical", 'travel', 'assets'].find(function(item){
        return event.target.getAttribute("name") === item;
      })) {
      // if one of "photos", digitallibrary" etc then show directories

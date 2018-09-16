@@ -50,7 +50,7 @@ var routes = (
     <Route path='/' component={Main}>
       <IndexRoute component={Browse} />
       <Route path='items' component={Items} />
-      <Route path='assets' component={Assets} />
+      <Route path='assets' component={Documents} />
       <Route path='browse' component={Browse} />
       <Route path='content' component={Content} />
       <Route path='/photos' component={Photos}>
@@ -70,7 +70,7 @@ var routes = (
       <Route path='messages' component={Messages} />
       <Route path='activity' component={Messages} />
       <Route path='messageitem' component={MessageItem} />
-      <Route path='travel' component={Travel} />
+      <Route path='travel' component={Documents} />
       <Route path='search' component={Search} />
       <Route path='directories' component={Cards} />
       <Route path='settings' component={Settings} />

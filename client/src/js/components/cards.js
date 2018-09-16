@@ -76,6 +76,8 @@ class Cards extends Component {
     console.log("on tile click: ", event.target.getAttribute('name'));
     console.log("on tile click query: ", event.target.getAttribute('data'));
 
+    let query = event.target.getAttribute('data');
+
     let category = event.target.getAttribute('name');
 
 

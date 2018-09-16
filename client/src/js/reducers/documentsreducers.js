@@ -41,6 +41,7 @@ const initialState = Immutable.fromJS({
       label: "Digital Library",
       view: 'tiles',
       sort: 'date:dsc',
+      context: {},
       result: {
         begin: 0,
         currentBegin: 0,
@@ -53,6 +54,7 @@ const initialState = Immutable.fromJS({
     medical: {
       label: "Medical Documents",
       view: 'fullview',
+      context: {},
       result: {
         items: []
       },
@@ -62,6 +64,7 @@ const initialState = Immutable.fromJS({
       label: "Travel Documents",
       view: 'tiles',
       sort: 'date:dsc',
+      context: {},
       result: {
         begin: 0,
         currentBegin: 0,
@@ -74,6 +77,7 @@ const initialState = Immutable.fromJS({
     assets: {
       label: "Assets Documents",
       view: 'fullview',
+      context: {},
       result: {
         item: []
       },
@@ -81,6 +85,7 @@ const initialState = Immutable.fromJS({
     financial: {
       label: "Financials Documents",
       view: 'fullview',
+      context: {},
       result: {
         items: []
       },
@@ -211,6 +216,7 @@ const handlers = {
 
     var newState = state
       .setIn(['activeCategory'], action.category)
+      .setIn(['categories', action.category, 'context'], action.query)
       .setIn(['categories', action.category, 'result', 'items'], []);
 
     console.log('DOCUMENTS_NAV: newState: ', newState);
