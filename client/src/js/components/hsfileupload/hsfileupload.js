@@ -17,7 +17,7 @@ var HSFileUpload = React.createClass({
   getInitialState: function () {
 
     console.log("HSFileUpload getInitialState: ", this.props.caption);
-    console.log("HSFileUpload getInitialState: ", this.props.tag);
+    console.log("HSFileUpload getInitialState: ", this.props.context);
 
     var baseUrl = fileServerBaseURL() + 'upload';
 
@@ -28,11 +28,11 @@ var HSFileUpload = React.createClass({
         baseUrl: baseUrl,
         param:{
           fid:0,
+          context: JSON.stringify(this.props.context)
         },
-        tag: {tagname: 'sampletag'},
         chooseAndUpload: true,
         fileFieldName : 'file',
-        paramAddToField : {tag: this.props.tag},
+        paramAddToField : {context: JSON.stringify(this.props.context)},
         beforeUpload: this._beforeUpload,
         multiple:true
       }
@@ -87,7 +87,9 @@ var HSFileUpload = React.createClass({
 
   render: function () {
 
+    console.log("HSFileUpload render: ", this.props);
     console.log("HSFileUpload render: ", this.props.caption);
+    console.log("HSFileUpload render this.state.options: ", this.state.options);
 
     return (
       <FileUpload options={this.state.options}>

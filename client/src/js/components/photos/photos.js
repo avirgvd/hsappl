@@ -151,6 +151,8 @@ class Photos extends Component{
     console.log("photos this.props: ", this.props);
     console.log("photos this.props: ", this.props.index.getIn(['result']));
     console.log("photos this.props: Selection: ", selection);
+    let context = this.props.index.getIn(['context']);
+    console.log("photos context: ", context);
 
     var items = this.props.index.get('result').get('items');
     var filters = this.props.index.get('result').get('filters');
@@ -242,13 +244,16 @@ class Photos extends Component{
 
     console.log("elements: ", elements);
     console.log("camerafilters: ", camerafilters);
+    let tag = {'category': "photos", 'directory': context.directory};
+    console.log("tag", tag);
+
 
     return (
       <div className="ui container stacked segment">
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload caption="Upload Photos" tag="generic"/>
+              <HSFileUpload caption="Upload Photos" context={tag}/>
             </a>
             <a className="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>

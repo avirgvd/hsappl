@@ -130,7 +130,7 @@ class Documents extends Component{
   render () {
     const { store } = this.context;
     console.log("documents this.props: ", this.props);
-    let category = this.props.documents.getIn(['activeCategory']);
+    let category = this.props.category;
     let context = this.props.documents.getIn(['context']);
     console.log("documents context: ", context);
     const { selection } = this.state;
@@ -158,14 +158,14 @@ class Documents extends Component{
 
     console.log("elements: ", elements);
 
-    let tag = {'category': category, 'context': context};
+    let tag = {'category': category, 'directory': context.directory};
 
     return (
       <div className="ui grid container">
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload caption="Upload Documents" tag={tag}/>
+              <HSFileUpload caption="Upload Documents" context={tag}/>
             </a>
             <a className="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>

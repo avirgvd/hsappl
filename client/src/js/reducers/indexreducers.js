@@ -158,6 +158,7 @@ const initialState = Immutable.fromJS({
       sort: 'date:dsc',
       showModal: false,
       query: {},
+      context: {},
       result: {
         begin: 0,
         currentBegin: 0,
@@ -489,6 +490,7 @@ const handlers = {
   },
   [INDEX_NAV]: (state, action) => {
     console.log('index nav: action: ', action);
+    console.log('index nav: action query: ', action.query);
 
     console.log("index nav: state[action.category]", state.getIn(['categories', action.category, 'result', 'items']));
 
@@ -509,6 +511,7 @@ const handlers = {
 
       //TODO: not all pages use items property. Some use property item to store the data
       newState = state
+                    .setIn(['categories', action.category, 'context'], action.query)
                     .setIn(['categories', action.category, 'query'], action.query);
 
 
