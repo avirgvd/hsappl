@@ -128,6 +128,8 @@ class DigitalLibrary extends Component{
     console.log("digitallibrary this.props: ", this.props);
     const { selection } = this.state;
     var items = this.props.index.get('result').get('items');
+    let context = this.props.index.getIn(['context']);
+    console.log("digitallibrary context: ", context);
 
     let elements, detailsLayer;
 
@@ -150,13 +152,14 @@ class DigitalLibrary extends Component{
     }
 
     console.log("elements: ", elements);
+    let tag = {'category': "digitallibrary", 'directory': context.directory};
 
     return (
       <div className="ui grid container">
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload caption="Upload Books" tag="generic"/>
+              <HSFileUpload caption="Upload Books" context={tag}/>
             </a>
             <a className="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>

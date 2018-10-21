@@ -513,8 +513,7 @@ const handlers = {
       newState = state
                     .setIn(['categories', action.category, 'context'], action.query)
                     .setIn(['categories', action.category, 'query'], action.query);
-
-
+      
     }
     console.log("index nav: newState[action.category]", newState.getIn(['categories', action.category, 'result', 'items']));
 

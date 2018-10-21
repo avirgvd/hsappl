@@ -183,12 +183,12 @@ class BookInfo extends Component {
             <div className="content">
               <a className="header">{this.props.data.orgfilename}</a>
               <div className="meta">
-                <p>Author: {this.props.data.pdfmeta.Author}</p>
-                <p>Created By: {this.props.data.pdfmeta.Creator}</p>
-                <p>Produced By: {this.props.data.pdfmeta.Producer}</p>
+                <p>Author: {this.props.data.metadata.Author}</p>
+                <p>Created By: {this.props.data.metadata.Creator}</p>
+                <p>Produced By: {this.props.data.metadata.Producer}</p>
               </div>
               <div className="description">
-                <p>{JSON.stringify(this.props.data.pdfmeta)}</p>
+                <p>{JSON.stringify(this.props.data.metadata)}</p>
               </div>
               <div className="extra">
               </div>

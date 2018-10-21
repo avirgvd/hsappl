@@ -352,10 +352,10 @@ function getListFieldsForCategory(category) {
     return ["show_order","default_caption","_id","disp_imageid", "name", "category"];
   }
   else if(category === "digitallibrary") {
-    return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
+    return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
   else if(category === "medical") {
-    return ["_id","id","container","file_date","orgfilename","mimetype","pdfmeta*"];
+    return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
   else if(category === "messages") {
     return ["_id","id","date","subject","from","to"];
