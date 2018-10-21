@@ -10,9 +10,16 @@ var Documents = {
 
   },
 
+  /***
+   *
+   * @param params
+   * @param query1 - this should be array of fields to match against like [{'category': 'cat1'}, {'directory': 'dir1'}]
+   * @param fields
+   * @param callback
+   */
   getitems: function(params, query1, fields, callback) {
 
-    console.log("Documents: getitems: ", query1);
+    console.log("Documents: query: ", query1);
     console.log("Documents: fields: ", fields);
 
     var esQuery = {'sort': [
@@ -37,6 +44,35 @@ var Documents = {
       tempQuery.query.bool.must = q;
       esQuery.query = tempQuery;
     }
+
+
+    // Query can have fields and values like { directory: 'Esha', category: 'medical' }
+    // Now construct the ES query string for this query input
+    // Below is example query using multiple clauses
+    // GET /_search
+    // {
+    //   "query": {
+    //   "bool": {
+    //     "must": [
+    //       { "match": { "title":   "Search"        }},
+    //       { "match": { "content": "Elasticsearch" }}
+    //     ],
+    //       "filter": [
+    //       { "term":  { "status": "published" }},
+    //       { "range": { "publish_date": { "gte": "2015-01-01" }}}
+    //     ]
+    //   }
+    // }
+    // }
+
+    let q = [];
+    query1.map((item, index) => {
+      q.push({'match': item});
+    });
+
+    tempQuery.query.bool.must = q;
+    esQuery.query = tempQuery;
+
 
 
     // Fetch photos from index "sm_objectstoreindex_media1" for photos

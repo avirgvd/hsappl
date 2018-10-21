@@ -95,7 +95,7 @@ function stageNewFiles( id, filedata, callback1) {
 function getItems( index, params, body, fields, callback1) {
   console.log("ESClient: getItems: index: ", index);
   console.log("ESClient: getItems: params: ", params);
-  console.log("ESClient: getItems: body: ", body);
+  console.log("ESClient: getItems: body: ", JSON.stringify(body));
   // console.log("ESClient: getItems: query: ", query);
   var indexName = index;
 
@@ -355,6 +355,9 @@ function getListFieldsForCategory(category) {
     return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
   else if(category === "medical") {
+    return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
+  }
+  else if(category === "travel") {
     return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
   else if(category === "messages") {

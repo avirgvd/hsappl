@@ -78,28 +78,27 @@ class Cards extends Component {
 
     let query = event.target.getAttribute('data');
 
+    let directory = event.target.getAttribute('data');
     let category = event.target.getAttribute('name');
 
-
-    console.log("@@@@@@@Event: ", event);
-
+    // If the category is any of these then navigate to that page
     if(["medical", "assets", "travel", "financial"].find(function(currentitem){
         return currentitem == category;
       })) {
       this.props.dispatch(documentsNav(
-        event.target.getAttribute('name'),
+        category,
         category,
         null,
-        {'directory': event.target.getAttribute('data')}
+        {'directory': event.target.getAttribute('data'), 'category': category}
       ));
 
     }
     else {
       this.props.dispatch(indexNav(
-        event.target.getAttribute('name'),
-        event.target.getAttribute('name'),
+        category,
+        category,
         null,
-        {'directory': event.target.getAttribute('data')}
+        {'directory': directory, 'category': category}
       ));
     }
 

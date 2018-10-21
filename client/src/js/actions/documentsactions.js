@@ -157,14 +157,15 @@ export function documentsLoadNextSuccess(category, json) {
   };
 }
 
-export function documentsNav (path, category, datajson, queryjson) {
-  console.log("documentsactions: documentsNav path:", path);
+// TODO: The below code needs some improvements
+export function documentsNav (directory, category, datajson, queryjson) {
+  console.log("documentsactions: documentsNav directory:", directory);
   console.log("documentsactions: documentsNav category:", category);
   console.log("documentsactions: documentsNav datajson:", datajson);
   console.log("documentsactions: documentsNav queryjson:", queryjson);
 
   // TODO: Warning: [history] pushState is deprecated; use push instead 4/21/2018
-  history.pushState(null, (path || `/${category}`));
+  history.pushState(null, (directory || `/${category}`));
   return {
     type: DOCUMENTS_NAV,
     category: category,

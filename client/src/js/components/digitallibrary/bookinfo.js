@@ -168,7 +168,7 @@ class BookInfo extends Component {
 
   renderListViewItem () {
     console.log("item listview props: ", this.props);
-    console.log("item listview props: ", this.props.data.pdfmeta);
+    console.log("item listview props: ", this.props.data.metadata);
     // var thubmailUrl = getFileBaseURL() + this.props.data.meta.thumbnail;
 
     var bucket = "docs";

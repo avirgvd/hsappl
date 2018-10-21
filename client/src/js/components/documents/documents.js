@@ -94,9 +94,15 @@ class Documents extends Component{
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentWillMount() {
-    console.log("Documents: componentWillMount: ", this.props.category);
+    console.log("Documents: componentWillMount: props: ", this.props);
+    console.log("Documents: componentWillMount: category: ", this.props.category);
+    console.log("Documents: componentWillMount: context: ", this.props.documents.get('context'));
+    console.log("Documents: componentWillMount context: ", this.props.context);
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(documentsLoad(this.props.category, {"category": this.props.category}));
+
+    let context = this.props.documents.get('context');
+    // this.props.dispatch(documentsLoad(this.props.category, {"category": this.props.category}));
+    this.props.dispatch(documentsLoad(this.props.category, [{'directory': context.directory}, {'category': context.category}]));
   }
   // componentDidMount() {
   //   console.log("Documents: componentDidMount: ", this.props.category);
@@ -140,7 +146,7 @@ class Documents extends Component{
 
     if(selection >= 0) {
       detailsLayer = (
-        <Document id={items[selection].id} data={items[selection]} view="fullview"  />
+        <DocumentView id={items[selection].id} data={items[selection]} view="fullview"  />
       );
     }
     else {
@@ -158,14 +164,14 @@ class Documents extends Component{
 
     console.log("elements: ", elements);
 
-    let tag = {'category': category, 'directory': context.directory};
+    // let tag = {'category': category, 'directory': context.directory};
 
     return (
       <div className="ui grid container">
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload caption="Upload Documents" context={tag}/>
+              <HSFileUpload caption="Upload Documents" context={context}/>
             </a>
             <a className="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
