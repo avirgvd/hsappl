@@ -9,7 +9,8 @@ var HSFileUpload = require('../hsfileupload/hsfileupload');
 // import List from 'grommet/components/List';
 // import ListItem from 'grommet/components/ListItem';
 
-import {indexLoad, indexUnLoad, indexNextMore, indexAdd, indexNav} from '../../actions/indexactions';
+// import {indexLoad, indexUnLoad, indexNextMore, indexAdd, indexNav} from '../../actions/indexactions';
+import {documentsLoad, documentsNav, documentsNextMore, documentAdd, documentsUnLoad} from '../../actions/documentsactions';
 
 
 class DigitalLibrary extends Component{
@@ -52,14 +53,14 @@ class DigitalLibrary extends Component{
     console.log("Digitallibrary: _onSearchClick: this.state: ", this.state);
 
 
-    this.props.dispatch(indexLoad("digitallibrary", {search: this.state.search}));
+    this.props.dispatch(documentsLoad("digitallibrary", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
     console.log("Digitallibrary: _onSearchEnter: event: ", event.target);
     console.log("Digitallibrary: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(indexLoad("digitallibrary", {search: this.state.search}));
+      this.props.dispatch(documentsLoad("digitallibrary", {search: this.state.search}));
     }
   }
 
@@ -73,9 +74,9 @@ class DigitalLibrary extends Component{
     } else if (event.pageY === event.view.scrollMaxY) {
       //if pageY == 0 the page is scrolled down to the END.
       // If next items should be queried to server then this is that place
-      console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-      // this.props.dispatch(indexNextMore("digitallibrary", this.props.index, {query: this.state.query}));
-      this.props.dispatch(indexNextMore("digitallibrary", this.props.index, {}));
+      console.log("handleScroll DOWN so get more ahead documents: ", this.props.documents);
+      // this.props.dispatch(documentsNextMore("digitallibrary", this.props.documents, {query: this.state.query}));
+      this.props.dispatch(documentsNextMore("digitallibrary", this.props.documents, {}));
     }
 
   }
@@ -83,11 +84,10 @@ class DigitalLibrary extends Component{
   componentWillReceiveProps(nextProps) {
     console.log("componentWillReceiveProps: ", nextProps);
     if (nextProps.category && this.props.category !== nextProps.category) {
-      this.props.dispatch(indexUnload(this.props.index));
+      this.props.dispatch(documentsUnLoad(this.props.index));
       this.props.dispatch(
-        indexLoad(nextProps.category, nextProps.index, this.props.selection));
+        documentsLoad(nextProps.category, nextProps.index, this.props.selection));
     }
-
   }
 
   /*
@@ -97,13 +97,19 @@ class DigitalLibrary extends Component{
    * */
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("digitallibrary", {}));
+    // this.props.dispatch(indexLoad("digitallibrary", {}));
+    console.log("DigitalLibrary: componentWillMount: category: ", this.props.category);
+    console.log("DigitalLibrary: componentWillMount this.props.context: ", this.props.context);
+    console.log("DigitalLibrary: componentWillMount: documents.context: ", this.props.documents.get('context'));
+
+    let context = this.props.documents.get('context');
+    this.props.dispatch(documentsLoad("digitallibrary", [{'directory': context.directory}, {'category': context.category}]));
   }
 
   componentWillUnmount() {
     console.log("digitallibrary componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("digitallibrary", this.props.index));
+    this.props.dispatch(documentsUnLoad("digitallibrary", this.props.documents));
 
   }
 
@@ -120,15 +126,15 @@ class DigitalLibrary extends Component{
   }
 
   onSubmit1 () {
-    this.props.dispatch(indexAdd("digitallibrary", this.state));
+    this.props.dispatch(documentAdd("digitallibrary", this.state));
   }
 
   render () {
     const { store } = this.context;
     console.log("digitallibrary this.props: ", this.props);
     const { selection } = this.state;
-    var items = this.props.index.get('result').get('items');
-    let context = this.props.index.getIn(['context']);
+    var items = this.props.documents.get('result').get('items');
+    let context = this.props.documents.getIn(['context']);
     console.log("digitallibrary context: ", context);
 
     let elements, detailsLayer;
@@ -152,14 +158,14 @@ class DigitalLibrary extends Component{
     }
 
     console.log("elements: ", elements);
-    let tag = {'category': "digitallibrary", 'directory': context.directory};
+    // let tag = {'category': "digitallibrary", 'directory': context.directory};
 
     return (
       <div className="ui grid container">
         <div className="ui container">
           <div className="column">
             <a>
-              <HSFileUpload caption="Upload Books" context={tag}/>
+              <HSFileUpload caption="Upload Books" context={context}/>
             </a>
             <a className="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
@@ -169,7 +175,7 @@ class DigitalLibrary extends Component{
         </div>
         <div className="ui label">
           Total
-          <div className="detail">{this.props.index.get('result').get('total')}</div>
+          <div className="detail">{this.props.documents.get('result').get('total')}</div>
         </div>
         <p>{elements}</p>
         <div>
@@ -189,7 +195,7 @@ DigitalLibrary.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
-  index: PropTypes.shape({
+  documents: PropTypes.shape({
     category: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -217,7 +223,7 @@ const mapStateToProps = (state) => {
 
   return {
     category: category,
-    index: state.index.getIn(['categories', category])
+    documents: state.documents.getIn(['categories', category])
 
   };
 };

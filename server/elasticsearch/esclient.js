@@ -360,6 +360,9 @@ function getListFieldsForCategory(category) {
   else if(category === "travel") {
     return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
+  else if(category === "assets") {
+    return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
+  }
   else if(category === "messages") {
     return ["_id","id","date","subject","from","to"];
   }

@@ -94,7 +94,8 @@ class Cards extends Component {
 
     }
     else {
-      this.props.dispatch(indexNav(
+      // This must be digital library category
+      this.props.dispatch(documentsNav(
         category,
         category,
         null,
