@@ -14,7 +14,24 @@ var Directories = {
 
     console.log("Directories: getitems: ", query1);
 
-    esclient.getItems('directories', params, {'query': {'match': query1}}, fields, function(err, itemsData) {
+    // IMP: Directory for travel can contain photos along with other content so get list of all directories
+    // for category photos or travel. Use "Terms Query" as below
+    // GET /_search
+    // {
+    //   "query": {
+    //   "terms" : { "user" : ["kimchy", "elasticsearch"]}
+    // }
+    // }
+    let termsquery = {"category": []};
+    termsquery.category.push(query1.category);
+
+    if(query1.category === "photos") {
+      // Look for directories under travel categories also as they may contain photos
+      termsquery.category.push("travel");
+    }
+
+    // esclient.getItems('directories', params, {'query': {'match': query1}}, fields, function(err, itemsData) {
+    esclient.getItems('directories', params, {'query': {'terms': termsquery}}, fields, function(err, itemsData) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
         callback(err, {error: err, result: {itemsData:{}}});

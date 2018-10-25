@@ -82,14 +82,14 @@ class Cards extends Component {
     let category = event.target.getAttribute('name');
 
     // If the category is any of these then navigate to that page
-    if(["medical", "assets", "travel", "financial"].find(function(currentitem){
+    if(["photos", "medical", "assets", "travel", "financial"].find(function(currentitem){
         return currentitem == category;
       })) {
       this.props.dispatch(documentsNav(
         category,
         category,
         null,
-        {'directory': event.target.getAttribute('data'), 'category': category}
+        {'directory': directory, 'category': category}
       ));
 
     }
@@ -154,8 +154,13 @@ class Cards extends Component {
     console.log("cards showCreateDirectory: ", showCreateDirectory);
     console.log("cards this.props: ", this.props);
     console.log("cards this.props result: ", this.props.index.getIn(['result']));
+    console.log("cards this.props result: ", this.props.index.getIn(['resource']));
     console.log("cards this.props: result->filters", this.props.index.getIn(['result']).getIn(['filters']));
     console.log("cards this.props: result->items", this.props.index.getIn(['result']).getIn(['items']));
+
+    let dircategory = this.props.index.getIn(['resource']).category;
+
+    console.log(dircategory);
 
     let elements;
     let createDialog;
@@ -185,7 +190,7 @@ class Cards extends Component {
         return(
           <div className="ui link card" name={item.category} >
             <div className="image" onClick={this.onTileClick}>
-              <img src={ getFileBaseURL() + item.disp_imageid} className="ui fluid floated image" name={item.category} data={item.name}></img>
+              <img src={ getFileBaseURL() + item.disp_imageid} className="ui fluid floated image" name={dircategory} data={item.name}></img>
             </div>
             <div className="content" >
               <div className="header">{item.default_caption}</div>
