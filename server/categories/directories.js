@@ -22,12 +22,12 @@ var Directories = {
     //   "terms" : { "user" : ["kimchy", "elasticsearch"]}
     // }
     // }
-    let termsquery = {"category": []};
-    termsquery.category.push(query1.category);
+    let termsquery = {"categories": []};
+    termsquery.categories.push(query1.category);
 
-    if(query1.category === "photos") {
+    if(query1.categories === "photos") {
       // Look for directories under travel categories also as they may contain photos
-      termsquery.category.push("travel");
+      termsquery.categories.push("travel");
     }
 
     // esclient.getItems('directories', params, {'query': {'match': query1}}, fields, function(err, itemsData) {
@@ -43,7 +43,7 @@ var Directories = {
     
   },
 
-  addItem(data) {
+  addItem(data, callback) {
 
     let storage_container = '';
 
@@ -56,18 +56,19 @@ var Directories = {
 
 
     let finaldata = {
-      category: data.type,
+      categories: data.type,
       name: data.name,
       default_caption: data.name,
       disp_imageid:'system/photos.png',
       desc: "",
-      container: storage_container
+      sequence: Date.now()
     };
     
     esclient.addItem('directories', finaldata, undefined, function(err, result){
 
       console.log("Directories: addItem: err: ", err);
       console.log("Directories: addItem: result: ", result);
+      callback(err, result);
 
     });
   }

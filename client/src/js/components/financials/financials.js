@@ -5,6 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
 import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {postRESTApi} from '../../Api';
 
 
 class Financials extends Component{
@@ -73,7 +74,7 @@ class Financials extends Component{
   // where a JS function handles the submission of form and has access to the data that the user entered into the form.
   //Ref: https://reactjs.org/docs/forms.html
   handleFormSubmit(event) {
-    alert('A name was submitted: ' + this.state.directory);
+    // alert('A name was submitted: ' + this.state.directory);
     event.preventDefault();
     this.setState({showAddAccountForm: "no"});
     let reqBody = {category: "financials", data: this.state.formdata};
@@ -129,9 +130,11 @@ class Financials extends Component{
     const { showAddAccountForm } = this.state;
 
     console.log("financials this.props: ", this.props);
+    console.log("financials this.props: ", this.props.index);
+    console.log("financials this.props: ", this.props.index.get("result").get("items"));
     console.log("financials showAddAccountForm: ", showAddAccountForm);
 
-    var items = [];
+    var items = this.props.index.get("result").get("items");
 
     let addAcctDlg, bankaccounts, creditaccounts, finances;
     let totalsavings = 49422.00;
@@ -150,10 +153,10 @@ class Financials extends Component{
             </div>
             <div className="field">
               <label>Account Type</label>
-              <select className="ui fluid dropdown">
+              <select className="ui fluid dropdown" name="accounttype" onChange={this.handleChange}>
                 <option value="">Select...</option>
-                <option value="savingbankaccount">Saving Account</option>
-                <option value="creditcardaccount">Credit Card</option>
+                <option value="saving">Saving Account</option>
+                <option value="creditcard">Credit Card</option>
                 <option value="loanaccount">Loan</option>
               </select>
             </div>
@@ -179,40 +182,31 @@ class Financials extends Component{
     }
     else {
       bankaccounts = items.map((item, index) => {
-        console.log("financials render item: ", item);
-        console.log("financials render index: ", index);
+        console.log("financials saving render item: ", item);
 
-        if(item.type == "saving" || item.type == "current"){
-
+        if(item.accounttype == "saving" ){
           return (
-
-            <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
+            <div className="ui inverted progress teal" id={item.id} onClick={this.onClick} >
               <div className="bar">
                 <div className="progress" ></div>
               </div>
-              <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
+              <div className="label">{item.bankname + " A/C: " + item.accountnumber}</div>
             </div>
-
           );
-
         }
-
       });
 
       creditaccounts = items.map((item, index) => {
-        console.log("financials render item: ", item);
-        console.log("financials render index: ", index);
+        console.log("financials creditaccount render item: ", item);
 
-        if(item.type == "credit"){
+        if(item.accounttype == "creditcard"){
           return (
-
-            <div className="ui inverted progress blue" id={item.id} onClick={this.onClick} >
+            <div className="ui inverted progress black" id={item.id} onClick={this.onClick} >
               <div className="bar">
                 <div className="progress" ></div>
               </div>
-              <div className="label">{item.bankname + " A/C: " + item.accountnum}</div>
+              <div className="label">{item.bankname + " A/C: " + item.accountnumber}</div>
             </div>
-
           );
         }
       });

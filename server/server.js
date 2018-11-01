@@ -170,9 +170,7 @@ app.post('/rest/index/items', function(req, resp){
       }
     });
 
-
     return;
-
   }
   else if (req.body.category === 'digitallibrary') {
 
@@ -202,7 +200,7 @@ app.post('/rest/index/items', function(req, resp){
 
     console.log("post /rest/index/items financials");
 
-    financials.getData(function(err, result){
+    financials.getAccounts(req.body.params, req.body.query, fields, function(err, result){
       console.log("settings: loadSettings returned: ",result);
       resp.json({"result": result});
     });
@@ -349,10 +347,14 @@ app.post('/rest/add_1', function(req, resp){
   console.log('/rest/add_1 data: ', data);
 
   if(category==='directories') {
-    directories.addItem(data);
+    directories.addItem(data, function(err, result){
+      resp.json({});
+    });
   }
-  else if(category==='directories') {
-    financials.addAccount(data);
+  else if(category==='financials') {
+    financials.addAccount(data, function(err, result){
+      resp.json({});
+    });
   }
 
 });

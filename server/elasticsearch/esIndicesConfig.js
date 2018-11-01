@@ -2,71 +2,6 @@
 'use strict';
 
 var hsIndices = {
-  'stagedFiles': {
-    'index': 'stagedfiles',
-    'type': 'stagedfiles',
-    'id': 'stagedfile',
-    'body': {
-      'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 1
-      },
-      'mappings': {
-      }
-    }
-  },
-  'photos': {
-    'index': 'photos',
-    'type': 'photos',
-    'id': 'photos',
-    'body': {
-      'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 1
-      },
-      'mappings': {
-      }
-    }
-  },
-  'cards': {
-    'index': 'cards',
-    'type': 'cards',
-    'id': 'cards',
-    'body': {
-      'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 1
-      },
-      'mappings': {
-      }
-    }
-  },
-  'documents': {
-    'index': 'documents',
-    'type': 'documents',
-    'id': 'documents',
-    'body': {
-      'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 1
-      },
-      'mappings': {
-      }
-    }
-  },
-  'digitallibrary': {
-    'index': 'digitallibrary',
-    'type': 'digitallibrary',
-    'id': 'digitallibrary',
-    'body': {
-      'settings': {
-        'number_of_shards': 1,
-        'number_of_replicas': 1
-      },
-      'mappings': {
-      }
-    }
-  },
   'messages': {
     'index': 'messages',
     'type': 'messages',
@@ -110,6 +45,19 @@ var hsIndices = {
     'index': 'contacts',
     'type': 'contacts',
     'id': 'contacts',
+    'body': {
+      'settings': {
+        'number_of_shards': 1,
+        'number_of_replicas': 1
+      },
+      'mappings': {
+      }
+    }
+  },
+  'financialaccounts': {
+    'index': 'financialaccounts',
+    'type': 'financialaccounts',
+    'id': 'financialaccounts',
     'body': {
       'settings': {
         'number_of_shards': 1,

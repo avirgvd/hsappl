@@ -11,9 +11,9 @@ var Financials = {
 
   },
 
-  getData: function(callback) {
+  getAccounts: function(params, query1, fields, callback) {
 
-    console.log("Financials: getData");
+    console.log("Financials: getAccounts query1: ", query1);
 
     // Get Saving Bankg accounts
 
@@ -23,37 +23,29 @@ var Financials = {
 
     // Get Investments
 
-
-
-    callback(undefined, undefined);
+    esclient.getItems('financialaccounts', params, {}, fields, function(err, result) {
+      // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
+      if (err) {
+        callback(err, {error: err, result: {result:{}}});
+      } else {
+        console.log("Financials: getAccounts: result: ", result);
+        callback(undefined, {itemsData: result});
+      }
+    });
 
   },
 
-  addAccount(data) {
+  addAccount(data, callback) {
 
+    console.log("Financials: addAccount: data: ", data);
     let storage_container = '';
 
-    if(data.type==='photos') {
-      storage_container = 'media1'
-    }
-    else if(data.type==='Unprocessed') {
-      storage_container = 'staging'
-    }
 
+    esclient.addItem('financialaccounts', data, undefined, function(err, result){
 
-    let finaldata = {
-      category: data.type,
-      name: data.name,
-      default_caption: data.name,
-      disp_imageid:'system/photos.png',
-      desc: "",
-      container: storage_container
-    };
-
-    esclient.addItem('directories', finaldata, undefined, function(err, result){
-
-      console.log("Directories: addItem: err: ", err);
-      console.log("Directories: addItem: result: ", result);
+      console.log("Financials: addItem: err: ", err);
+      console.log("Financials: addItem: result: ", result);
+      callback(err, result);
 
     });
   }

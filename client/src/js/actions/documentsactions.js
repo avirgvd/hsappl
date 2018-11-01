@@ -65,7 +65,7 @@ export function documentsNextMore(category, index, query) {
     console.log("documentsNextMore from: ", from);
 
     let reqBody = {
-      url: '/rest/' + category,
+      url: '/rest/documents',
       category: category,
       params: {
         from: from,

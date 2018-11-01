@@ -363,6 +363,9 @@ function getListFieldsForCategory(category) {
   else if(category === "assets") {
     return ["_id","id","container","file_date","orgfilename","mimetype","metadata*"];
   }
+  else if(category === "financials") {
+    return ["_id","id","accountname","bankname","accountnumber","accounttype","accountholdername*"];
+  }
   else if(category === "messages") {
     return ["_id","id","date","subject","from","to"];
   }

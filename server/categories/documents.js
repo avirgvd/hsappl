@@ -67,7 +67,13 @@ var Documents = {
 
     let q = [];
     query1.map((item, index) => {
-      q.push({'match': item});
+      if(item.hasOwnProperty('directory') && item.directory === "all") {
+        //skip
+        console.log("Documents: item: ", item)
+      }
+      else {
+        q.push({'match': item});
+      }
     });
 
     tempQuery.query.bool.must = q;
