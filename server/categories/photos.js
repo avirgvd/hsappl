@@ -66,7 +66,8 @@ var Photos = {
     if(query1.hasOwnProperty('query') && query1.query.hasOwnProperty('camerafilter')) {
       console.log("$%$%$$%$%$%$%$%$%$%$");
       // let q = {match: {['exif.Exif IFD0.Model'] : query1.query.camerafilter}};
-      let q = {term: {['exif.Exif IFD0.Model'] : query1.query.camerafilter}};
+      // let q = {term: {['exif.Exif IFD0.Model'] : query1.query.camerafilter}};
+      let q = {term: {['metadata.camera'] : query1.query.camerafilter}};
       // esQuery = {'query': {'match': q}};
 
       tempQuery.query.bool.filter = q;
@@ -74,7 +75,8 @@ var Photos = {
     }
 
     if(query1.hasOwnProperty('search') && query1.search.length > 0) {
-      let q = {"match": {"_all": query1.search}}
+      // let q = {"match": {"_all": query1.search}}
+      let q = {"match": {"file_date": query1.search}}
       tempQuery.query.bool.must = q;
       esQuery.query = tempQuery;
     }
@@ -89,7 +91,7 @@ var Photos = {
         callback(err, {error: err, result: {itemsData: {}, filters: {}}});
       } else {
 
-        esclient.getFilterItems('sm_objectstoreindex_media1', "exif.Exif IFD0.Model", function(filters) {
+        esclient.getFilterItems('sm_objectstoreindex_media1', "metadata.camera", function(filters) {
           // Insert filters into the getItems result
           let result = {itemsData: items, filters: {"camera": filters}};
           console.log("categories/photos: result: ", result);
