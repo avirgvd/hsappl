@@ -223,7 +223,7 @@ class Photos extends Component{
 
     if(selection >= 0) {
       detailsLayer = (
-          <PhotoFrame photoitem={items[selection]} view="fullview"  />
+          <PhotoFrame photoitem={items[selection]} index={selection} onSelect={this.onClick} view="fullview"  />
         );
 
       // Dont show the menu in photoframe view

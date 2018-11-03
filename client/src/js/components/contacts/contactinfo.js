@@ -169,6 +169,9 @@ class ContactInfo extends Component {
               </div>
             <div className="ui segment">
               <h3 className="ui segment">
+                <div className="meta">
+                  <span>Description</span>
+                </div>
                 <div className="description">
                   <p>{contact.phone}</p>
                 </div>

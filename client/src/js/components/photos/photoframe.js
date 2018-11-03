@@ -16,7 +16,16 @@ class PhotoFrame extends Component {
     this._onClick = this._onClick.bind(this);
     this._onTagInput = this._onTagInput.bind(this);
     this._onRate = this._onRate.bind(this);
+    this.onPrev = this.onPrev.bind(this);
+    this.onNext = this.onNext.bind(this);
     this.refs1 = this.refs1.bind(this);
+
+    this.state = {
+      currentPhoto: 1,
+      pages: 0
+    };
+
+
   }
 
   // getDefaultProps () {
@@ -61,6 +70,28 @@ class PhotoFrame extends Component {
 
 
   }
+
+  onPrev(ev) {
+    console.log("Photoframe:onPrev: ", this.props.index);
+
+    ev.preventDefault();
+    this.setState({
+      currentPhoto: this.state.currentPhoto > 1 ? this.state.currentPhoto - 1 : 1
+    });
+    this.props.onSelect(this.props.index - 1);
+
+  }
+
+  onNext(ev) {
+    console.log("Photoframe:onNext: ", this.props.index);
+
+    ev.preventDefault();
+    this.setState({
+      currentPhoto: this.state.currentPhoto < this.state.pages ? this.state.currentPhoto + 1 : this.state.pages
+    });
+    this.props.onSelect(this.props.index + 1);
+  }
+
 
   componentWillReceiveProps(nextProps) {
     console.log("photoframe: componentWillReceiveProps: ", nextProps);
@@ -176,11 +207,21 @@ class PhotoFrame extends Component {
     var photo = this.props.photoitem;
     console.log("photoframe renderFullView photo: ", photo);
 
-    // <p><b>Shot By</b> {photo.exif['Exif IFD0']['Make']} {photo.exif['Exif IFD0']['Model']}</p>
 
     return (
       <div className="ui cards">
         <div className="ui  fluid card">
+          <div>
+            <button className="ui left labeled icon button" onClick={this.onPrev}>
+              <i className="left arrow icon"></i>
+              Prev
+            </button>
+            <button className="ui right labeled icon button"  onClick={this.onNext}>
+              <i className="right arrow icon"></i>
+              Next
+            </button>
+          </div>
+
           <img className="ui fluid image" src={getFileBaseURL()  + photo.container + "/" + photo.id + '/?size=full'} onClick={this._onClick}/>
           <div className="content">
             <div className="meta">
