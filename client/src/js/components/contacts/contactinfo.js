@@ -23,26 +23,6 @@ class ContactInfo extends Component {
     this.onSocialMatch = this.onSocialMatch.bind(this);
   }
 
-  // getDefaultProps () {
-  //
-  //   return {
-  //     id: "000",
-  //     src: "jkjkjk",
-  //     desc: 'Welcome home from props!'
-  //   }
-  // }
-
-  // getInitialState: function () {
-  //   return {
-  //     key: 0,
-  //     img_src: "",
-  //     date: "",
-  //     location: "",
-  //     tags: "",
-  //     desc: 'Welcome home from propsvvvvvvvvvvvvv!'
-  //   }
-  // },
-
   onSocialMatch(network, data) {
 
     console.log("onSocialMatch network: ", network);
@@ -50,10 +30,10 @@ class ContactInfo extends Component {
     this.props.dispatch(itemUpdate("contactinfo", "id", {[network]: contact}));
 
   }
-  _onClick() {
+  _onClick(e) {
 
-    console.log("contactInfo onClick......");
-    this.props.onSelect(this.props.data);
+    console.log("contactInfo onClick......", this.props.index);
+    this.props.onSelect(this.props.index);
 
   }
 
@@ -73,9 +53,6 @@ class ContactInfo extends Component {
     }
 
   }
-
-
-
 
   /*
    * This function will be called right after the component mounting on DOM
@@ -98,17 +75,6 @@ class ContactInfo extends Component {
   componentWillUnmount () {
 
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("photoframe:componentWillReceiveProps...nextProps: ", nextProps);
-  //
-  //   if (nextProps.category && this.props.category !== nextProps.category) {
-  //     this.props.dispatch(itemUnload(this.props.index));
-  //     this.props.dispatch(
-  //       itemLoad(nextProps.category, nextProps.index, this.props.selection));
-  //   }
-  //
-  // },
 
   render () {
     const { store } = this.context;
@@ -141,17 +107,12 @@ class ContactInfo extends Component {
         </div>
         <div className="content">
           <a className="header">{this.props.data.firstname}  {this.props.data.middlename} {this.props.data.lastname}</a>
-          <div className="meta">
-            <span>Description</span>
-          </div>
           <div className="description">
             <p>{this.props.data.email}</p>
           </div>
-          <div className="extra">
-            Additional Details
+          <div className="description">
+            <p>{this.props.data.phone}</p>
           </div>
-
-
         </div>
       </div>
     );
@@ -163,13 +124,13 @@ class ContactInfo extends Component {
   }
 
   renderFullView () {
-    // console.log("photoframe renderFullView props: ", this.props);
-    var contact = this.props.contactitem1.get('result').get('item');
-    console.log("contactinfo renderFullView contact: ", contact);
+    console.log("photoframe renderFullView props: ", this.props);
+
+    var contact = this.props.contactitem;
+    console.log("ContactfInfo:render: renderFullView contact: ", contact);
+
 
     return (
-
-
       <div className="ui grid container">
         <div className="content">
           <div className="ui red inverted segment">
@@ -208,14 +169,17 @@ class ContactInfo extends Component {
               </div>
             <div className="ui segment">
               <h3 className="ui segment">
-                <div className="meta">
-                  <span>Description</span>
+                <div className="description">
+                  <p>{contact.phone}</p>
                 </div>
                 <div className="description">
                   <p>{contact.email}</p>
                 </div>
+                <div className="description">
+                  <p>{contact.address}</p>
+                </div>
                 <div className="extra">
-                  Additional Details.........................................
+                  <p>{contact.notes}</p>
                 </div>
                 <button className="ui google plus button" onClick={this.onClickSocial}>
                   <i className="google plus icon"></i>
@@ -297,18 +261,7 @@ ContactInfo.contextTypes = {
 };
 
 ContactInfo.propTypes = {
-  contactitem1: PropTypes.shape({
-    category: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string)
-    ]),
-    label: PropTypes.string,
-    view: PropTypes.string.isRequired,
-    result: {
-      item: PropTypes.arrayOf(PropTypes.object),
-    },
-    addRoute: PropTypes.string
-  }).isRequired,
+  contactitem_ex: PropTypes.object,
   contactitem: PropTypes.object,
   dispatch: PropTypes.func.isRequired
 };
@@ -318,7 +271,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     category: category,
-    contactitem1: state.index.getIn(['categories', category])
+    contactitem_ex: state.index.getIn(['categories', category])
 
   };
 };

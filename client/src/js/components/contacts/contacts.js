@@ -3,10 +3,10 @@
  */
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-var Modal = require('react-modal');
 import ContactInfo from './contactinfo';
 
-import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
+import {indexLoad, indexUnLoad, indexNextMore, indexAdd, indexNav} from '../../actions/indexactions';
+import {postRESTApi} from '../../Api';
 
 
 class Contacts extends Component{
@@ -16,17 +16,68 @@ class Contacts extends Component{
 
     this.handleScroll = this.handleScroll.bind(this);
     this._onAddFriend = this._onAddFriend.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
+
     this.onSelect = this.onSelect.bind(this);
 
+
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleFormCancel = this.handleFormCancel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
+    this.onAddContact = this.onAddContact.bind(this);
+    this.state = {
+      showAddContact: "no",
+      showEditContact: "no",
+      selection: -1,
+      formdata: {}
+    };
   }
+
+  onAddContact(event) {
+
+    this.setState({showAddContact: "yes"});
+
+  }
+
+  // The default HTML behaviour for form submit action should be avoided
+  // This is achieved here using technique calleed "controlled components"
+  // where a JS function handles the submission of form and has access to the data that the user entered into the form.
+  //Ref: https://reactjs.org/docs/forms.html
+  handleFormSubmit(event) {
+    alert('A name was submitted: ' + this.state.directory);
+    event.preventDefault();
+    let reqBody = {category: "contacts", data: this.state.formdata};
+    postRESTApi("/rest/add_1", reqBody);
+
+    this.setState(
+      {
+        showAddContact: "no",
+      }
+    );
+  }
+
+  handleChange(event) {
+    console.log("handleChange: target.name: ", event.target);
+    console.log("handleChange: target.name: ", event.target.name);
+    console.log("handleChange: target.value: ", event.target.value);
+
+    let formdata = this.state.formdata;
+
+    formdata[event.target.name] = event.target.value;
+
+    console.log("handleChange: formdata: ", formdata)
+
+    this.setState({formdata: formdata});
+
+  }
+  handleFormCancel(event) {
+    this.setState(
+      {
+        showAddContact: "no",
+      }
+    );
+  }
+
 
 
   /*
@@ -34,28 +85,42 @@ class Contacts extends Component{
    * and before render()
    * */
   componentWillMount() {
-
-
-
+    
   }
 
   handleScroll(event) {
 
-    if (event.pageY === 0 ) {
-      //if pageY == 0 the page is scrolled up to the TOP.
-      // If previous items should be queried to server then this is that place
-      console.log("handleScroll UP so get previous items");
-      // this.props.dispatch(indexPrevMore("contacts"));
-    } else if (event.pageY === event.view.scrollMaxY) {
-      //if pageY == 0 the page is scrolled down to the END.
-      // If next items should be queried to server then this is that place
-      console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-      this.props.dispatch(indexNextMore("contacts", this.props.index));
-    }
+    const { showAddContact} = this.state;
 
+    if(showAddContact === "no") {
+      if (event.pageY === 0) {
+        //if pageY == 0 the page is scrolled up to the TOP.
+        // If previous items should be queried to server then this is that place
+        console.log("handleScroll UP so get previous items");
+        // this.props.dispatch(indexPrevMore("contacts"));
+      } else if (event.pageY === event.view.scrollMaxY) {
+        //if pageY == 0 the page is scrolled down to the END.
+        // If next items should be queried to server then this is that place
+        console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
+        this.props.dispatch(indexNextMore("contacts", this.props.index));
+      }
+
+      if (event.pageY === 0) {
+        //if pageY == 0 the page is scrolled up to the TOP.
+        // If previous items should be queried to server then this is that place
+        console.log("handleScroll UP so get previous items");
+        // this.props.dispatch(indexPrevMore("contacts"));
+      } else if (event.pageY === event.view.scrollMaxY) {
+        //if pageY == 0 the page is scrolled down to the END.
+        // If next items should be queried to server then this is that place
+        console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
+        this.props.dispatch(indexNextMore("contacts", this.props.index));
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+
     console.log("componentWillReceiveProps: ", nextProps);
     if (nextProps.category && this.props.category !== nextProps.category) {
       this.props.dispatch(indexUnload(this.props.index));
@@ -77,6 +142,7 @@ class Contacts extends Component{
   }
 
   componentWillUnmount() {
+
     console.log("contacts componentWillUnmount");
     window.removeEventListener('scroll', this.handleScroll);
     this.props.dispatch(indexUnLoad("contacts", {}));
@@ -87,110 +153,94 @@ class Contacts extends Component{
 
     console.log("onAddFriend!!!!!");
 
-    this.openModal();
+    this.setState({showAddContact: "yes"});
 
   }
 
-  onSelect(e) {
-    console.log("contacts onSelect: ", e);
-    this.props.dispatch(indexNav("/contactinfo", "contactinfo", e));
-
+  onSelect(selection) {
+    console.log("contacts onSelect: ", selection);
+    this.setState({ selection: selection});
   }
 
-
-  ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show) {
-    console.log('showing modal...');
-
-    return (
-      <Modal
-        isOpen={show}
-        onRequestClose={this.closeModal}>
-
-        <div className="ui form" onSubmit={this.onSubmit1}>
-          <div className="fields">
-            <div className="field">
-              <label>First Name</label>
-              <input placeholder="First Name" type="text" onChange={this.onChangeFirstName}></input>
-            </div>
-            <div className="field">
-              <label>Middle Name</label>
-              <input placeholder="Middle Name" type="text" onChange={this.onChangeMiddleName}></input>
-            </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input placeholder="Last Name" type="text" onChange={this.onChangeLastName}></input>
-            </div>
-            <div className="field">
-              <label>eMail</label>
-              <input placeholder="email" type="text" onChange={this.onChangeEmail}></input>
-            </div>
-          </div>
-          <div className="ui submit button" onClick={this.onSubmit1}>Submit</div>
-        </div>
-      </Modal>    );
-  }
-
-  onSubmit1 () {
-    this.props.dispatch(indexAdd("contacts", this.state));
-  }
-
-  onChangeFirstName (e) {
-    console.log("on change firstname value ", e.target.value);
-    this.setState({firstname: e.target.value});
-  }
-  onChangeMiddleName (e) {
-    console.log("on change middle name value ", e.target.value);
-    this.setState({middlename: e.target.value});
-  }
-  onChangeLastName (e) {
-    console.log("on change lastname value ", e.target.value);
-    this.setState({lastname: e.target.value});
-  }
-  onChangeEmail (e) {
-    console.log("on change email value ", e.target.value);
-    this.setState({email: e.target.value});
-  }
-
-
-  openModal () {
-
-    this.props.dispatch(showModal("contacts", {showModal: true}));
-  }
-
-  closeModal () {
-    this.props.dispatch(showModal("contacts", {showModal: false}));
-  }
-  ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   render () {
     const { store } = this.context;
     console.log("contacts this.props: ", this.props);
+    const { showAddContact } = this.state;
+    const { selection } = this.state;
+    console.log("Contacts:render: this.props: Selection: ", selection);
 
     var items = this.props.index.get('result').get('items');
 
-    let elements = items.map((item, index) => {
-      console.log("contacts render item: ", item);
-      console.log("contacts render index: ", index);
+    let elements;
+    let createDialog;
+    let contactdetails;
 
-      return (
+    if(showAddContact === "yes") {
+      createDialog = (
+        <form className="ui form" onSubmit={this.handleFormSubmit} on>
+          <h1 className="ui header">Add Contact</h1>
+          <div className="fields">
+            <div className="field">
+              <label>First name</label>
+              <input name="firstname" placeholder="First name" type="text" onChange={this.handleChange}></input>
+            </div>
+            <div className="field">
+              <label>Middle name</label>
+              <input name="middlename" placeholder="Middle name" type="text" onChange={this.handleChange}></input>
+            </div>
+            <div className="field">
+              <label>Last name</label>
+              <input name="lastname" placeholder="Last name" type="text" onChange={this.handleChange}></input>
+            </div>
+          </div>
+          <div className="field">
+            <label>Email</label>
+            <input name="email" type="text" onChange={this.handleChange}></input>
+            <button className="ui icon button">
+              <i className="cloud icon"></i>
+            </button>
+          </div>
+          <div className="field">
+            <label>Phone</label>
+            <input name="phone" type="text" onChange={this.handleChange}></input>
+          </div>
+          <div className="field">
+            <label>Address</label>
+            <textarea rows="3" name="address" type="text" onChange={this.handleChange}></textarea>
+          </div>
+          <div className="field">
+            <label>Notes</label>
+            <textarea rows="2" name="notes" type="text" onChange={this.handleChange}></textarea>
+          </div>
+          <button className="ui primary button" type="submit">Add</button>
+          <button className="ui button" onClick={this.handleFormCancel}>Cancel</button>
+        </form>
+      );
+    }
+    else {
 
-        <div className="ui divided items">
-          <ContactInfo id={item.id} data={item} view='listview' onSelect={this.onSelect}/>
-        </div>
+      if(selection >= 0) {
+        contactdetails = (
+          <ContactInfo contactitem={items[selection]} view="fullview"  />
         );
-    });
+      }
+      else {
+        elements = items.map((item, index) => {
+          console.log("contacts render item: ", item);
+          console.log("contacts render index: ", index);
+
+          return (
+
+            <div className="ui divided items">
+              <ContactInfo index={index} data={item} view='listview' onSelect={this.onSelect}/>
+            </div>
+          );
+        });
+      }
+    }
 
     console.log("elements: ", elements);
-    var showModal1 = this.props.index.get('showModal');
-    console.log("ShowModal: ", showModal1);
-
-    // var modal = this._showModal(this.props.index.get('showModal'));
-    var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: true");
-      modal = this._showModal(showModal1);
-    }
 
     return (
       <div className="ui grid container">
@@ -200,9 +250,11 @@ class Contacts extends Component{
             Add Friend
           </button>
         </p>
-
-        <p>{elements}</p>
-        {modal}
+        <div>
+          {createDialog}
+        </div>
+        <div>{elements}</div>
+        <div>{contactdetails}</div>
       </div>
     );
   }

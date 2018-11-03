@@ -6,8 +6,7 @@ import { combineReducers } from 'redux';
 import update from 'react/lib/update';
 import Immutable, {List, Map} from 'immutable';
 
-// import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_SUCCESS_FILTERS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS, SHOW_MODAL} from '../actions/indexactions';
-import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS, SHOW_MODAL} from '../actions/indexactions';
+import {INDEX_NAV, INDEX_LOAD, INDEX_UNLOAD, INDEX_SCROLL, INDEX_FAILURE, INDEX_REQUEST, INDEX_SUCCESS, INDEX_NEXT_MORE, INDEX_NEXT_SUCCESS} from '../actions/indexactions';
 
 const statusFilter = {
   all: true,
@@ -33,7 +32,6 @@ const initialState = Immutable.fromJS({
       label: "Index",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       result: {
         begin: 0,
         currentBegin: 0,
@@ -46,7 +44,6 @@ const initialState = Immutable.fromJS({
     browse: {
       label: "Browse Information",
       view: 'fullview',
-      showModal: false,
       result: {
         items: {}
       },
@@ -56,7 +53,6 @@ const initialState = Immutable.fromJS({
       label: "Assets",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       result: {
         begin: 0,
         currentBegin: 0,
@@ -69,7 +65,6 @@ const initialState = Immutable.fromJS({
     assetinfo: {
       label: "Asset Information",
       view: 'fullview',
-      showModal: false,
       result: {
         item: {}
       },
@@ -77,7 +72,6 @@ const initialState = Immutable.fromJS({
     assettypes: {
       label: "Asset Information",
       view: 'fullview',
-      showModal: false,
       result: {
         items: {}
       },
@@ -87,7 +81,6 @@ const initialState = Immutable.fromJS({
       label: "Digital Library",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       query: {},
       result: {
         begin: 0,
@@ -101,7 +94,6 @@ const initialState = Immutable.fromJS({
     bookinfo: {
       label: "Book Information",
       view: 'fullview',
-      showModal: false,
       result: {
         items: {}
       },
@@ -110,7 +102,6 @@ const initialState = Immutable.fromJS({
       label: "Incoming Messages",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       query: {},
       result: {
         begin: 0,
@@ -124,7 +115,6 @@ const initialState = Immutable.fromJS({
     messageitem: {
       label: "Message information",
       view: 'fullview',
-      showModal: false,
       result: {
         item: {}
       },
@@ -133,7 +123,6 @@ const initialState = Immutable.fromJS({
       label: "Financials",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       result: {
         begin: 0,
         currentBegin: 0,
@@ -145,7 +134,6 @@ const initialState = Immutable.fromJS({
     financialitem: {
       label: "Financial Item",
       view: 'fullview',
-      showModal: false,
       result: {
         item: {}
       },
@@ -156,7 +144,6 @@ const initialState = Immutable.fromJS({
       label: "Photos and Videos",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: false,
       query: {},
       context: {},
       result: {
@@ -171,7 +158,6 @@ const initialState = Immutable.fromJS({
     photosframe: {
       label: "Photos Frame",
       view: 'fullview',
-      showModal: false,
       result: {
         items: {}
       },
@@ -180,7 +166,6 @@ const initialState = Immutable.fromJS({
       label: "Contacts",
       view: 'tiles',
       sort: 'date:dsc',
-      showModal: 'false',
       result: {
         begin: 0,
         currentBegin: 0,
@@ -193,7 +178,6 @@ const initialState = Immutable.fromJS({
     search: {
       label: "Search Result",
       view: 'tiles',
-      showModal: 'false',
       data: {},
       query: {},
       result: {
@@ -209,7 +193,6 @@ const initialState = Immutable.fromJS({
       label: "directories",
       view: 'tiles',
       resource: '',
-      showModal: 'false',
       result: {
         begin: 0,
         currentBegin: 0,
@@ -222,7 +205,6 @@ const initialState = Immutable.fromJS({
     contactinfo: {
       label: "Contact Information",
       view: 'fullview',
-      showModal: false,
       result: {
         item: {}
       },
@@ -231,7 +213,6 @@ const initialState = Immutable.fromJS({
       label: "settings",
       view: 'form',
       resource: '',
-      showModal: 'false',
       result: {
         connectionUrls: [],
         settings: [],
@@ -242,7 +223,6 @@ const initialState = Immutable.fromJS({
       label: "cloudconnections",
       view: 'form',
       resource: '',
-      showModal: 'false',
       result: {
         items: [],
       },
@@ -518,17 +498,6 @@ const handlers = {
     console.log("index nav: newState[action.category]", newState.getIn(['categories', action.category, 'result', 'items']));
 
     console.log('index nav: newState: ', newState);
-
-    return newState;
-  },
-
-  [SHOW_MODAL]: (state, action) => {
-
-    console.log('show_modal: action: ', action);
-    var newState = state.setIn(['categories', action.category, 'showModal'], action.data.showModal);
-
-
-    console.log('show_modal: newState: ', newState);
 
     return newState;
   },

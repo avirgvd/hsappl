@@ -370,7 +370,8 @@ function getListFieldsForCategory(category) {
     return ["_id","id","date","subject","from","to"];
   }
   else {
-    return ["_all"];
+    // by default get all fields if not known type
+    return [""];
   }
 
 

@@ -110,58 +110,11 @@ class Audios extends Component{
     const { store } = this.context;
 
     console.log("audios this.props: ", this.props);
-    console.log("audios this.props: ", this.props.index.getIn(['result']));
-
-    var items = this.props.index.get('result').get('items');
-    var filters = this.props.index.get('result').get('filters');
-    console.log("audios filters: ", filters);
-    console.log("audios filters.camera: ", filters.camera);
-    console.log("audios items count: ", this.props.index.get('result').get('total'));
-
-    // let elements = this.props.index.result.items.map((item, index) => {
-    let elements = items.map((item, index) => {
-      console.log("render: item: ", item);
-      return (
-        <div className="raised segment">
-          <PhotoFrame photoitem={item} view='listview' onSelect={this.onClick}/>
-        </div>
-      );
-    });
-
-    let camerafilters = <div className="item"> None found!!!  </div>;
-
-    if(filters.camera) {
-      camerafilters = filters.camera.map((item, index) => {
-
-        if(item === this.state.query.camerafilter) {
-          return (
-            <div className="ui selected  item" onClick={this.onCameraFilterClick}>
-              {item}
-            </div>
-          );
-
-        }
-        else {
-          return (
-            <div className="ui item" onClick={this.onCameraFilterClick}>
-              {item}
-            </div>
-          );
-
-        }
-      });
-
-    }
-
-
-    console.log("elements: ", elements);
-    console.log("camerafilters: ", camerafilters);
 
     return (
       <div className="ui container stacked segment">
         <div className="ui label">
           Total
-          <div className="detail">{this.props.index.get('result').get('total')}</div>
         </div>
         <div className="ui menu">
           <a className="ui button item">
@@ -175,7 +128,6 @@ class Audios extends Component{
                 <i className="tags icon"></i>
                 Filter by Camera
               </a>
-              {camerafilters}
             </div>
           </div>
           <a className="item">
@@ -186,7 +138,6 @@ class Audios extends Component{
           </a>
         </div>
         <div className="ui internally celled grid">
-          {elements}
         </div>
       </div>
     );

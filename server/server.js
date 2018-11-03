@@ -15,7 +15,7 @@ var documents = require('./categories/documents');
 var google = require('./cloud/google');
 var messages = require('./categories/messages');
 var financials = require('./categories/financials');
-//var upload = multer().array('file');
+var contacts = require('./categories/contacts');
 
 var hssettings = require("./settings/settings");
 
@@ -189,43 +189,43 @@ app.post('/rest/index/items', function(req, resp){
     
     hssettings.loadSettings(index, req.body.params, req.body.query, fields, function(err, result){
 
-      console.log("settings: loadSettings returned: ",result);
+      console.log("server: loadSettings returned: ",result);
       resp.json({"result": result});
     });
     
     return;
   }
-
-  if(index == "financials") {
+  else if(index == "financials") {
 
     console.log("post /rest/index/items financials");
 
     financials.getAccounts(req.body.params, req.body.query, fields, function(err, result){
-      console.log("settings: loadSettings returned: ",result);
+      console.log("server: loadSettings returned: ",result);
       resp.json({"result": result});
     });
 
-    // var result = {"total": 10, "currentEnd": 5, "items": [
-    //     {"id": "0AF49C3444","bankname": "Citibank N.A.", "type": "saving", "accountnum": "1234567890", "statements": [], "otherdocs": [], "balance": "4343", "currency": "INR", "address": {}},
-    //     {"id": "0AF49C3445","bankname": "ICICI Bank", "type": "current", "accountnum": "5545547770", "statements": [], "otherdocs": [], "balance": "1500", "currency": "INR", "address": {}},
-    //     {"id": "0AF49C3446","bankname": "State Bank of India", "type": "saving", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "5000", "currency": "INR", "address": {}},
-    //     {"id": "0AF49C3448","bankname": "State Bank of India", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "0", "currency": "INR", "address": {}},
-    //     {"id": "0AF49C3449","bankname": "ICICI Platinum Credit Card", "type": "credit", "accountnum": "0003332020", "statements": [], "otherdocs": [], "balance": "50000", "currency": "INR", "address": {}}
-    //   ]
-    // };
-    //
-    // resp.json({"result": {itemsData: result}});
+    return;
+  }
+  else if(index == "contacts") {
+
+    console.log("post /rest/index/items contacts");
+
+    contacts.getContacts(req.body.params, req.body.query, fields, function(err, result){
+      console.log("server: contacts.getContacts: returned: ",JSON.stringify(result));
+      resp.json({"result": result});
+    });
+
     return;
   }
 
-  esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {
-    if (err) {
-      resp.json({error: err, result: {items: []}});
-    } else {
-      console.log("server: /rest/index/items: ", result);
-      resp.json({result: {itemsData: result}});
-    }
-  });
+  // esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {
+  //   if (err) {
+  //     resp.json({error: err, result: {items: []}});
+  //   } else {
+  //     console.log("server: /rest/index/items: ", result);
+  //     resp.json({result: {itemsData: result}});
+  //   }
+  // });
 });
 
 
@@ -353,6 +353,11 @@ app.post('/rest/add_1', function(req, resp){
   }
   else if(category==='financials') {
     financials.addAccount(data, function(err, result){
+      resp.json({});
+    });
+  }
+  else if(category==='contacts') {
+    contacts.addContact(data, function(err, result){
       resp.json({});
     });
   }
