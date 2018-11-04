@@ -126,6 +126,7 @@ function getItems( index, params, body, fields, callback1) {
     index: indexName,
     from: params.from,
     size: params.size,
+    minScore: 1,
     body: body,
     _sourceInclude: fields
   };
@@ -310,12 +311,18 @@ function getESClient() {
   return _client;
 }
 
-function getIndexForCategory(category) {
+function getIndexForCategory(category, directory) {
 
   var index = "";
 
   if(category === "photos") {
-    index = "sm_objectstoreindex_media1";
+    if(directory === "unprocessed") {
+      index = "sm_objectstoreindex_staging";
+    }
+    else {
+      index = "sm_objectstoreindex_media1";
+    }
+
   }
   else if(category === "digitallibrary") {
     index = "sm_objectstoreindex_docs";

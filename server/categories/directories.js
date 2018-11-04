@@ -25,7 +25,7 @@ var Directories = {
     let termsquery = {"categories": []};
     termsquery.categories.push(query1.category);
 
-    if(query1.categories === "photos") {
+    if(query1.category === "photos") {
       // Look for directories under travel categories also as they may contain photos
       termsquery.categories.push("travel");
     }

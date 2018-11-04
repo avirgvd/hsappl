@@ -20,12 +20,6 @@ class PhotoFrame extends Component {
     this.onNext = this.onNext.bind(this);
     this.refs1 = this.refs1.bind(this);
 
-    this.state = {
-      currentPhoto: 1,
-      pages: 0
-    };
-
-
   }
 
   // getDefaultProps () {
@@ -75,9 +69,6 @@ class PhotoFrame extends Component {
     console.log("Photoframe:onPrev: ", this.props.index);
 
     ev.preventDefault();
-    this.setState({
-      currentPhoto: this.state.currentPhoto > 1 ? this.state.currentPhoto - 1 : 1
-    });
     this.props.onSelect(this.props.index - 1);
 
   }
@@ -86,9 +77,6 @@ class PhotoFrame extends Component {
     console.log("Photoframe:onNext: ", this.props.index);
 
     ev.preventDefault();
-    this.setState({
-      currentPhoto: this.state.currentPhoto < this.state.pages ? this.state.currentPhoto + 1 : this.state.pages
-    });
     this.props.onSelect(this.props.index + 1);
   }
 

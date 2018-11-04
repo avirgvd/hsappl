@@ -84,7 +84,7 @@ class DigitalLibrary extends Component{
   componentWillReceiveProps(nextProps) {
     console.log("componentWillReceiveProps: ", nextProps);
     if (nextProps.category && this.props.category !== nextProps.category) {
-      this.props.dispatch(documentsUnLoad(this.props.index));
+      this.props.dispatch(documentsUnLoad(this.props.documents));
       this.props.dispatch(
         documentsLoad(nextProps.category, nextProps.index, this.props.selection));
     }
@@ -98,9 +98,9 @@ class DigitalLibrary extends Component{
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
     // this.props.dispatch(indexLoad("digitallibrary", {}));
-    console.log("DigitalLibrary: componentWillMount: category: ", this.props.category);
-    console.log("DigitalLibrary: componentWillMount this.props.context: ", this.props.context);
-    console.log("DigitalLibrary: componentWillMount: documents.context: ", this.props.documents.get('context'));
+    console.log("DigitalLibrary: componentDidMount: category: ", this.props.category);
+    console.log("DigitalLibrary: componentDidMount this.props.context: ", this.props.context);
+    console.log("DigitalLibrary: componentDidMount: documents.context: ", this.props.documents.get('context'));
 
     let context = this.props.documents.get('context');
     this.props.dispatch(documentsLoad("digitallibrary", [{'directory': context.directory}, {'category': context.category}]));

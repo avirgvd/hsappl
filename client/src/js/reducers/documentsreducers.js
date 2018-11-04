@@ -79,7 +79,21 @@ const initialState = Immutable.fromJS({
       view: 'fullview',
       context: {},
       result: {
-        item: []
+        items: []
+      },
+    },
+    photos: {
+      label: "Photos and Videos",
+      view: 'fullview',
+      query: {},
+      context: {},
+      result: {
+        begin: 0,
+        currentBegin: 0,
+        currentEnd: 0,
+        total: 0,
+        items: [],
+        filters: {}
       },
     },
     financial: {

@@ -239,19 +239,35 @@ app.post('/rest/documents/items', function(req, resp){
   console.log("post /rest/documents/items: req: ", req.body);
   console.log("post /rest/documents/items: req.body.query: ", req.body.query);
 
-  var index = esclient.getIndexForCategory(req.body.category);
-  console.log("post /rest/documents/items: index: ", index);
+  // var index = esclient.getIndexForCategory(req.body.category);
+  // console.log("post /rest/documents/items: index: ", index);
 
   var fields = esclient.getListFieldsForCategory(req.body.category);
 
-  documents.getitems(req.body.params, req.body.query, fields, function(err, result) {
-    if (err) {
-      resp.json({error: err, result: {items: []}});
-    } else {
-      console.log("server: /rest/documents/items: cards", JSON.stringify(result));
-      resp.json({result: result});
-    }
-  });
+  if (req.body.category === 'photos') {
+
+    photos.getitems(req.body.params, req.body.query, fields, function(err, result) {
+      if (err) {
+        resp.json({error: err, result: {items: []}});
+      } else {
+        console.log("server: /rest/documents/items: photos", JSON.stringify(result));
+        resp.json({result: result});
+      }
+    });
+
+  }
+  else {
+    documents.getitems(req.body.params, req.body.query, fields, function(err, result) {
+      if (err) {
+        resp.json({error: err, result: {items: []}});
+      } else {
+        console.log("server: /rest/documents/items: documents", JSON.stringify(result));
+        resp.json({result: result});
+      }
+    });
+  }
+
+
 
 
   // esclient.getItems(index, req.body.params, req.body.query, fields, function(err, result) {

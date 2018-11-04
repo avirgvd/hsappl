@@ -8,7 +8,9 @@ import PhotoFrame from './photoframe';
 // var PhotoFrame = require('./photoframe');
 // var index = require("../../actions/indexactions");
 
-import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
+// import {indexLoad, indexUnLoad, indexNextMore, indexNav} from '../../actions/indexactions';
+import {documentsLoad, documentsNav, documentsNextMore, documentAdd, documentsUnLoad} from '../../actions/documentsactions';
+
 import Immutable, {Map, List} from 'immutable';
 var HSFileUpload = require('../hsfileupload/hsfileupload');
 
@@ -39,9 +41,9 @@ class Photos extends Component{
   componentWillReceiveProps(nextProps) {
     console.log("componentWillReceiveProps: ", nextProps);
     if (nextProps.category && this.props.category !== nextProps.category) {
-      this.props.dispatch(indexUnload(this.props.index));
+      this.props.dispatch(documentsUnLoad(this.props.documents));
       this.props.dispatch(
-        indexLoad(nextProps.category, nextProps.index, this.props.selection));
+        documentsLoad(nextProps.category, nextProps.index, this.props.selection));
     }
 
   }
@@ -53,10 +55,11 @@ class Photos extends Component{
    * */
   componentDidMount() {
 
-    console.log("componentDidMount ", this.props.index);
-    console.log("componentDidMount query", this.props.index.get('query'));
+    console.log("componentDidMount this.props ", this.props);
+    console.log("componentDidMount this.props.documents ", this.props.documents);
+    console.log("componentDidMount query", this.props.documents.get('context'));
     window.addEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexLoad("photos", this.props.index.get('query')));
+    this.props.dispatch(documentsLoad("photos", this.props.documents.get('context')));
 
   }
 
@@ -64,7 +67,7 @@ class Photos extends Component{
     console.log("photos componentWillUnmount");
 
     window.removeEventListener('scroll', this.handleScroll);
-    this.props.dispatch(indexUnLoad("photos", this.props.index));
+    this.props.dispatch(documentsUnLoad("photos", this.props.documents));
 
   }
 
@@ -75,13 +78,13 @@ class Photos extends Component{
       //if pageY == 0 the page is scrolled up to the TOP.
       // If previous items should be queried to server then this is that place
       console.log("handleScroll UP so get previous items");
-      // this.props.dispatch(indexPrevMore("photos"));
+      // this.props.dispatch(documentsPrevMore("photos"));
     } else if (event.pageY === event.view.scrollMaxY) {
       //if pageY == 0 the page is scrolled down to the END.
       // If next items should be queried to server then this is that place
-      console.log("handleScroll DOWN so get more ahead index: ", this.props.index);
-      console.log("handleScroll DOWN so get more ahead index: ", this.state.query);
-      this.props.dispatch(indexNextMore("photos", this.props.index, {query: this.state.query}));
+      console.log("handleScroll DOWN so get more ahead documents: ", this.props.documents);
+      console.log("handleScroll DOWN so get more ahead documents: ", this.state.query);
+      this.props.dispatch(documentsNextMore("photos", this.props.documents, this.props.documents.get('context')));
     }
 
   }
@@ -98,16 +101,16 @@ class Photos extends Component{
     console.log("Main: _onSearchClick: this.state: ", this.state);
 
 
-    // this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
-    this.props.dispatch(indexLoad("photos", {search: this.state.search}));
+    // this.props.dispatch(documentsNav("search", "search", {search: this.state.search}));
+    this.props.dispatch(documentsLoad("photos", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      // this.props.dispatch(indexNav("search", "search", {search: this.state.search}));
-      this.props.dispatch(indexLoad("photos", {search: this.state.search}));
+      // this.props.dispatch(documentsNav("search", "search", {search: this.state.search}));
+      this.props.dispatch(documentsLoad("photos", {search: this.state.search}));
     }
   }
 
@@ -115,7 +118,7 @@ class Photos extends Component{
 
   onClick(selection) {
     console.log("photos clicked ", selection);
-    // this.props.dispatch(indexNav("/photos/photoframe", "photoframe", e));
+    // this.props.dispatch(documentsNav("/photos/photoframe", "photoframe", e));
     this.setState({ selection: selection});
   }
 
@@ -135,12 +138,10 @@ class Photos extends Component{
     this.setState({query: query});
     console.log("onCameraFilterClick: after query: ", query);
 
-    // this.props.dispatch(indexFilter("photos", {query: query}));
-    this.props.dispatch(indexLoad("photos", {query: query}));
+    // this.props.dispatch(documentsFilter("photos", {query: query}));
+    this.props.dispatch(documentsLoad("photos", {query: query}));
 
   }
-  
-
 
   render () {
     const { store } = this.context;
@@ -149,16 +150,16 @@ class Photos extends Component{
     const { selection } = this.state;
 
     console.log("photos this.props: ", this.props);
-    console.log("photos this.props: ", this.props.index.getIn(['result']));
+    console.log("photos this.props: ", this.props.documents.getIn(['result']));
     console.log("photos this.props: Selection: ", selection);
-    let context = this.props.index.getIn(['context']);
+    let context = this.props.documents.getIn(['context']);
     console.log("photos context: ", context);
 
-    var items = this.props.index.get('result').get('items');
-    var filters = this.props.index.get('result').get('filters');
+    var items = this.props.documents.get('result').get('items');
+    var filters = this.props.documents.get('result').get('filters');
     console.log("photos filters: ", filters);
     console.log("photos filters.camera: ", filters.camera);
-    console.log("photos items count: ", this.props.index.get('result').get('total'));
+    console.log("photos items count: ", this.props.documents.get('result').get('total'));
 
     let elements, detailsLayer, photosmenu;
 
@@ -263,7 +264,7 @@ class Photos extends Component{
         </div>
         <div className="ui label">
           Total
-          <div className="detail">{this.props.index.get('result').get('total')}</div>
+          <div className="detail">{this.props.documents.get('result').get('total')}</div>
         </div>
         {photosmenu}
         <div className="ui internally celled grid">
@@ -285,7 +286,7 @@ Photos.propTypes = {
   type: PropTypes.string.isRequired,
   hosturl: PropTypes.string.isRequired,
 
-  index: PropTypes.shape({
+  documents: PropTypes.shape({
     category: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string)
@@ -313,7 +314,7 @@ const mapStateToProps = (state) => {
 
   return {
     category: category,
-    index: state.index.getIn(['categories', category])
+    documents: state.documents.getIn(['categories', category])
 
   };
 };
