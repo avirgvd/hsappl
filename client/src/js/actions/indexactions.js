@@ -235,7 +235,7 @@ export function showModal(category, json) {
 
 
 
-export function indexNav (path, category, datajson, queryjson) {
+export function indexNav (path, category, datajson={}, queryjson={}) {
   console.log("indexactions: indexNav path:", path);
   console.log("indexactions: indexNav category:", category);
   console.log("indexactions: indexNav datajson:", datajson);

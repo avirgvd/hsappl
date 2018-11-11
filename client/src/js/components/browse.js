@@ -80,22 +80,22 @@ class Browse extends Component {
     console.log("Browse: this.props.index: ", this.props.index);
 
     return (
-      <div className="ui equal width center aligned padded grid" featureName="potos" >
+      <div className="ui container stacked segment" featureName="potos" >
         <div className="ui container">
           <div className="column">
             <a>
               <HSFileUpload caption="Upload Files" tag="generic"/>
             </a>
-            <a className="ui icon fluid input">
+            <a class="ui icon fluid input">
               <i className="inverted circular search link icon" onClick={this._onSearchClick}></i>
               <input placeholder="Global Search..." type="text" onKeyPress={this._onSearchEnter}  onChange={this._onSearchChange}></input>
             </a>
           </div>
         </div>
-        <div className="ui stackable cards" onClick={this.onTileClick}>
+        <div className="ui link cards" onClick={this.onTileClick}>
           <div className="ui link card"  >
-            <div className="image" >
-              <img src={ getFileBaseURL("system") + "contacts.png"} className="ui fluid floated small image" name="contacts" ></img>
+            <div className="image tiny" >
+              <img src={ getFileBaseURL("system") + "contacts.png"} className="ui  floated small image" name="contacts" ></img>
             </div>
             <div className="content" >
               <div className="header">Contacts</div>
@@ -108,8 +108,8 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card" >
-            <div className="image" >
-              <img src={ getFileBaseURL("system") + "photos.png"} className="ui fluid floated small image" name="photos" ></img>
+            <div className="image tiny" >
+              <img src={ getFileBaseURL("system") + "photos.png"} className="ui  floated small image" name="photos" ></img>
             </div>
             <div className="content" >
               <div className="header">Photos</div>
@@ -122,7 +122,7 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card" >
-            <div className="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Music.jpg"} className="ui fluid floated small image" name="audios" ></img>
             </div>
             <div className="content" >
@@ -136,7 +136,7 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card" >
-            <div className="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Videos.jpg"} className="ui fluid floated small image" name="videos" ></img>
             </div>
             <div className="content" >
@@ -150,9 +150,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "DigitalLibrary.png"} className="ui fluid floated small image" name="digitallibrary" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Digital Library</div>
               <div className="meta">
@@ -164,9 +164,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Financials.png"} className="ui fluid floated small image" name="financials" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Financials</div>
               <div className="meta">
@@ -178,9 +178,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "medical_records.png"} className="ui fluid floated small image" name="medical" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Medical Records</div>
               <div className="meta">
@@ -192,9 +192,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "travel.jpg"} className="ui fluid floated small image" name="travel" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Travel</div>
               <div className="meta">
@@ -206,9 +206,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Assets.jpg"} className="ui fluid floated small image" name="assets" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Assets</div>
               <div className="meta">
@@ -220,9 +220,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Unknown.jpg"} className="ui fluid floated small image" name="unknown" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Unknown</div>
               <div className="meta">
@@ -234,9 +234,9 @@ class Browse extends Component {
             </div>
           </div>
           <div className="ui link card">
-            <a class="image" >
+            <div className="image tiny" >
               <img src={ getFileBaseURL("system") + "Settings.png"} className="ui fluid floated small image" name="settings" ></img>
-            </a>
+            </div>
             <div className="content" >
               <div className="header">Settings</div>
               <div className="meta">

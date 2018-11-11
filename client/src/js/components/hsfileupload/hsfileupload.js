@@ -34,9 +34,29 @@ var HSFileUpload = React.createClass({
         fileFieldName : 'file',
         paramAddToField : {context: JSON.stringify(this.props.context)},
         beforeUpload: this._beforeUpload,
+        uploading: this.uploadProgress,
+        uploadSuccess: this.uploadSuccess,
+        uploadError: this.uploadError,
+        uploadFail: this.uploadFail,
         multiple:true
       }
     }
+  },
+
+  uploadProgress : function(progress){
+    console.log('loading...',progress);
+  },
+
+  uploadSuccess : function(resp){
+    console.log('upload success: ', resp);
+  },
+  uploadError : function(err){
+    console.log('uploadError: ', err)
+    console.log('uploadError: ', err.message)
+  },
+  uploadFail : function(resp){
+    console.log('uploadFail: ', resp)
+
   },
 
   _beforeUpload: function(files, mill) {
