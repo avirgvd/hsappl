@@ -4,8 +4,6 @@
 
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-var Modal = require('react-modal');
-// import authorize from './google';
 
 import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} from '../../actions/indexactions';
 import {postRESTApi} from '../../Api';
@@ -17,14 +15,6 @@ class Settings extends Component{
 
     this.handleScroll = this.handleScroll.bind(this);
     this._onAddAccount = this._onAddAccount.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.onSubmit1 = this.onSubmit1.bind(this);
-    this.onChangeFirstName = this.onChangeFirstName.bind(this);
-    this.onChangeMiddleName = this.onChangeMiddleName.bind(this);
-    this.onChangeLastName = this.onChangeLastName.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onSelect = this.onSelect.bind(this);
     // this.onClickSocial= this.onClickSocial.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -91,7 +81,6 @@ class Settings extends Component{
 
     console.log("onAddAccount!!!!!", this.props.index.get('result').get('connectionUrls'));
 
-    // this.openModal();
     this.props.dispatch(indexNav("/cloudconnections", "cloudconnections", this.props.index.get('result').get('connectionUrls')));
 
   }
@@ -131,89 +120,6 @@ class Settings extends Component{
     postRESTApi('/rest/add', {'id': "12334", 'category': "accounts", 'item': response.code});
 
   }
-
-
-
-  ////////////start - MODAL DIALOG FUNCTIONS/////////////
-  _showModal (show, network_urls) {
-    console.log('showing modal...', show);
-    console.log('showing modal network_urls: ', network_urls);
-
-    return (
-      <Modal
-        isOpen={show}
-        onRequestClose={this.closeModal}>
-
-        <div className="ui stacking container">
-          <h1 className="ui header">Choose the network to sign-in</h1>
-
-        <button className="ui facebook disabled button">
-          <i className="facebook icon"></i>
-          Facebook
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui twitter  disabled button">
-          <i className="twitter icon"></i>
-          Twitter
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui google plus button" id='google'>
-          <i className="google plus icon" ></i>
-          Google Plus
-        </button>
-        <a href={network_urls[0]} target="_blank" >Go</a>
-        <div className="ui divider"></div>
-        <button className="ui vk disabled button">
-          <i className="vk icon"></i>
-          VK
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui linkedin disabled button">
-          <i className="linkedin icon"></i>
-          LinkedIn
-        </button>
-        <div className="ui divider"></div>
-        <button className="ui instagram disabled button">
-          <i className="instagram icon"></i>
-          Instagram
-        </button>
-
-        </div>
-
-      </Modal>    );
-  }
-
-
-  onSubmit1 () {
-    this.props.dispatch(indexAdd("settings", this.state));
-  }
-
-  onChangeFirstName (e) {
-    console.log("on change firstname value ", e.target.value);
-    this.setState({firstname: e.target.value});
-  }
-  onChangeMiddleName (e) {
-    console.log("on change middle name value ", e.target.value);
-    this.setState({middlename: e.target.value});
-  }
-  onChangeLastName (e) {
-    console.log("on change lastname value ", e.target.value);
-    this.setState({lastname: e.target.value});
-  }
-  onChangeEmail (e) {
-    console.log("on change email value ", e.target.value);
-    this.setState({email: e.target.value});
-  }
-
-
-  openModal () {
-    this.props.dispatch(showModal("settings", {showModal: true}));
-  }
-
-  closeModal () {
-    this.props.dispatch(showModal("settings", {showModal: false}));
-  }
-  ////////////end - MODAL DIALOG FUNCTIONS/////////////
 
   renderLabelValuesTable(labelvals) {
     console.log("renderLabelValuesTable fgdffddf");
@@ -350,22 +256,11 @@ class Settings extends Component{
 
     });
 
-    var showModal1 = this.props.index.get('showModal');
-    console.log("ShowModal: ", showModal1);
-
-    // var modal = this._showModal(this.props.index.get('showModal'));
-    var modal;
-    if( showModal1 === true) {
-      console.log("ShowModal: ", showModal1);
-      modal = this._showModal(showModal1, this.props.index.get('result').get('connectionUrls'));
-    }
-
     return(
       <div className="ui stacking container">
         <button className="ui button" onClick={this._onAddAccount}>
           Add Account
         </button>
-        {modal}
         <div className="ui items">
           {elements}
         </div>

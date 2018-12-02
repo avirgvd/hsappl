@@ -24,7 +24,7 @@ var HSSettings = {
 
   },
 
-  loadSettings: function(index, params, query, callback) {
+  loadSettings: function(index, params, query, fields, callback) {
     console.log("settings: loadSettings: ", params, " query: ", query);
 
     var output = {
@@ -43,18 +43,18 @@ var HSSettings = {
 
     output.connectionUrls = this.getNetworkConnectionURLs();
 
-    esclient.getItems(index, params, query, function(err, result) {
+    // Get all fields for now
+    esclient.getItems(index, params, query, fields, function(err, result) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
         callback({error: err}, {result: {items: []}});
       } else {
-        console.log("server: /rest/index/items: ", result);
+        console.log("server: /rest/index/items: ", JSON.stringify(result));
         output.settings = result;
         callback(err, output);
       }
     });
-
-
+    
   },
 
   /**

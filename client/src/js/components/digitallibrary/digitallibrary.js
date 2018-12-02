@@ -25,6 +25,7 @@ class DigitalLibrary extends Component{
     this._onSearchChange = this._onSearchChange.bind(this);
     this._onSearchClick = this._onSearchClick.bind(this);
     this._onSearchEnter = this._onSearchEnter.bind(this);
+    this.onSearch = this.onSearch.bind(this);
 
     this.state = {search: "", query: {}, selection: -1};
 
@@ -52,17 +53,25 @@ class DigitalLibrary extends Component{
     console.log("Digitallibrary: _onSearchClick: event: ", event.target);
     console.log("Digitallibrary: _onSearchClick: this.state: ", this.state);
 
+    this.onSearch();
 
-    this.props.dispatch(documentsLoad("digitallibrary", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
     console.log("Digitallibrary: _onSearchEnter: event: ", event.target);
     console.log("Digitallibrary: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      this.props.dispatch(documentsLoad("digitallibrary", {search: this.state.search}));
+      this.onSearch();
     }
   }
+
+  onSearch() {
+    let context = this.props.documents.get('context');
+    context.search = this.state.search;
+    this.props.dispatch(documentsLoad("digitallibrary", context));
+
+  }
+
 
 
   handleScroll(event) {
@@ -103,7 +112,8 @@ class DigitalLibrary extends Component{
     console.log("DigitalLibrary: componentDidMount: documents.context: ", this.props.documents.get('context'));
 
     let context = this.props.documents.get('context');
-    this.props.dispatch(documentsLoad("digitallibrary", [{'directory': context.directory}, {'category': context.category}]));
+    this.props.dispatch(documentsLoad("digitallibrary", context));
+    // this.props.dispatch(documentsLoad("digitallibrary", [{'directory': context.directory}, {'category': context.category}]));
   }
 
   componentWillUnmount() {

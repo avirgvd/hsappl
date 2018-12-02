@@ -80,7 +80,7 @@ class Browse extends Component {
     console.log("Browse: this.props.index: ", this.props.index);
 
     return (
-      <div className="ui container stacked segment" featureName="potos" >
+      <div className="ui container stacked segment"  >
         <div className="ui container">
           <div className="column">
             <a>

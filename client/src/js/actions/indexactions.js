@@ -38,9 +38,6 @@ export const INDEX_WATCHER_UPDATE = 'INDEX_WATCHER_UPDATE';
 
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 
-// actions that should be moved out of this file in future
-export const SHOW_MODAL = 'SHOW_MODAL';
-
 // Action creators
 
 export function indexLoad(category, query) {
@@ -221,19 +218,6 @@ export function indexNextSuccess(category, json) {
     result: json.result
   };
 }
-
-export function showModal(category, json) {
-  console.log('action showModal: category: ', category);
-  console.log('action showModal: json: ', json);
-
-  return {
-    type: SHOW_MODAL,
-    category: category,
-    data: json
-  };
-}
-
-
 
 export function indexNav (path, category, datajson={}, queryjson={}) {
   console.log("indexactions: indexNav path:", path);

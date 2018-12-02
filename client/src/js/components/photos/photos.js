@@ -26,6 +26,7 @@ class Photos extends Component{
     this._onSearchChange = this._onSearchChange.bind(this);
     this._onSearchClick = this._onSearchClick.bind(this);
     this._onSearchEnter = this._onSearchEnter.bind(this);
+    this.onSearch = this.onSearch.bind(this);
 
     this.state = {search: "", query: {}, selection: -1};
 
@@ -100,18 +101,23 @@ class Photos extends Component{
     console.log("Main: _onSearchClick: event: ", event.target);
     console.log("Main: _onSearchClick: this.state: ", this.state);
 
+    this.onSearch();
 
-    // this.props.dispatch(documentsNav("search", "search", {search: this.state.search}));
-    this.props.dispatch(documentsLoad("photos", {search: this.state.search}));
   }
 
   _onSearchEnter (event) {
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
     if(event.key === 'Enter') {
-      // this.props.dispatch(documentsNav("search", "search", {search: this.state.search}));
-      this.props.dispatch(documentsLoad("photos", {search: this.state.search}));
+      this.onSearch();
     }
+  }
+
+  onSearch() {
+    let context = this.props.documents.get('context');
+    context.search = this.state.search;
+    this.props.dispatch(documentsLoad("photos", context));
+
   }
 
 
@@ -248,9 +254,8 @@ class Photos extends Component{
     let tag = {'category': "photos", 'directory': context.directory};
     console.log("tag", tag);
 
-
     return (
-      <div className="ui container stacked segment">
+      <div className="ui container stacked segment ">
         <div className="ui container">
           <div className="column">
             <a>

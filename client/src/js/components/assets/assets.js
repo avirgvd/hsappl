@@ -193,6 +193,7 @@ class Assets extends Component{
     }
 
     return (
+      <div className="ui container stacked segment">
       <div className="ui grid container">
         <p>
           <button className="ui basic button" onClick={this._onAddFriend}>
@@ -204,6 +205,7 @@ class Assets extends Component{
         <p>{elements}</p>
         {modal}
         <FolderView name="Assets"></FolderView>
+      </div>
       </div>
     );
   }

@@ -22,66 +22,64 @@ var Documents = {
     console.log("Documents: query: ", query1);
     console.log("Documents: fields: ", fields);
 
-    var esQuery = {'sort': [
-      {"import_date" : "desc"},
-      {"file_date" : "desc"}
-    ]};
 
-    if(query1.hasOwnProperty('query')) {
-    }
+    var esQuery = {'sort':
+      [
+        {"import_date" : "desc"},
+        {"file_date" : "desc"}
+      ]
 
-    var tempQuery = {
-      'query': {
-        'bool': {
+    };
 
-        }
+    var query_bool = {
+      "query": {
+        "bool": {}
       }
     };
-    if((query1.hasOwnProperty('search'))
-      && (query1.search)
-      && (query1.search.length) ) {
-      let q = {"match": {"_all": query1.search}}
-      tempQuery.query.bool.must = q;
-      esQuery.query = tempQuery;
+
+    var query_match = {};
+    var directory = "";
+
+    var query_bool_must = {"must": []};
+    var query_bool_filter = {"filter": []};
+
+
+    // If the directory specified is unprocessed then need to query from staging index.
+    if(query1.hasOwnProperty('directory') && query1.directory == "unprocessed") {
+
+      directory = query1.directory;
+
+      // Directory should be exact match so use match_phrase
+      let q = {"match": {"status": "staging"}};
+      query_bool_must.must.push(q);
+      q = {"match": {"mimetype": "image/"}};
+      query_bool_must.must.push(q);
+      query_bool.query.bool.must = query_bool_must.must;
+      esQuery.query = query_bool.query;
+    }
+    else {
+
+      if(query1.hasOwnProperty('directory') && query1.directory != "all") {
+
+        directory = query1.directory;
+
+        // Directory should be exact match so use match_phrase
+        let q = {"match_phrase": {"directory": query1.directory}};
+        query_bool_must.must.push(q);
+        query_bool.query.bool.must = query_bool_must.must;
+        esQuery.query = query_bool.query;
+      }
+
+      if(query1.hasOwnProperty('search') && query1.search.length > 0) {
+        // let q = {"match": {"_all": query1.search}}
+        let q = {"query_string": {"query": query1.search}}
+        query_bool_must.must.push(q);
+        query_bool.query.bool.must = query_bool_must.must;
+        esQuery.query = query_bool.query;
+      }
+
     }
 
-
-    // Query can have fields and values like { directory: 'Esha', category: 'medical' }
-    // Now construct the ES query string for this query input
-    // Below is example query using multiple clauses
-    // GET /_search
-    // {
-    //   "query": {
-    //   "bool": {
-    //     "must": [
-    //       { "match": { "title":   "Search"        }},
-    //       { "match": { "content": "Elasticsearch" }}
-    //     ],
-    //       "filter": [
-    //       { "term":  { "status": "published" }},
-    //       { "range": { "publish_date": { "gte": "2015-01-01" }}}
-    //     ]
-    //   }
-    // }
-    // }
-
-    let q = [];
-    query1.map((item, index) => {
-      if(item.hasOwnProperty('directory') && item.directory === "all") {
-        //skip
-        console.log("Documents: item: ", item)
-      }
-      else {
-        q.push({'match': item});
-      }
-    });
-
-    tempQuery.query.bool.must = q;
-    esQuery.query = tempQuery;
-
-
-
-    // Fetch photos from index "sm_objectstoreindex_media1" for photos
     esclient.getItems('sm_objectstoreindex_docs', params, esQuery, fields, function(err, items) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {

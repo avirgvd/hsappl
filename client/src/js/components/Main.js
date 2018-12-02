@@ -108,14 +108,14 @@ class Main extends Component {
 
     return(
       <div className="ui segments">
-        <div className="ui blue inverted top attached menu segment" onClick={this.onMenuClick}>
+        <div className="ui blue inverted top attached demo menu segment" onClick={this.onMenuClick}>
           <a className="item">
             <i className="sidebar icon"></i>
             Menu
           </a>
         </div>
         <div className="ui bottom attached segment pushable">
-          <div className={sidebar_className} onClick={this._onClick}>
+          <div className={sidebar_className} width='wide' onClick={this._onClick}>
             <a className="item" name="home">
               <i className="home icon"></i>
               {MENU_LABELS.home}
@@ -134,8 +134,8 @@ class Main extends Component {
             </a>
           </div>
           <div className="pusher">
-            <div className="ui blue inverted section">
-              <div className="ui big segment">
+            <div className="ui blue inverted basic section">
+              <div >
                 <div className="ui breadcrumb">
                   <a className="active section">
                     <Link to="/">{MENU_LABELS.home}</Link>
@@ -145,135 +145,11 @@ class Main extends Component {
               </div>
               <p></p>
               <div>{this.props.children} </div>
-              <p></p>
-              <p></p>
-              <p></p>
-              <p></p>
             </div>
           </div>
         </div>
       </div>
-  );
-
-    // return(
-    //   <div className="ui segments">
-    //     <div className="ui blue inverted top attached demo menu segment">
-    //       <a className="item">
-    //         <i className="sidebar icon"></i>
-    //         Menu
-    //       </a>
-    //     </div>
-    //     <div className="ui bottom attached segment pushable">
-    //       <div className="ui blue inverted labeled icon left inline vertical visible  sidebar menu">
-    //         <a className="item">
-    //           <i className="home icon"></i>
-    //           <Link to="/">{MENU_LABELS.home}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="block layout icon"></i>
-    //           <Link to="/messages">{MENU_LABELS.messages}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="smile icon"></i>
-    //           <Link to="/activity">{MENU_LABELS.activity}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="calendar icon"></i>
-    //           {MENU_LABELS.phase2}
-    //         </a>
-    //       </div>
-    //       <div className="pusher">
-    //         <div className="ui blue inverted section">
-    //           <div className="ui big segment">
-    //             <div className="ui breadcrumb">
-    //               <a className="active section">
-    //                 <Link to="/">{MENU_LABELS.home}</Link>
-    //               </a>
-    //               <i className="right angle icon divider"></i>
-    //             </div>
-    //           </div>
-    //           <p></p>
-    //           <div>{this.props.children} </div>
-    //           <p></p>
-    //           <p></p>
-    //           <p></p>
-    //           <p></p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
-
-    // return(
-    //   <div >
-    //     <div className="ui blue inverted top attached demo menu">
-    //       <a className="item">
-    //         <i className="sidebar icon"></i>
-    //         Menu
-    //       </a>
-    //     </div>
-    //     <div className="ui  bottom attached segment ">
-    //       <div className="ui blue inverted labeled icon left inline vertical visible sidebar menu" >
-    //         <a className="item">
-    //           <i className="home icon"></i>
-    //           <Link to="/">{MENU_LABELS.home}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="block layout icon"></i>
-    //           <Link to="/messages">{MENU_LABELS.messages}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="smile icon"></i>
-    //           <Link to="/activity">{MENU_LABELS.activity}</Link>
-    //         </a>
-    //         <a className="item">
-    //           <i className="calendar icon"></i>
-    //           {MENU_LABELS.phase2}
-    //         </a>
-    //       </div>
-    //     </div>
-    //
-    //
-    //     <div className="pusher">
-    //       <div>{this.props.children} </div>
-    //     </div>
-    //
-    //
-    //   </div>
-    // );
-    // return (
-    //   <div>
-    //     <div className="ui stackable menu">
-    //       <a className="item">
-    //         <i className="home icon"></i> <Link to="/">{MENU_LABELS.home}</Link>
-    //       </a>
-    //       <a className="item">
-    //         <i className="mail icon"></i> <Link to="/messages">{MENU_LABELS.messages}</Link>
-    //       </a>
-    //       <a className="item">
-    //         <i className="history icon"></i> <Link to="/activity">{MENU_LABELS.activity}</Link>
-    //       </a>
-    //       <div className="ui simple dropdown item">
-    //         {MENU_LABELS.phase2}
-    //         <i className="dropdown icon"></i>
-    //         <div className="menu" onClick={this._onClick}>
-    //           <a className="item"><i className="hourglass full icon"></i><Link to="/timeline">Timeline</Link></a>
-    //           <a className="item"><i className="cloud icon"></i><Link to="/memories">Memories</Link></a>
-    //           <a className="item"><i className="write icon"></i><Link to="/blogs">Blogs</Link></a>
-    //           <a className="item"><i className="pie chart icon"></i><Link to="/events">Events</Link></a>
-    //           <a className="item"><i className="calendar icon"></i><Link to="/calendar">Calendar</Link></a>
-    //           <a className="item"><i className="setting icon"></i><Link to="/settings">System Settings</Link></a>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="ui divider"></div>
-    //     <div className="ui vertical stripe segment">
-    //       <div>{this.props.children} </div>
-    //     </div>
-    //
-    //   </div>
-    //
-    // );
+    );
 
   }
 

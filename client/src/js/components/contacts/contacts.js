@@ -243,7 +243,7 @@ class Contacts extends Component{
     console.log("elements: ", elements);
 
     return (
-      <div className="ui grid container">
+      <div className="ui container">
         <p>
           <button className="ui basic button" onClick={this._onAddFriend}>
             <i className="icon user"></i>
