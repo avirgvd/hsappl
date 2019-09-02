@@ -75,7 +75,7 @@ app.get('/rest/system', function(req, resp){
   console.log("get /rest/system: req.params: ", req.params);
   console.log("get /rest/system: req.query: ", req.query);
 
-  resp.json({photo: {}});
+  resp.json({settings: {}});
 
 
 });
@@ -187,7 +187,7 @@ app.post('/rest/index/items', function(req, resp){
 
   } else if (req.body.category === 'settings') {
     
-    hssettings.loadSettings(index, req.body.params, req.body.query, fields, function(err, result){
+    hssettings.getSettings(index, req.body.params, req.body.query, fields, function(err, result){
 
       console.log("server: loadSettings returned: ",result);
       resp.json({"result": result});

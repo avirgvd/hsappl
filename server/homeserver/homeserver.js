@@ -19,6 +19,10 @@ var HomeServer = {
 
   },
 
+  settings: function(){
+
+  }
+
 
 
 };

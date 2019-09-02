@@ -24,7 +24,7 @@ var HSSettings = {
 
   },
 
-  loadSettings: function(index, params, query, fields, callback) {
+  getSettings: function(index, params, query, fields, callback) {
     console.log("settings: loadSettings: ", params, " query: ", query);
 
     var output = {
