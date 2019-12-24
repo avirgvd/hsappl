@@ -34,7 +34,7 @@ var MENU_LABELS = {
 
 class Main extends Component {
 
-  constructor () {
+  constructor() {
     super();
     this._onClick = this._onClick.bind(this);
     this.onMenuClick = this.onMenuClick.bind(this);
@@ -46,22 +46,22 @@ class Main extends Component {
 
   }
 
-  componentDidMount () {
+  componentDidMount() {
 
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
 
   }
 
-  _onChange (event) {
+  _onChange(event) {
     console.log("Main: _onChange: ", event.target.value);
     console.log("Main: this.state: ", this.state);
     this.setState({text: event.target.value});
   }
 
 
-  _onSearchClick (event) {
+  _onSearchClick(event) {
     console.log("Main: _onSearchClick: event: ", event.target);
     console.log("Main: _onSearchClick: this.state: ", this.state);
 
@@ -69,24 +69,24 @@ class Main extends Component {
     this.props.dispatch(indexNav("search", "search", {search: this.state.text}));
   }
 
-  _onSearchEnter (event) {
+  _onSearchEnter(event) {
     console.log("Main: _onSearchEnter: event: ", event.target);
     console.log("Main: _onSearchEnter: event key: ", event.key);
-    if(event.key === 'Enter') {
+    if (event.key === 'Enter') {
       this.props.dispatch(indexNav("/search", "search", {}));
     }
   }
 
-  onMenuClick (event) {
+  onMenuClick(event) {
     console.log("onClick: ", event.target.name);
     console.log("onClick: ", event.target.innerText);
-    if(this.state.sidebar === 'visible')
+    if (this.state.sidebar === 'visible')
       this.setState({sidebar: ""});
     else
       this.setState({sidebar: "visible"});
   }
 
-  _onClick (event) {
+  _onClick(event) {
     console.log("onClick: ", event.target.name);
 
     if (event.target.name == "home") {
@@ -100,59 +100,69 @@ class Main extends Component {
     }
   }
 
-  render () {
+  render() {
 
     console.log("Main: render: this.props.children: ", this.props.children);
 
     var sidebar_className = "ui inverted left vertical sidebar menu " + this.state.sidebar;
 
-    return(
-      <div className="ui segments">
-        <div className="ui blue inverted top attached demo menu segment" onClick={this.onMenuClick}>
-          <a className="item">
-            <i className="sidebar icon"></i>
-            Menu
-          </a>
-        </div>
-        <div className="ui bottom attached segment pushable">
-          <div className={sidebar_className} width='wide' onClick={this._onClick}>
-            <a className="item" name="home">
-              <i className="home icon"></i>
-              {MENU_LABELS.home}
-            </a>
-            <a className="item" name="messages">
-              <i className="block layout icon"></i>
-              {MENU_LABELS.messages}
-            </a>
-            <a className="item" name="activity">
-              <i className="smile icon"></i>
-              {MENU_LABELS.activity}
-            </a>
-            <a className="item" name="phase2">
-              <i className="calendar icon"></i>
-              {MENU_LABELS.phase2}
-            </a>
-          </div>
-          <div className="pusher">
-            <div className="ui blue inverted basic section">
-              <div >
-                <div className="ui breadcrumb">
-                  <a className="active section">
-                    <Link to="/">{MENU_LABELS.home}</Link>
-                  </a>
-                  <i className="right angle icon divider"></i>
+    return (
+      <div>
+            <div className={sidebar_className} width='wide' onClick={this._onClick}>
+              <a className="item" name="home">
+                <i className="home icon"></i>
+                {MENU_LABELS.home}
+              </a>
+              <a className="item" name="messages">
+                <i className="block layout icon"></i>
+                {MENU_LABELS.messages}
+              </a>
+              <a className="item" name="activity">
+                <i className="smile icon"></i>
+                {MENU_LABELS.activity}
+              </a>
+              <a className="item" name="phase2">
+                <i className="calendar icon"></i>
+                {MENU_LABELS.phase2}
+              </a>
+            </div>
+        <div className="pusher">
+          <div className="full height">
+
+        <div className="article">
+              <div className="ui masthead vertical segment">
+                <div className="ui blue inverted top attached demo menu segment" onClick={this.onMenuClick}>
+                 <a className="item">
+                 <i className="sidebar icon"></i>
+                 Menu
+                 </a>
                 </div>
               </div>
-              <p></p>
-              <div>{this.props.children} </div>
+          <div className="ui blue inverted basic section">
+            <div >
+              <div className="ui breadcrumb">
+                <a className="active section">
+                  <Link to="/">{MENU_LABELS.home}</Link>
+                </a>
+                <i className="right angle icon divider"></i>
+              </div>
             </div>
+              <div className="main ui left aligned container ">
+                <div>{this.props.children} </div>
+              </div>
+            </div>
+
+          </div>
+          </div>
           </div>
         </div>
-      </div>
+
     );
 
   }
 
-};
+
+}
+;
 
 module.exports = Main;

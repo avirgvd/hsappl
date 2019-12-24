@@ -7,7 +7,7 @@
 6 silly lifecycle homeserver@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle homeserver@1.0.0~start: homeserver@1.0.0
 8 verbose lifecycle homeserver@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle homeserver@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/home/govind/HomeServer/SOURCES/HSAppl/server/node_modules/.bin:/usr/local/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/govind/.local/bin:/home/govind/bin:/home/govind/.local/bin:/home/govind/bin
+9 verbose lifecycle homeserver@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/home/govind/HomeServer/SOURCES/HSAppl/server/node_modules/.bin:/usr/local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/govind/.local/bin:/home/govind/bin:/usr/local/cuda-10.1/bin:/usr/local/cuda-10.1/NsightCompute-2019.1:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/govind/.local/bin:/home/govind/bin:/usr/local/cuda-10.1/bin:/usr/local/cuda-10.1/NsightCompute-2019.1:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/govind/.local/bin:/home/govind/bin:/usr/local/cuda-10.1/bin:/usr/local/cuda-10.1/NsightCompute-2019.1:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 10 verbose lifecycle homeserver@1.0.0~start: CWD: /home/govind/HomeServer/SOURCES/HSAppl/server
 11 silly lifecycle homeserver@1.0.0~start: Args: [ '-c', 'webpack-dev-server' ]
 12 info lifecycle homeserver@1.0.0~start: Failed to exec start script
@@ -20,7 +20,7 @@
 13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
 14 verbose pkgid homeserver@1.0.0
 15 verbose cwd /home/govind/HomeServer/SOURCES/HSAppl/server
-16 error Linux 3.10.0-862.3.2.el7.x86_64
+16 error Linux 3.10.0-957.27.2.el7.x86_64
 17 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "start"
 18 error node v6.3.0
 19 error npm  v3.10.3
