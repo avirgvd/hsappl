@@ -8,6 +8,7 @@ import {indexLoad, indexUnLoad, indexNextMore, showModal, indexAdd, indexNav} fr
 import {postRESTApi} from '../../Api';
 
 
+// This is the dashboad showing financial status of all accounts
 class Financials extends Component{
 
   constructor(props) {

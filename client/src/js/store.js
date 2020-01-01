@@ -12,8 +12,9 @@ import thunk from 'redux-thunk';
 import index from './reducers/indexreducers';
 import documents from './reducers/documentsreducers';
 import defReducer from './reducers/reducers';
+import accounts from './reducers/accountsreducers';
 
-let combinedReducers = combineReducers({index, documents, defReducer});
+let combinedReducers = combineReducers({accounts, index, documents, defReducer});
 
 let customizedCombinedReducers = (state, action) => {
   //self defined reducer to handle cross module state reducing

@@ -12,6 +12,7 @@ var directories = require('./categories/directories');
 var photos = require('./categories/photos');
 var digitallibrary = require('./categories/digitallibrary');
 var documents = require('./categories/documents');
+var financials = require('./categories/financials');
 var google = require('./cloud/google');
 var messages = require('./categories/messages');
 var financials = require('./categories/financials');
@@ -454,6 +455,27 @@ app.post('/oauthCallback', function(req, resp){
 
 
 });
+
+//Financials
+app.post('/rest/accounts/list', function(req, resp){
+
+  console.log("post /rest/accounts/list: req: ", req.body);
+  console.log("post /rest/accounts/list: req.body.query: ", req.body.query);
+
+  var fields = esclient.getListFieldsForCategory("financials");
+
+
+  financials.getAccounts(req.body.params, req.body.query, fields, function(err, result) {
+    if (err) {
+      resp.json({error: err, result: {items: []}});
+    } else {
+      console.log("server: /rest/accounts/list: accounts", JSON.stringify(result));
+      resp.json(result);
+    }
+  });
+
+});
+
 
 
 //app.post('/rest/hsfileupload', function(req,res){

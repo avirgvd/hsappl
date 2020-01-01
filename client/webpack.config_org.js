@@ -37,7 +37,7 @@ module.exports = {
         disableHostCheck: true,   // That solved it
   },
 
-  plugins: [HTMLWebpackPluginConfig, webpack.HotModuleReplacementPlugin]
+  plugins: [HTMLWebpackPluginConfig]
 };
 
 

@@ -11,6 +11,7 @@ import Travel from '../components/FolderView';
 import Assets from '../components/assets/assets';
 import Unknown from '../components/FolderView';
 import Financials from '../components/financials/financials';
+import Accounts from '../components/financials/accounts';
 import Browse from '../components/browse';
 import Content from '../components/Content';
 import Audios from '../components/audios/audios';
@@ -60,7 +61,7 @@ var routes = (
       <Route path='videos' component={Videos} />
       <Route path='contacts' component={Contacts} />
       <Route path='contactinfo' component={ContactInfo} />
-      <Route path='financials' component={Financials} />
+      <Route path='financials' component={Accounts} />
       <Route path='medical' component={Documents} />
       <Route path='financialitem' component={FinancialItem} />
       <Route path='digitallibrary' component={DigitalLibrary} />

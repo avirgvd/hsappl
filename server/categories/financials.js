@@ -26,10 +26,10 @@ var Financials = {
     esclient.getItems('financialaccounts', params, {}, fields, function(err, result) {
       // resp.json({items: [{key: 1, desc: "desc1"}, {key: 2, desc: "desc2"}, {key: 3, desc: "desc3"}]});
       if (err) {
-        callback(err, {error: err, result: {result:{}}});
+        callback(err, {error: err, result: {}});
       } else {
         console.log("Financials: getAccounts: result: ", result);
-        callback(undefined, {itemsData: result});
+        callback(undefined, {result});
       }
     });
 

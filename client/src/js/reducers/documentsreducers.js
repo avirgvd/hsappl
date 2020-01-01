@@ -95,15 +95,8 @@ const initialState = Immutable.fromJS({
         items: [],
         filters: {}
       },
-    },
-    financial: {
-      label: "Financials Documents",
-      view: 'fullview',
-      context: {},
-      result: {
-        items: []
-      },
     }
+
   }
 });
 
