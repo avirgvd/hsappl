@@ -40,16 +40,6 @@ const handlers = {
   [ACCOUNTS_SUCCESS]: (state, action) => {
 
     console.log("ACCOUNTS_SUCCESS: state: ", state);
-    // console.log("ACCOUNTS_SUCCESS: state.result: ", state.get("result"));
-    console.log("ACCOUNTS_SUCCESS state: ", state.getIn(['label']));
-    console.log("ACCOUNTS_SUCCESS state: ", state.getIn(['result', 'items']));
-    console.log("ACCOUNTS_SUCCESS state: ", state.getIn(['result', 'total']));
-    console.log("ACCOUNTS_SUCCESS: action: ", action);
-    console.log("ACCOUNTS_SUCCESS: action.result.items: ", action.result.items);
-
-    // var newState = Object.assign({}, state, {categories: {photos: {items: action.items}} });
-    // var newState = { ...state, result: action.result};
-    // var newState = { ...state, result: {total: action.result.total, items: action.result.items}};
 
     var newState = {};
     newState = state
@@ -63,11 +53,8 @@ const handlers = {
       );
 
     console.log("ACCOUNTS_SUCCESS: newState: ", newState);
-    // console.log("ACCOUNTS_SUCCESS newState: ", newState.getIn(['label']));
-    // console.log("ACCOUNTS_SUCCESS newState: ", newState.getIn(['result', 'items']));
-    // console.log("ACCOUNTS_SUCCESS newState: ", newState.getIn(['result', 'total']));
 
-    return initialState;
+    return newState;
   },
 
 
@@ -84,8 +71,8 @@ const handlers = {
     return state;
   },
   [ACCOUNTS_NAV]: (state, action) => {
-    return newState;
-  },
+    return state;
+  }
 };
 
 export default function accountsReducer (state = initialState, action) {

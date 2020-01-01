@@ -14,7 +14,7 @@ import documents from './reducers/documentsreducers';
 import defReducer from './reducers/reducers';
 import accounts from './reducers/accountsreducers';
 
-let combinedReducers = combineReducers({accounts, index, documents, defReducer});
+let combinedReducers = combineReducers({ index, documents, accounts, defReducer});
 
 let customizedCombinedReducers = (state, action) => {
   //self defined reducer to handle cross module state reducing

@@ -118,27 +118,35 @@ class Accounts extends Component{
 
   render () {
 
+    const { store } = this.context;
+
     console.log("accounts: render: ", this.props);
 
-    var accounts = this.props.accounts.result.items;
-    console.log("accounts: render: accounts: ", accounts);
+    const total = this.props.accounts.getIn(['result', "total"]);
+    const items = this.props.accounts.getIn(['result', "items"]);
+    console.log("accounts: render: items: ", items);
 
 
-    var items = (
-      <div className="item">
-        <i className="large github middle aligned icon"></i>
-        <div className="content">
-          <a className="header">ICICI Bank</a>
-          <div className="description">Saving Account# 123664445</div>
-          <div className="description">All fine...</div>
+    var finitems = items.map((item, index) => {
+      console.log("documents render item: ", item);
+      console.log("documents render index: ", index);
+
+      return (
+        <div className="item" id={item.id}>
+          <i className="large github middle aligned icon"></i>
+          <div className="content">
+            <a className="header">{item.bankname}</a>
+            <div className="description">{item.accounttype} Account# {item.accountnumber}</div>
+            <div className="description">{item.accountname}</div>
+          </div>
         </div>
-      </div>
-    );
+      );
+    });
 
 
     return (
       <div className="ui relaxed divided selection list">
-        {items}
+        {finitems}
       </div>
     );
   }
@@ -154,7 +162,6 @@ Accounts.propTypes = {
   accounts: PropTypes.shape({
     label: PropTypes.string,
     query: PropTypes.object,
-    filter: PropTypes.object,
     result: {
       total: PropTypes.number,
       items: PropTypes.arrayOf(PropTypes.object),
