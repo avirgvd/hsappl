@@ -123,9 +123,31 @@ class Photos extends Component{
 
 
   onClick(selection) {
-    console.log("photos clicked ", selection);
+    console.log("onClick photos clicked ", selection);
     // this.props.dispatch(documentsNav("/photos/photoframe", "photoframe", e));
-    this.setState({ selection: selection});
+
+    // console.log("onClick: this.props.documents: ", this.props.documents);
+    var currentBegin = this.props.documents.get('result').get('currentBegin');
+    var currentEnd = this.props.documents.get('result').get('currentEnd');
+    console.log("onClick photos currentBegin ", currentBegin);
+    console.log("onClick photos currentEnd ", currentEnd);
+
+    if(selection >= currentBegin && selection <= currentEnd){
+      this.setState({ selection: selection});
+    }
+
+    if(selection === currentEnd - 1){
+      // Need to load next documents
+      this.props.dispatch(documentsNextMore("photos", this.props.documents, this.props.documents.get('context')));
+    }
+    else if(selection === currentBegin ){
+      // Need to load previous documents
+      // this.props.dispatch(documentsNextMore("photos", this.props.documents, this.props.documents.get('context')));
+    }
+
+
+
+
   }
 
   onCameraFilterClick(event) {
@@ -155,17 +177,17 @@ class Photos extends Component{
     // const { filterActive, searchText, selection } = this.state;
     const { selection } = this.state;
 
-    console.log("photos this.props: ", this.props);
-    console.log("photos this.props: ", this.props.documents.getIn(['result']));
-    console.log("photos this.props: Selection: ", selection);
+    // console.log("photos this.props: ", this.props);
+    // console.log("photos this.props: ", this.props.documents.getIn(['result']));
+    // console.log("photos this.props: Selection: ", selection);
     let context = this.props.documents.getIn(['context']);
-    console.log("photos context: ", context);
+    // console.log("photos context: ", context);
 
     var items = this.props.documents.get('result').get('items');
     var filters = this.props.documents.get('result').get('filters');
-    console.log("photos filters: ", filters);
-    console.log("photos filters.camera: ", filters.camera);
-    console.log("photos items count: ", this.props.documents.get('result').get('total'));
+    // console.log("photos filters: ", filters);
+    // console.log("photos filters.camera: ", filters.camera);
+    // console.log("photos items count: ", this.props.documents.get('result').get('total'));
 
     let elements, detailsLayer, photosmenu;
 

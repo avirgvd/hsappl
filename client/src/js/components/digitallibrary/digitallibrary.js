@@ -105,7 +105,7 @@ class DigitalLibrary extends Component{
    * content first and this function can asyncronously trigger render() when there is data
    * */
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    // window.addEventListener('scroll', this.handleScroll);
     // this.props.dispatch(indexLoad("digitallibrary", {}));
     console.log("DigitalLibrary: componentDidMount: category: ", this.props.category);
     console.log("DigitalLibrary: componentDidMount this.props.context: ", this.props.context);
@@ -118,7 +118,7 @@ class DigitalLibrary extends Component{
 
   componentWillUnmount() {
     console.log("digitallibrary componentWillUnmount");
-    window.removeEventListener('scroll', this.handleScroll);
+    // window.removeEventListener('scroll', this.handleScroll);
     this.props.dispatch(documentsUnLoad("digitallibrary", this.props.documents));
 
   }

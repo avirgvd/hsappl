@@ -23,6 +23,7 @@ class BookInfo extends Component {
   constructor() {
     super();
     this._onClick = this._onClick.bind(this);
+    this._handleKeyPress = this._handleKeyPress.bind(this);
     this.renderListViewItem = this.renderListViewItem.bind(this);
     this.renderFullView = this.renderFullView.bind(this);
     this._onDocumentCompleted = this._onDocumentCompleted.bind(this);
@@ -82,24 +83,24 @@ class BookInfo extends Component {
   }
 
   prevPage(ev) {
-    console.log("prev: ");
+    // console.log("prev: ");
 
     ev.preventDefault();
     this.setState({
       currentPage: this.state.currentPage > 1 ? this.state.currentPage - 1 : 1
     });
-    console.log("prev: ", this.state);
+    // console.log("prev: ", this.state);
   }
 
   nextPage(ev) {
-    console.log("next: ");
+    // console.log("next: ");
 
     ev.preventDefault();
     this.setState({
       currentPage: this.state.currentPage < this.state.pages ? this.state.currentPage + 1 : this.state.pages
     });
 
-    console.log("next: ", this.state);
+    // console.log("next: ", this.state);
 
   }
 
@@ -130,7 +131,28 @@ class BookInfo extends Component {
     // this.props.dispatch(itemLoad("bookinfo", {}));
   }
 
+  componentWillMount() {
+    console.log("BookInfo: componentWillMount: props: ", this.props);
+
+    // window.addEventListener('keypress', this._handleKeyPress);
+
+  }
+
   componentWillUnmount () {
+    window.removeEventListener('keypress', this._handleKeyPress);
+
+  }
+
+  _handleKeyPress(event){
+    // console.log("BookInfo: _handleKeyPress: ", event.code);
+    if(event.code === 'ArrowRight'){
+      this.nextPage(event);
+
+    }
+    else if(event.code === 'ArrowLeft') {
+      this.prevPage(event);
+
+    }
 
   }
 
@@ -205,6 +227,10 @@ class BookInfo extends Component {
 
   renderFullView () {
     // console.log("photoframe renderFullView props: ", this.props);
+
+    // handle keypress only in Full View
+    window.addEventListener('keypress', this._handleKeyPress);
+
     var book = this.props.data;
     console.log("bookinfo renderFullView bookinfo: ", book);
     console.log("bookinfo renderFullView state: ", this.state);

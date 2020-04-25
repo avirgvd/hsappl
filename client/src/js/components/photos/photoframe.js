@@ -14,6 +14,7 @@ class PhotoFrame extends Component {
   constructor() {
     super();
     this._onClick = this._onClick.bind(this);
+    this._handleKeyPress = this._handleKeyPress.bind(this);
     this._onTagInput = this._onTagInput.bind(this);
     this._onRate = this._onRate.bind(this);
     this.onPrev = this.onPrev.bind(this);
@@ -91,6 +92,18 @@ class PhotoFrame extends Component {
 
   }
 
+  _handleKeyPress(event){
+    // console.log("BookInfo: _handleKeyPress: ", event.code);
+    if(event.code === 'ArrowRight'){
+      this.onNext(event);
+
+    }
+    else if(event.code === 'ArrowLeft') {
+      this.onPrev(event);
+
+    }
+
+  }
 
   /*
    * This function will be called right after the component mounting on DOM
@@ -110,7 +123,7 @@ class PhotoFrame extends Component {
 
 
   componentWillUnmount () {
-    // console.log("photoframe: componentWillUnmount: enter");
+    window.removeEventListener('keypress', this._handleKeyPress);
 
   }
 
@@ -195,23 +208,31 @@ class PhotoFrame extends Component {
     var photo = this.props.photoitem;
     console.log("photoframe renderFullView photo: ", photo);
 
+    // handle keypress only in Full View
+    window.addEventListener('keypress', this._handleKeyPress);
 
     return (
       <div className="ui cards">
-        <div className="ui  fluid card">
-          <div>
-            <button className="ui left labeled icon button" onClick={this.onPrev}>
-              <i className="left arrow icon"></i>
-              Prev
-            </button>
-            <button className="ui right labeled icon button"  onClick={this.onNext}>
-              <i className="right arrow icon"></i>
-              Next
-            </button>
+        <div>
+          <div className="ui label">
+            <div className="detail">Showing item number {this.props.index}</div>
           </div>
+          <button className="ui left labeled icon button" onClick={this.onPrev}>
+            <i className="left arrow icon"></i>
+            Prev
+          </button>
+          <button className="ui right labeled icon button"  onClick={this.onNext}>
+            <i className="right arrow icon"></i>
+            Next
+          </button>
+        </div>
+
+        <div className="ui  fluid card">
+
 
           <img className="ui fluid image" src={getFileBaseURL()  + photo.container + "/" + photo.id + '/?size=full'} onClick={this._onClick}/>
           <div className="content">
+            <a className="header">{photo.originalname}</a>
             <div className="meta">
               <span className="date"></span>
             </div>

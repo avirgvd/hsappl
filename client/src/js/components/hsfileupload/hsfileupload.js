@@ -107,9 +107,9 @@ var HSFileUpload = React.createClass({
 
   render: function () {
 
-    console.log("HSFileUpload render: ", this.props);
+    // console.log("HSFileUpload render: ", this.props);
     console.log("HSFileUpload render: ", this.props.caption);
-    console.log("HSFileUpload render this.state.options: ", this.state.options);
+    // console.log("HSFileUpload render this.state.options: ", this.state.options);
 
     return (
       <FileUpload options={this.state.options}>
