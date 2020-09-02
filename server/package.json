@@ -14,7 +14,7 @@
     "elasticsearch": "^11.0.1",
     "exif": "^0.6.0",
     "express": "^4.14.0",
-    "googleapis": "^22.2.0",
+    "googleapis": "^59.0.0",
     "lodash": "^4.13.1",
     "multer": "^1.1.0",
     "request": "^2.81.0",
